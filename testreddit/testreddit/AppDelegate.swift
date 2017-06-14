@@ -9,12 +9,13 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, TokenDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        TokenSession().updateToken(callback: self, forceRefresh: true)
         // Override point for customization after application launch.
         return true
     }
@@ -40,7 +41,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    //MARK:Token Delegate Methods
+    func onNewTokenReceived(newToken token:Token) {
+        PreferenceManager().saveToken(token: token.access_token)
+        PreferenceManager().saveTokenExpirationDate(date: Int(token.expires_in))
+    }
 
 }
 
