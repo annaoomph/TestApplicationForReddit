@@ -40,8 +40,7 @@ public class SqliteHelper {
         }
     }
     
-    private func initializeDatabase() -> Bool {
-        
+    private func initializeDatabase() -> Bool {        
         do {
             let db = try Connection("\(path)/db.sqlite3")
             

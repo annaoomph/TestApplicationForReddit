@@ -8,29 +8,7 @@
 
 import Foundation
 
-struct ProperTyKey {
-    static let title = "title"
-    static let url = "url"
-    static let score = "score"
-    static let created = "created"
-    static let author = "author"
-    static let num_comments = "num_comments"
-    static let thumbnail = "thumbnail"
-    static let selftext_html = "selftext_html"
-    static let id = "id"
-    static let domain = "domain"
-    static let is_self = "is_self"
-    static let subreddit = "subreddit"
-    static let bigImage = "bigImage"
-    static let smallImage = "smallImage"
-    
-}
-
-public class Link: NSObject, NSCoding {
-    
-    
-    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-    static let ArchiveUrl = DocumentsDirectory.appendingPathComponent("links")
+public class Link: NSObject {
     
     var title: String
     var url: String
@@ -66,60 +44,6 @@ public class Link: NSObject, NSCoding {
             smallImages.append(smallImage)
         }
     }
-    
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(title, forKey: ProperTyKey.title)
-        aCoder.encode(url, forKey: ProperTyKey.url)
-        aCoder.encode(score, forKey: ProperTyKey.score)
-        aCoder.encode(created, forKey: ProperTyKey.created)
-        aCoder.encode(author, forKey: ProperTyKey.author)
-        aCoder.encode(num_comments, forKey: ProperTyKey.num_comments)
-        aCoder.encode(thumbnail, forKey: ProperTyKey.thumbnail)
-        aCoder.encode(selftext_html, forKey: ProperTyKey.selftext_html)
-        aCoder.encode(id, forKey: ProperTyKey.id)
-        aCoder.encode(domain, forKey: ProperTyKey.domain)
-        aCoder.encode(is_self, forKey: ProperTyKey.is_self)
-        aCoder.encode(subreddit, forKey: ProperTyKey.subreddit)
-        if bigImages.count > 0 {
-            aCoder.encode(bigImages[0], forKey: ProperTyKey.bigImage)
-            aCoder.encode(smallImages[0], forKey: ProperTyKey.smallImage)
-        }
-    }
-    
-    required public init?(coder aCoder: NSCoder) {
-        guard let title = aCoder.decodeObject(forKey: ProperTyKey.title) as! String?,
-            let url = aCoder.decodeObject(forKey: ProperTyKey.url) as! String?,
-            let score = aCoder.decodeObject(forKey: ProperTyKey.score) as! Int?,
-            let created = aCoder.decodeObject(forKey: ProperTyKey.created) as! Int?,
-            let thumbnail = aCoder.decodeObject(forKey: ProperTyKey.thumbnail) as! String?,
-            let num_comments = aCoder.decodeObject(forKey: ProperTyKey.num_comments) as! Int?,
-            let domain = aCoder.decodeObject(forKey: ProperTyKey.domain) as! String?,
-            let is_self = aCoder.decodeObject(forKey: ProperTyKey.is_self) as! Bool?,
-            let subreddit = aCoder.decodeObject(forKey: ProperTyKey.subreddit) as! String?,
-            let id = aCoder.decodeObject(forKey: ProperTyKey.id) as! String?
-            else {
-                return nil
-        }
-        self.title = title
-        self.url = url
-        self.score = score
-        self.created = created
-        self.num_comments = num_comments
-        self.domain = domain
-        self.subreddit = subreddit
-        self.thumbnail = thumbnail
-        self.is_self = is_self
-        self.id = id
-        author = aCoder.decodeObject(forKey: ProperTyKey.author) as? String
-        selftext_html = aCoder.decodeObject(forKey: ProperTyKey.selftext_html) as? String
-        if let bigImage = aCoder.decodeObject(forKey: ProperTyKey.bigImage) as? String,
-            let smallImage = aCoder.decodeObject(forKey: ProperTyKey.smallImage) as? String {
-            bigImages.append(bigImage)
-            smallImages.append(smallImage)
-        }
-        super.init()
-    }
-    
     
     init?(JSONData: NSDictionary!) {
         guard let title = JSONData["title"] as! String?,
