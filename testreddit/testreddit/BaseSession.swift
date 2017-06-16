@@ -8,67 +8,70 @@
 
 import Foundation
 
-public class BaseSession {
+public enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+}
+
+public class BaseSession: TokenDelegate {
     
-    func makePostRequest(url: URL, body: [String: String], callback: @escaping (_ json: NSDictionary) -> Void) {
-        
+    var closure: (_ json: NSDictionary? , _ error: String?) -> Void = {a, b in }
+    var savedUrl: URL?
+    var savedHttpMethod: HTTPMethod?
+    
+    func makeRequest(checkToken: Bool = true, url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: NSDictionary? , _ error: String?) -> Void) {
+        if checkToken, TokenSession.tokenExpired() {
+            closure = callback
+            savedUrl = url
+            savedHttpMethod = httpMethod
+            
+            TokenSession().updateToken(callback: self)
+        } else {
+            performRequest(url: url, authorization: authorization, httpMethod: httpMethod, body: body, callback: callback)
+        }
+    }
+    
+    private func performRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: NSDictionary? , _ error: String?) -> Void) {
         var request = URLRequest(url:url)
         
-        request.httpMethod = "POST"
+        request.httpMethod = httpMethod.rawValue
         
-        let bodyString = getBodyString(body: body)
-        
-        request.addValue("application/x-www-form-urlencoded;charset=UTF-8", forHTTPHeaderField:     "Content-Type")
+        request.addValue("application/x-www-form-urlencoded;charset=UTF-8", forHTTPHeaderField: "Content-Type")
         request.addValue("User-Agent: ios:testredditapp (by /u/annaoomph", forHTTPHeaderField: "User-Agent")
         
-        request.httpBody = bodyString.data(using: String.Encoding.utf8)        
+        if httpMethod == .post, let bodyArray = body {
+            let bodyString = getBodyString(body: bodyArray)
+            request.httpBody = bodyString.data(using: String.Encoding.utf8)
+        }
         
-        request.setValue(getAuthorizationString(), forHTTPHeaderField: "Authorization")
+        if let authValue = authorization {
+            request.setValue(authValue, forHTTPHeaderField: "Authorization")
+        }
         
         let task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             
             if error != nil {
-                return
+                callback(nil, error?.localizedDescription)
             }
             do {
                 if let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary {
-                    callback(json)
+                    callback(json, nil)
                 }
             } catch {
-                return
+                callback(nil, "Parse error.")
             }
         }
         task.resume()
     }
     
-    func makeGetRequest(url: URL, callback: @escaping (_ json: NSDictionary) -> Void) {
-        
-        var request = URLRequest(url:url)
-        
-        request.httpMethod = "GET"
-        
-        request.addValue("application/x-www-form-urlencoded;charset=UTF-8", forHTTPHeaderField:     "Content-Type")
-        request.addValue("User-Agent: ios:testredditapp (by /u/annaoomph", forHTTPHeaderField: "User-Agent")
-        
-        request.setValue(getToken(), forHTTPHeaderField: "Authorization")
-        
-        let task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-            
-            if error != nil {
-                return
-            }
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary {
-                    callback(json)
-                }
-            } catch {
-                return
-            }
-        }
-        task.resume()
+    public func onNewTokenReceived(newToken token: Token) {
+        performRequest(url: savedUrl!, authorization: getToken(), httpMethod: savedHttpMethod!, callback: closure)
     }
-
-
+    
+    public func onTokenError(error: String) {
+        closure(nil, error)
+    }
+    
     func getBodyString(body: [String: String]) -> String {
         var bodyString = ""
         for (key, value) in body {

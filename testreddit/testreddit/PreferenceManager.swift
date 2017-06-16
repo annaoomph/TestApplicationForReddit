@@ -12,6 +12,7 @@ public class PreferenceManager {
     var preferences: UserDefaults
     static let TOKEN_KEY = "token"
     static let EXPIRATION_DATE_KEY = "expiration"
+    static let DB_INITIALIZED_KEY = "init"
     
     init() {
         preferences = UserDefaults.standard
@@ -37,5 +38,16 @@ public class PreferenceManager {
             return tokenString
         }
         return ""
+    }
+    
+    func setDbInitialized() {
+        preferences.set(true, forKey: PreferenceManager.DB_INITIALIZED_KEY)
+    }
+    
+    func dbInitialized() -> Bool {
+        if let initialized = preferences.object(forKey: PreferenceManager.DB_INITIALIZED_KEY) as! Bool? {
+            return initialized
+        }
+        return false
     }
 }

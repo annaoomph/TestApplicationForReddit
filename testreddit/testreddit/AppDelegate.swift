@@ -9,13 +9,14 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, TokenDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, HotPostsDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        TokenSession().updateToken(callback: self, forceRefresh: true)
+        TokenSession().updateToken()
+        HotPostsSession().requestPosts(callback: self)
         // Override point for customization after application launch.
         return true
     }
@@ -42,10 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, TokenDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    //MARK:Token Delegate Methods
-    func onNewTokenReceived(newToken token:Token) {
-        PreferenceManager().saveToken(token: token.access_token)
-        PreferenceManager().saveTokenExpirationDate(date: Int(token.expires_in))
+    func onPostsDelivered(posts: [Link]) {
+        SqliteHelper().savePosts(posts: posts)
+    }
+    
+    func onError(error: String) {
+        
     }
 
 }

@@ -12,11 +12,28 @@ public class HotPostsSession: BaseSession {
     
     static let POSTS_URL = "https://oauth.reddit.com/hot"
     
-    func requestPosts(callback: TokenDelegate) {
+    func requestPosts(callback: HotPostsDelegate? = nil) {
+        
         let url = URL(string: HotPostsSession.POSTS_URL);
-        makeGetRequest(url: url!, callback: {json in
-            
-            
+        makeRequest(url: url!, authorization: getToken(), httpMethod: .get, callback: {json, errString in
+            if let error = errString {
+                if let delegate = callback {
+                    delegate.onError(error: error)
+                }
+            } else {
+                if let dictionary = json {
+                    if let items = Parser().parseItems(json: dictionary) {
+                        if let delegate = callback {
+                            delegate.onPostsDelivered(posts: items)
+                        }
+                    } else {
+                        if let delegate = callback {
+                            delegate.onError(error: "Could not get items.")
+                        }
+                    }                   
+                    
+                }
+            }
         })
     }
 }

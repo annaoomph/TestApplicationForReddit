@@ -11,4 +11,6 @@ import Foundation
 public protocol TokenDelegate {
     
     func onNewTokenReceived(newToken token:Token)
+    
+    func onTokenError(error: String)
 }

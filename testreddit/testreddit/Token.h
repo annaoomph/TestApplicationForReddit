@@ -18,7 +18,7 @@
 @property int expires_in;
 @property NSString *scope;
 
-- (void)initWithJson:(NSDictionary *)jsonDictionary;
+- (BOOL)initWithJson:(NSDictionary *)jsonDictionary;
 
 @end
 #endif /* Token_h */
