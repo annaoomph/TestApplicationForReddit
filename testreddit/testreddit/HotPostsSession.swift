@@ -13,7 +13,6 @@ public class HotPostsSession: BaseSession {
     static let POSTS_URL = "https://oauth.reddit.com/hot"
     
     func requestPosts(callback: HotPostsDelegate? = nil) {
-        
         let url = URL(string: HotPostsSession.POSTS_URL);
         makeRequest(url: url!, authorization: getToken(), httpMethod: .get, callback: {json, errString in
             if let error = errString {
@@ -23,6 +22,8 @@ public class HotPostsSession: BaseSession {
             } else {
                 if let dictionary = json {
                     if let items = Parser().parseItems(json: dictionary) {
+                        SqliteHelper().deleteAllPosts()
+                        SqliteHelper().savePosts(posts: items)
                         if let delegate = callback {
                             delegate.onPostsDelivered(posts: items)
                         }
@@ -36,4 +37,34 @@ public class HotPostsSession: BaseSession {
             }
         })
     }
+    
+    func requestMorePosts(callback: HotPostsDelegate? = nil) {
+        var urlString = HotPostsSession.POSTS_URL
+        if let parameters = Parser.LAST_POST {
+            urlString.append("?after=\(parameters)")
+        }
+        let url = URL(string: urlString);
+        makeRequest(url: url!, authorization: getToken(), httpMethod: .get, callback: {json, errString in
+            if let error = errString {
+                if let delegate = callback {
+                    delegate.onError(error: error)
+                }
+            } else {
+                if let dictionary = json {
+                    if let items = Parser().parseItems(json: dictionary) {
+                        SqliteHelper().savePosts(posts: items)
+                        if let delegate = callback {
+                            delegate.onMorePostsDelivered(posts: items)
+                        }
+                    } else {
+                        if let delegate = callback {
+                            delegate.onError(error: "Could not get items.")
+                        }
+                    }
+                    
+                }
+            }
+        })
+    }
+
 }

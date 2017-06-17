@@ -10,5 +10,6 @@ import Foundation
 
 protocol HotPostsDelegate {
     func onPostsDelivered(posts: [Link])
+    func onMorePostsDelivered(posts: [Link])
     func onError(error: String)
 }

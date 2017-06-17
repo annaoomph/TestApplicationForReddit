@@ -9,6 +9,8 @@
 import Foundation
 
 class Parser {
+    static var LAST_POST: String?
+    
     func parseItems(json: NSDictionary) -> [Link]? {
         var links: [Link] = []
         guard let kind = json["kind"] as! String? else {
@@ -22,6 +24,9 @@ class Parser {
         }
         guard let itemsArray = items["children"] as! [NSDictionary]? else {
             return nil
+        }
+        if let after = items["after"] as! String? {
+                Parser.LAST_POST = after
         }
         for item: NSDictionary in itemsArray {
             guard let itemKind = item["kind"] as! String? else {

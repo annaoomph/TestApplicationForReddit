@@ -9,14 +9,12 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, HotPostsDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        TokenSession().updateToken()
-        HotPostsSession().requestPosts(callback: self)
         // Override point for customization after application launch.
         return true
     }
@@ -41,14 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HotPostsDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-    
-    func onPostsDelivered(posts: [Link]) {
-        SqliteHelper().savePosts(posts: posts)
-    }
-    
-    func onError(error: String) {
-        
     }
 
 }
