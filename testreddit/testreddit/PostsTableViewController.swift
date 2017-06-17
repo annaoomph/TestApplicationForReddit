@@ -11,7 +11,7 @@ import UIKit
 class PostsTableViewController: UITableViewController, HotPostsDelegate {
     
     var postsList = [Link]()
-    
+    var local = false
     
     
     override func viewDidLoad() {
@@ -114,9 +114,25 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
      }
      */
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if local {
+            return "Can't connect to server. Showing cashed posts"
+        } else {
+            return ""
+        }
+    }
+    
+       
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+        header.backgroundView?.backgroundColor = UIColor.red
+    }
+    
     //MARK: HotPostsDelegate
     
     func onPostsDelivered(posts: [Link]) {
+        local = false
         postsList = posts
         DispatchQueue.main.sync() {
             tableView.reloadData()
@@ -125,12 +141,20 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     }
     
     func onError(error: String) {
+        local = true
         DispatchQueue.main.sync() {
+            guard let postsFromDB = SqliteHelper().getAllPosts() else {
+                print("error!")
+                return
+            }
+            postsList = postsFromDB
+            tableView.reloadData()
             refreshControl!.endRefreshing()
         }
     }
     
     func onMorePostsDelivered(posts: [Link]) {
+        local = false
         postsList += posts
         DispatchQueue.main.sync() {
             tableView.reloadData()

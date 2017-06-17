@@ -21,7 +21,7 @@ public class HotPostsSession: BaseSession {
                 }
             } else {
                 if let dictionary = json {
-                    if let items = Parser().parseItems(json: dictionary) {
+                    if let items = PostsParser().parseItems(json: dictionary) {
                         SqliteHelper().deleteAllPosts()
                         SqliteHelper().savePosts(posts: items)
                         if let delegate = callback {
@@ -40,7 +40,7 @@ public class HotPostsSession: BaseSession {
     
     func requestMorePosts(callback: HotPostsDelegate? = nil) {
         var urlString = HotPostsSession.POSTS_URL
-        if let parameters = Parser.LAST_POST {
+        if let parameters = PostsParser.LAST_POST {
             urlString.append("?after=\(parameters)")
         }
         let url = URL(string: urlString);
@@ -51,7 +51,7 @@ public class HotPostsSession: BaseSession {
                 }
             } else {
                 if let dictionary = json {
-                    if let items = Parser().parseItems(json: dictionary) {
+                    if let items = PostsParser().parseItems(json: dictionary) {
                         SqliteHelper().savePosts(posts: items)
                         if let delegate = callback {
                             delegate.onMorePostsDelivered(posts: items)

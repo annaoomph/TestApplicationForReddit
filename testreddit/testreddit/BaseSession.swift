@@ -15,11 +15,11 @@ public enum HTTPMethod: String {
 
 public class BaseSession: TokenDelegate {
     
-    var closure: (_ json: NSDictionary? , _ error: String?) -> Void = {a, b in }
+    var closure: (_ json: [NSDictionary]? , _ error: String?) -> Void = {a, b in }
     var savedUrl: URL?
     var savedHttpMethod: HTTPMethod?
     
-    func makeRequest(checkToken: Bool = true, url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: NSDictionary? , _ error: String?) -> Void) {
+    func makeRequest(checkToken: Bool = true, url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: [NSDictionary]? , _ error: String?) -> Void) {
         if checkToken, TokenSession.tokenExpired() {
             closure = callback
             savedUrl = url
@@ -31,7 +31,7 @@ public class BaseSession: TokenDelegate {
         }
     }
     
-    private func performRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: NSDictionary? , _ error: String?) -> Void) {
+    private func performRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: [NSDictionary]? , _ error: String?) -> Void) {
         var request = URLRequest(url:url)
         
         request.httpMethod = httpMethod.rawValue
@@ -55,6 +55,8 @@ public class BaseSession: TokenDelegate {
             }
             do {
                 if let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary {
+                    callback([json], nil)
+                } else if let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? [NSDictionary] {
                     callback(json, nil)
                 }
             } catch {
