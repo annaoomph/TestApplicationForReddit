@@ -22,8 +22,8 @@ public class HotPostsSession: BaseSession {
             } else {
                 if let dictionary = json {
                     if let items = PostsParser().parseItems(json: dictionary) {
-                        SqliteHelper().deleteAllPosts()
-                        SqliteHelper().savePosts(posts: items)
+                        DatabaseManagerFactory.getDatabaseManager().deleteAllPosts()
+                        DatabaseManagerFactory.getDatabaseManager().savePosts(posts: items)
                         if let delegate = callback {
                             delegate.onPostsDelivered(posts: items)
                         }
@@ -52,7 +52,7 @@ public class HotPostsSession: BaseSession {
             } else {
                 if let dictionary = json {
                     if let items = PostsParser().parseItems(json: dictionary) {
-                        SqliteHelper().savePosts(posts: items)
+                        DatabaseManagerFactory.getDatabaseManager().savePosts(posts: items)
                         if let delegate = callback {
                             delegate.onMorePostsDelivered(posts: items)
                         }

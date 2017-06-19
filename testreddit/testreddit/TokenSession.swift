@@ -31,7 +31,7 @@ class TokenSession: BaseSession {
                 } else {
                     if let dictionary = json {
                         let token = Token()
-                        if token.initWithJson(dictionary as! [AnyHashable : Any]) {
+                        if token.initWithJson(dictionary[0] as! [AnyHashable : Any]) {
                             if token.token_type == TokenSession.ACCEPTED_TOKEN_TYPE {
                                 PreferenceManager().saveToken(token: token.access_token)
                                 var expirationDate = Date()
