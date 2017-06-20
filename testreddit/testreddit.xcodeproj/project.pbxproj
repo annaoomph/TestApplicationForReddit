@@ -16,8 +16,6 @@
 		84279C781EF44AE7006BDD70 /* PostCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C771EF44AE7006BDD70 /* PostCellTableViewCell.swift */; };
 		847D2DBA1EF828E9007FC21F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847D2DB91EF828E9007FC21F /* CoreData.framework */; };
 		847D2DBD1EF82A41007FC21F /* RedditDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 847D2DBB1EF82A41007FC21F /* RedditDataModel.xcdatamodeld */; };
-		847D2DC01EF82A9B007FC21F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D2DBF1EF82A9B007FC21F /* DatabaseManager.swift */; };
-		847D2DC21EF82B18007FC21F /* DatabaseManagerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D2DC11EF82B18007FC21F /* DatabaseManagerFactory.swift */; };
 		847D2DCE1EF94138007FC21F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D2DCD1EF94138007FC21F /* CoreDataManager.swift */; };
 		847D2DD11EF942EF007FC21F /* LinkM+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D2DCF1EF942EF007FC21F /* LinkM+CoreDataClass.swift */; };
 		847D2DD21EF942EF007FC21F /* LinkM+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D2DD01EF942EF007FC21F /* LinkM+CoreDataProperties.swift */; };
@@ -73,8 +71,6 @@
 		84279C771EF44AE7006BDD70 /* PostCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCellTableViewCell.swift; sourceTree = "<group>"; };
 		847D2DB91EF828E9007FC21F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		847D2DBC1EF82A41007FC21F /* RedditDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RedditDataModel.xcdatamodel; sourceTree = "<group>"; };
-		847D2DBF1EF82A9B007FC21F /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
-		847D2DC11EF82B18007FC21F /* DatabaseManagerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManagerFactory.swift; sourceTree = "<group>"; };
 		847D2DCD1EF94138007FC21F /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		847D2DCF1EF942EF007FC21F /* LinkM+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LinkM+CoreDataClass.swift"; sourceTree = "<group>"; };
 		847D2DD01EF942EF007FC21F /* LinkM+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LinkM+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -165,8 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				84279C731EF431F1006BDD70 /* SqliteDatabaseManager.swift */,
-				847D2DBF1EF82A9B007FC21F /* DatabaseManager.swift */,
-				847D2DC11EF82B18007FC21F /* DatabaseManagerFactory.swift */,
 				847D2DCD1EF94138007FC21F /* CoreDataManager.swift */,
 			);
 			name = database;
@@ -572,14 +566,12 @@
 				847D2DCE1EF94138007FC21F /* CoreDataManager.swift in Sources */,
 				84279C721EF2CEAF006BDD70 /* HotPostsDelegate.swift in Sources */,
 				84F66C031EF14DF100408CF0 /* PreferenceManager.swift in Sources */,
-				847D2DC01EF82A9B007FC21F /* DatabaseManager.swift in Sources */,
 				84F66C011EF14CFC00408CF0 /* TokenDelegate.swift in Sources */,
 				84F66BD51EF00FB800408CF0 /* ViewController.swift in Sources */,
 				84DCDF7D1EF19BAF004EFEE7 /* Token.m in Sources */,
 				84E705CA1EF283ED00DCAA3F /* Link.swift in Sources */,
 				84F66BD31EF00FB800408CF0 /* AppDelegate.swift in Sources */,
 				8486405B1EF53500003ACD98 /* CommentsSession.swift in Sources */,
-				847D2DC21EF82B18007FC21F /* DatabaseManagerFactory.swift in Sources */,
 				84F66C051EF1558B00408CF0 /* TokenSession.swift in Sources */,
 				847D2DD21EF942EF007FC21F /* LinkM+CoreDataProperties.swift in Sources */,
 			);

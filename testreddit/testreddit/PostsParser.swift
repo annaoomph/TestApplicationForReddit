@@ -43,6 +43,6 @@ class PostsParser {
             }
             
         }
-        return links.sorted(by: {link1, link2 in return link1.score > link2.score})
+        return links
     }
 }

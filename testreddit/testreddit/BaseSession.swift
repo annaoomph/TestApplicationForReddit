@@ -66,6 +66,7 @@ public class BaseSession: TokenDelegate {
         task.resume()
     }
     
+    //MARK: TokenDelegate Methods
     public func onNewTokenReceived(newToken token: Token) {
         performRequest(url: savedUrl!, authorization: getToken(), httpMethod: savedHttpMethod!, callback: closure)
     }
@@ -74,6 +75,7 @@ public class BaseSession: TokenDelegate {
         closure(nil, error)
     }
     
+    //MARK: Additional getters
     func getBodyString(body: [String: String]) -> String {
         var bodyString = ""
         for (key, value) in body {

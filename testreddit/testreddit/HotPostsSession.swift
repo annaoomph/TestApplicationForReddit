@@ -55,6 +55,7 @@ public class HotPostsSession: BaseSession {
                 if let dictionary = json {
                     if let items = PostsParser().parseItems(json: dictionary) {
                         //DatabaseManagerFactory.getDatabaseManager().savePosts(posts: items)
+                        CoreDataManager.instance.saveContext()
                         if let delegate = callback {
                             delegate.onMorePostsDelivered(posts: items)
                         }

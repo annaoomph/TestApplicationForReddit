@@ -92,16 +92,20 @@ public class CoreDataManager {
     
     func fetchedResultsController() -> NSFetchedResultsController<LinkM> {
         if (fetchedResultsControllerForPosts == nil) {
-        let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
-        let sortDescriptor = NSSortDescriptor(key: "score", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
+            let sortDescriptor = NSSortDescriptor(key: "score", ascending: false)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         }
         return fetchedResultsControllerForPosts!
     }
     
     func getPostCount() -> Int {
-        return fetchedResultsController().fetchedObjects!.count
+        if let fetchedObjects = fetchedResultsController().fetchedObjects {
+            return fetchedObjects.count
+        } else {
+            return 0
+        }
     }
     
     func getPostAt(indexPath: IndexPath) -> LinkM {

@@ -9,7 +9,7 @@
 import Foundation
 import SQLite
 
-internal class SqliteDatabaseManager: DatabaseManager {
+class SqliteDatabaseManager {
     
     let links = Table("links")
     
