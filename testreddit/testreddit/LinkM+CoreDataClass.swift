@@ -55,8 +55,10 @@ public class LinkM: NSManagedObject {
                     }
                 }
                 if let resolutions = image["resolutions"] as! [NSDictionary]? {
+                    if resolutions.count > 0 {
                     if let smallImage = resolutions[0]["url"] as! String? {
                         linkM.smallImages.append(smallImage)
+                    }
                     }
                 }
                 if (linkM.bigImages.count < linkM.smallImages.count) {

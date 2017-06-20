@@ -19,6 +19,7 @@ class ViewController: UIViewController, CommentsDelegate {
         super.viewDidLoad()
         if let realPost = post {
             titleLabel.text = realPost.title
+            
             CommentsSession().getComments(postId: realPost.id, callback: self)
         }
         // Do any additional setup after loading the view, typically from a nib.

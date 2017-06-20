@@ -21,17 +21,19 @@ public class HotPostsSession: BaseSession {
                 }
             } else {
                 if let dictionary = json {
+                    CoreDataManager.instance.clear()
                     if let items = PostsParser().parseItems(json: dictionary) {
                         //DatabaseManagerFactory.getDatabaseManager().deleteAllPosts()
                         //DatabaseManagerFactory.getDatabaseManager().savePosts(posts: items)
-                        if let delegate = callback {
-                            delegate.onPostsDelivered(posts: items)
+                        CoreDataManager.instance.saveContext()
+                        if let delegate = callback {                           
+                            delegate.onPostsDelivered(posts: items)                            
                         }
                     } else {
                         if let delegate = callback {
                             delegate.onError(error: "Could not get items.")
                         }
-                    }                   
+                    }
                     
                 }
             }

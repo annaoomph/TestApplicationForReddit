@@ -10,6 +10,7 @@ import UIKit
 
 class PostCellTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()

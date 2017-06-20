@@ -12,7 +12,10 @@ import CoreData
 public class CoreDataManager {
     static let instance = CoreDataManager()
     
-    private init() {}
+    var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
+    
+    private init() {
+    }
     
     // MARK: - Core Data stack
     
@@ -56,11 +59,29 @@ public class CoreDataManager {
         return managedObjectContext
     }()
     
+    func getAll() {
+        do {
+            try fetchedResultsController().performFetch()
+        } catch {}
+    }
+    
+    func clear() {
+        if let objects = fetchedResultsController().fetchedObjects {
+            for object in objects {
+                managedObjectContext.delete(object)
+            }
+            do {
+                try managedObjectContext.save()
+            } catch {}
+        }
+    }
+    
     // MARK: - Core Data Saving support
     func saveContext () {
         if managedObjectContext.hasChanges {
             do {
                 try managedObjectContext.save()
+                try fetchedResultsController().performFetch()
             } catch {
                 let nserror = error as NSError
                 NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -69,11 +90,21 @@ public class CoreDataManager {
         }
     }
     
-    func fetchedResultsController(entityName: String, keyForSort: String) -> NSFetchedResultsController<LinkM> {
-        let fetchRequest = NSFetchRequest<LinkM>(entityName: entityName)
-        let sortDescriptor = NSSortDescriptor(key: keyForSort, ascending: true)
+    func fetchedResultsController() -> NSFetchedResultsController<LinkM> {
+        if (fetchedResultsControllerForPosts == nil) {
+        let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
+        let sortDescriptor = NSSortDescriptor(key: "score", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        return fetchedResultsController
+        fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        }
+        return fetchedResultsControllerForPosts!
+    }
+    
+    func getPostCount() -> Int {
+        return fetchedResultsController().fetchedObjects!.count
+    }
+    
+    func getPostAt(indexPath: IndexPath) -> LinkM {
+        return fetchedResultsController().object(at: indexPath)
     }
 }

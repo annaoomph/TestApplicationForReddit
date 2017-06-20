@@ -10,16 +10,14 @@ import UIKit
 
 class PostsTableViewController: UITableViewController, HotPostsDelegate {
     
-    var fetchedResultsController = CoreDataManager.instance.fetchedResultsController(entityName: "LinkM", keyForSort: "score")
+    
     var postsList = [LinkM]()
     var local = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {}
+        CoreDataManager.instance.getAll()
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl!)
@@ -58,7 +56,7 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (local) ? (fetchedResultsController.fetchedObjects?.count)! : postsList.count
+        return (local) ? CoreDataManager.instance.getPostCount() : postsList.count
     }
     
     
@@ -68,12 +66,13 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
         }
         var post: LinkM
         if (local) {
-            post = postsList[indexPath.row]
+            post = CoreDataManager.instance.getPostAt(indexPath: indexPath)
         } else {
-            post = fetchedResultsController.object(at: indexPath)
+            post = postsList[indexPath.row]
         }
         
         cell.titleLabel.text = post.title
+        cell.scoreLabel.text = "\(post.score)"
         return cell
     }
     

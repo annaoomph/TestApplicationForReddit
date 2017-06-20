@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testreddit/PostsTableViewController.swift"
-            timestampString = "519386971.913432"
+            filePath = "testreddit/CoreDataManager.swift"
+            timestampString = "519658905.108666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "onError(error:)"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "saveContext()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testreddit/HotPostsSession.swift"
-            timestampString = "519383135.386308"
+            filePath = "testreddit/CoreDataManager.swift"
+            timestampString = "519658913.273689"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "requestPosts(callback:)"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "clear()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testreddit/PostsTableViewController.swift"
-            timestampString = "519383135.386308"
+            filePath = "testreddit/PostsParser.swift"
+            timestampString = "519660491.337286"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "refresh(sender:)"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "parseItems(json:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testreddit/PostsTableViewController.swift"
-            timestampString = "519386971.913432"
+            filePath = "testreddit/PostsParser.swift"
+            timestampString = "519660492.187986"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "onError(error:)"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "parseItems(json:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,13 +73,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testreddit/PostsTableViewController.swift"
-            timestampString = "519386971.913432"
+            filePath = "testreddit/PostsParser.swift"
+            timestampString = "519660560.031782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "onPostsDelivered(posts:)"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "parseItems(json:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -89,62 +89,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testreddit/BaseSession.swift"
-            timestampString = "519388922.022856"
+            filePath = "testreddit/PostsParser.swift"
+            timestampString = "519660652.789517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "performRequest(url:authorization:httpMethod:body:callback:)"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "parseItems(json:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "testreddit/CommentsParser.swift"
-            timestampString = "519390431.740737"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
-            landmarkName = "parseItems(json:inner:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "testreddit/CommentsSession.swift"
-            timestampString = "519390476.586903"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "getComments(postId:callback:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "testreddit/Link+CoreDataProperties.swift"
-            timestampString = "519582560.980357"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
-            landmarkName = "Link"
-            landmarkType = "4">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
