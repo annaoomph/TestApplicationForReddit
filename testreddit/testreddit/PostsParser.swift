@@ -11,8 +11,8 @@ import Foundation
 class PostsParser {
     static var LAST_POST: String?
     
-    func parseItems(json: [NSDictionary]) -> [Link]? {
-        var links: [Link] = []
+    func parseItems(json: [NSDictionary]) -> [LinkM]? {
+        var links: [LinkM] = []
         guard let kind = json[0]["kind"] as! String? else {
             return nil
         }
@@ -38,7 +38,7 @@ class PostsParser {
             guard let itemData = item["data"] as! NSDictionary? else {
                 continue
             }
-            if let link = Link(JSONData: itemData) {
+            if let link = LinkM.create(JSONData: itemData) {
                 links.append(link)
             }
             

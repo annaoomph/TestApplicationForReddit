@@ -10,12 +10,16 @@ import UIKit
 
 class PostsTableViewController: UITableViewController, HotPostsDelegate {
     
-    var postsList = [Link]()
+    var fetchedResultsController = CoreDataManager.instance.fetchedResultsController(entityName: "LinkM", keyForSort: "score")
+    var postsList = [LinkM]()
     var local = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {}
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl!)
@@ -54,7 +58,7 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return postsList.count
+        return (local) ? (fetchedResultsController.fetchedObjects?.count)! : postsList.count
     }
     
     
@@ -62,7 +66,12 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCellTableViewCell else {
             fatalError("Not loaded cell")
         }
-        let post = postsList[indexPath.row]
+        var post: LinkM
+        if (local) {
+            post = postsList[indexPath.row]
+        } else {
+            post = fetchedResultsController.object(at: indexPath)
+        }
         
         cell.titleLabel.text = post.title
         return cell
@@ -131,7 +140,7 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     
     //MARK: HotPostsDelegate
     
-    func onPostsDelivered(posts: [Link]) {
+    func onPostsDelivered(posts: [LinkM]) {
         local = false
         postsList = posts
         DispatchQueue.main.sync() {
@@ -143,17 +152,17 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     func onError(error: String) {
         local = true
         DispatchQueue.main.sync() {
-            guard let postsFromDB = SqliteHelper().getAllPosts() else {
-                print("error!")
-                return
-            }
-            postsList = postsFromDB
+            //guard let postsFromDB = DatabaseManagerFactory.getDatabaseManager().getAllPosts() else {
+           //     print("error!")
+            //    return
+            //}
+            //postsList = postsFromDB
             tableView.reloadData()
             refreshControl!.endRefreshing()
         }
     }
     
-    func onMorePostsDelivered(posts: [Link]) {
+    func onMorePostsDelivered(posts: [LinkM]) {
         local = false
         postsList += posts
         DispatchQueue.main.sync() {

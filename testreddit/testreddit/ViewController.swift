@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, CommentsDelegate {
 
-    var post: Link?
+    var post: LinkM?
     
     @IBOutlet weak var tableView: UITableView!
     

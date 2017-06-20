@@ -9,7 +9,7 @@
 import Foundation
 
 protocol HotPostsDelegate {
-    func onPostsDelivered(posts: [Link])
-    func onMorePostsDelivered(posts: [Link])
+    func onPostsDelivered(posts: [LinkM])
+    func onMorePostsDelivered(posts: [LinkM])
     func onError(error: String)
 }

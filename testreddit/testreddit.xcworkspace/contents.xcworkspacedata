@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:testreddit/LinkM+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:testreddit/LinkM+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:testreddit.xcodeproj">
    </FileRef>
    <FileRef

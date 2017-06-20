@@ -7,8 +7,4 @@
 //
 
 import Foundation
-public class DatabaseManagerFactory {
-    class func getDatabaseManager() -> DatabaseManager {
-        return SqliteDatabaseManager()
-    }
-}
+ 
