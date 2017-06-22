@@ -11,6 +11,10 @@ import Foundation
 /// A class describing a reddit comment (can include a tree of replies).
 public class Comment: NSObject {
     
+    
+    /// Whether the comment is expanded in comment tree.
+    var opened: Bool
+    
     /// Comment score (likes - dislikes)
     var score: Int
     
@@ -44,6 +48,7 @@ public class Comment: NSObject {
         if let replies = JSONData["replies"] as? NSDictionary {
             self.replies = CommentsParser().parseItems(json: [replies], inner: true)
         }
+        self.opened = false
         super.init()
     }
 }

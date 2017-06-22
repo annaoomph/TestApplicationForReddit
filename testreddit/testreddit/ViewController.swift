@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource {
+class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource, UITableViewDelegate {
 
     var post: LinkM?
     var comments: [Comment] = []
@@ -18,9 +18,10 @@ class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        refresh(sender: self)
         tableView.dataSource = self
+        tableView.delegate = self
         startRefreshControl()
+        refresh(sender: self)
     }
 
     // MARK: - Table view data source
@@ -29,8 +30,69 @@ class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource 
         return 1
     }
     
+    func indices(curInd: Int, lastInd: Int, _ comments: [Comment]) -> Int {
+        var currentIndex = curInd
+        for comment in comments {
+            if currentIndex > lastInd {
+                break;
+            }
+            currentIndex += 1
+            if (currentIndex == lastInd) {
+                comment.opened = !comment.opened
+                break
+            } else
+            if comment.opened,
+                let replies = comment.replies {
+                currentIndex = indices(curInd: currentIndex, lastInd: lastInd, replies)
+            }
+        }
+        return currentIndex
+    }
+    
+    func findComment(curInd: Int, lastInd: Int, _ comments: [Comment]) -> (Int, Comment?) {
+        var currentIndex = curInd
+        for comment in comments {
+            currentIndex += 1
+            if currentIndex > lastInd {
+                break;
+            }
+            if (currentIndex == lastInd) {
+                return (currentIndex, comment)
+            } else
+                if comment.opened,
+                    let replies = comment.replies {
+                    let (index, commentF) = findComment(curInd: currentIndex, lastInd: lastInd, replies)
+                    if let foundComment = commentF {
+                        return (currentIndex, foundComment)
+                    } else {
+                        currentIndex = index
+                    }
+            }
+        }
+        return (currentIndex, nil)
+    }
+    
+    func countComments(initialCount: Int, _ comments: [Comment]) -> Int {
+        var inC = initialCount
+        for comment in comments {
+            inC += 1
+                if comment.opened,
+                    let replies = comment.replies {
+                    inC = countComments(initialCount: inC, replies)
+            }
+        }
+        return inC
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        indices(curInd: -1, lastInd: indexPath.row, comments)
+        
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return comments.count
+        let cellsCount = countComments(initialCount: 0, comments)
+        return cellsCount
     }
     
     
@@ -38,9 +100,10 @@ class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else {
             fatalError("Not loaded cell")
         }
-        let comment = comments[indexPath.row]
-        
+        let (index, commentF) = findComment(curInd: -1, lastInd: indexPath.row, comments) 
+            if let comment = commentF {
         cell.titleLabel.text = comment.body
+        }
         return cell
     }
     
