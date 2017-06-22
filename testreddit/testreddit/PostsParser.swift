@@ -34,7 +34,7 @@ class PostsParser: BaseParser {
         }
         
         for item: NSDictionary in itemsArray {
-            guard let itemData = getItemData(item: item, type: .THING) else {
+            guard let itemData = getItemData(item: item, type: RedditTypes.THING) else {
                 continue
             }
             if let link = LinkM.create(JSONData: itemData) {

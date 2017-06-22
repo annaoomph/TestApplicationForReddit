@@ -10,6 +10,7 @@
 		47B0A7560B3D72BCC49E3C71 /* Pods_testreddit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A81B784879460A9122A78838 /* Pods_testreddit.framework */; };
 		84134E0D1EF191D100183EEC /* HotPostsSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84134E0C1EF191D100183EEC /* HotPostsSession.swift */; };
 		841FB6971EFBD8880049475C /* BaseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841FB6961EFBD8880049475C /* BaseParser.swift */; };
+		841FB69C1EFBEE980049475C /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841FB69B1EFBEE980049475C /* CommentTableViewCell.swift */; };
 		84279C701EF2CD62006BDD70 /* PostsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C6F1EF2CD62006BDD70 /* PostsParser.swift */; };
 		84279C721EF2CEAF006BDD70 /* HotPostsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C711EF2CEAF006BDD70 /* HotPostsDelegate.swift */; };
 		84279C761EF44AB4006BDD70 /* PostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */; };
@@ -64,6 +65,7 @@
 		72708330B66C2FEB01E172EF /* Pods-testredditUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testredditUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testredditUITests/Pods-testredditUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		84134E0C1EF191D100183EEC /* HotPostsSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotPostsSession.swift; sourceTree = "<group>"; };
 		841FB6961EFBD8880049475C /* BaseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseParser.swift; sourceTree = "<group>"; };
+		841FB69B1EFBEE980049475C /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		84279C6F1EF2CD62006BDD70 /* PostsParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsParser.swift; sourceTree = "<group>"; };
 		84279C711EF2CEAF006BDD70 /* HotPostsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotPostsDelegate.swift; sourceTree = "<group>"; };
 		84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsTableViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				84F66BD41EF00FB800408CF0 /* ViewController.swift */,
 				84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */,
 				84279C771EF44AE7006BDD70 /* PostCellTableViewCell.swift */,
+				841FB69B1EFBEE980049475C /* CommentTableViewCell.swift */,
 			);
 			name = ui;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				848640611EF535AC003ACD98 /* Comment.swift in Sources */,
 				84279C781EF44AE7006BDD70 /* PostCellTableViewCell.swift in Sources */,
 				847D2DCE1EF94138007FC21F /* CoreDataManager.swift in Sources */,
+				841FB69C1EFBEE980049475C /* CommentTableViewCell.swift in Sources */,
 				84279C721EF2CEAF006BDD70 /* HotPostsDelegate.swift in Sources */,
 				84F66C031EF14DF100408CF0 /* PreferenceManager.swift in Sources */,
 				84F66C011EF14CFC00408CF0 /* TokenDelegate.swift in Sources */,

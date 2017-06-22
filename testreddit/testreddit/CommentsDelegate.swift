@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// A delegate for gett9ing comments from the server.
+/// A delegate for getting comments from the server.
 protocol CommentsDelegate {
     
     

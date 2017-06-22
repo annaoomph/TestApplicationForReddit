@@ -22,7 +22,7 @@ class CommentsParser: BaseParser {
     func parseItems(json: [NSDictionary], inner: Bool) -> [Comment]? {
         var comments: [Comment] = []
         
-        let (items, afterLink) = getItems(json: json)
+        let (items, afterLink) = getItems(json: json, inner: inner)
         
         if let after = afterLink {
             PostsParser.LAST_POST = after
@@ -32,7 +32,7 @@ class CommentsParser: BaseParser {
         }
         
         for item: NSDictionary in itemsArray {
-            guard let itemData = getItemData(item: item, type: .COMMENT) else {
+            guard let itemData = getItemData(item: item, type: RedditTypes.COMMENT) else {
                 continue
             }
             if let comment = Comment(JSONData: itemData) {
