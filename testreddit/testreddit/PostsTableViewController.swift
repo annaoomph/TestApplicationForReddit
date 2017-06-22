@@ -24,6 +24,10 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
         CoreDataManager.instance.getAll()
         HotPostsSession().requestPosts(callback: self)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
     
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset = scrollView.contentOffset;
