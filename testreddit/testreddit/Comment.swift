@@ -8,11 +8,22 @@
 
 import Foundation
 
+/// A class describing a reddit comment (can include a tree of replies).
 public class Comment: NSObject {
+    
+    /// Comment score (likes - dislikes)
     var score: Int
+    
+    /// The time of creation in local epoch-second format.
     var created: Int
+    
+    /// The account name of the poster.
     var author: String
+    
+    /// The raw text. This is the unformatted text which includes the raw markup characters.
     var body: String
+    
+    /// A list of replies to the comment.
     var replies: [Comment]?
     
     init?(JSONData: NSDictionary!) {

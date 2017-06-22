@@ -53,7 +53,7 @@ class BaseParser {
         guard let itemsArray = items[BaseParser.CHILDREN_KEY] as! [NSDictionary]? else {
             return (nil, nil)
         }
-        let after = items[BaseParser.AFTER_KEY] as! String?
+        let after = items[BaseParser.AFTER_KEY] as? String
         return (itemsArray, after)
     }
     

@@ -10,9 +10,13 @@ import Foundation
 import CoreData
 
 @objc(LinkM)
+
+/// A class describing a link (or a post) in reddit.
 public class LinkM: NSManagedObject {    
     
+    //A list of url's to the images connected with the post.
     public var bigImages: [String?] = []
+    //A list of url's to the small resolution images connected with the post.
     public var smallImages: [String?] = []
     
     class func create(JSONData: NSDictionary!) -> LinkM? {
