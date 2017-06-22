@@ -14,12 +14,14 @@ class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource,
     var comments: [Comment] = []
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var titleLabel: UITextView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        automaticallyAdjustsScrollViewInsets = false
         startRefreshControl()
         refresh(sender: self)
     }
