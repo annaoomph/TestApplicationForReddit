@@ -13,12 +13,27 @@ public enum HTTPMethod: String {
     case post = "POST"
 }
 
+
+/// A session making requests to server (base class).
 public class BaseSession: TokenDelegate {
     
+    //MARK: - Properties
     var closure: (_ json: [NSDictionary]? , _ error: String?) -> Void = {a, b in }
     var savedUrl: URL?
     var savedHttpMethod: HTTPMethod?
+    private static let APP_ONLY_USERNAME = "K75CEraOnGf3iw"
+    //MARK: - Request Methods
     
+    
+    /// Tries to make a request (checks the token first).
+    ///
+    /// - Parameters:
+    ///   - checkToken: whether to check the token
+    ///   - url: url to api
+    ///   - authorization: authorization header string (token or username/pass)
+    ///   - httpMethod: method for retrieving data
+    ///   - body: body (if needed, can be nil)
+    ///   - callback: delegate
     func makeRequest(checkToken: Bool = true, url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: [NSDictionary]? , _ error: String?) -> Void) {
         if checkToken, TokenSession.tokenExpired() {
             closure = callback
@@ -31,6 +46,15 @@ public class BaseSession: TokenDelegate {
         }
     }
     
+    
+    /// Performs the requeast itself (no checking, just the request).
+    ///
+    /// - Parameters:
+    ///   - url: url to api
+    ///   - authorization: auth header
+    ///   - httpMethod: method for the request
+    ///   - body: optional parameter body
+    ///   - callback: delegate
     private func performRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: [NSDictionary]? , _ error: String?) -> Void) {
         var request = URLRequest(url:url)
         
@@ -66,16 +90,21 @@ public class BaseSession: TokenDelegate {
         task.resume()
     }
     
-    //MARK: TokenDelegate Methods
+    //MARK: - TokenDelegate Methods
     public func onNewTokenReceived(newToken token: Token) {
-        performRequest(url: savedUrl!, authorization: getToken(), httpMethod: savedHttpMethod!, callback: closure)
+        performRequest(url: savedUrl!, authorization: token.access_token, httpMethod: savedHttpMethod!, callback: closure)
     }
     
     public func onTokenError(error: String) {
         closure(nil, error)
     }
     
-    //MARK: Additional getters
+    //MARK: - Additional getters
+    
+    /// Get the body string from the given array of parameters.
+    ///
+    /// - Parameter body: array of parameters
+    /// - Returns: body string
     func getBodyString(body: [String: String]) -> String {
         var bodyString = ""
         for (key, value) in body {
@@ -87,8 +116,12 @@ public class BaseSession: TokenDelegate {
         return bodyString
     }
     
+    
+    /// Gets the authorization string for getting the token (app only athorization).
+    ///
+    /// - Returns: header auth string
     func getAuthorizationString() -> String {
-        let username = "K75CEraOnGf3iw"
+        let username = BaseSession.APP_ONLY_USERNAME
         let password = ""
         let loginString = NSString(format: "%@:%@", username, password)
         let loginData: NSData = loginString.data(using: String.Encoding.utf8.rawValue)! as NSData
@@ -96,6 +129,10 @@ public class BaseSession: TokenDelegate {
         return "Basic \(base64LoginString)"
     }
     
+    
+    /// Gets the token from preferences.
+    ///
+    /// - Returns: header auth string with token
     func getToken() -> String {
         return "Bearer \(PreferenceManager().getToken())"
     }

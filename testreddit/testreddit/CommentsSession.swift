@@ -7,10 +7,19 @@
 //
 
 import Foundation
+
+
+/// A session that gets the comments for some post from reddit.
 public class CommentsSession: BaseSession {
     
     static let COMMENTS_URL = "https://oauth.reddit.com/comments/"
     
+    
+    /// Get comments for some post.
+    ///
+    /// - Parameters:
+    ///   - postId: id of the particular post
+    ///   - callback: delegate
     func getComments(postId: String, callback: CommentsDelegate? = nil) {
         let url = URL(string: "\(CommentsSession.COMMENTS_URL)\(postId)");
         makeRequest(url: url!, authorization: getToken(), httpMethod: .get, callback: {json, errString in

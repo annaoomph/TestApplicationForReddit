@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 public class Comment: NSObject {
     var score: Int
     var created: Int
@@ -34,5 +35,4 @@ public class Comment: NSObject {
         }
         super.init()
     }
-    
 }

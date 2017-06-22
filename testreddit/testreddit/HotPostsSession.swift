@@ -8,10 +8,16 @@
 
 import Foundation
 
+
+/// A session that retrieves hot posts from reddit.
 public class HotPostsSession: BaseSession {
     
     static let POSTS_URL = "https://oauth.reddit.com/hot"
     
+    
+    /// Request the first 25 posts.
+    ///
+    /// - Parameter callback: delegate
     func requestPosts(callback: HotPostsDelegate? = nil) {
         let url = URL(string: HotPostsSession.POSTS_URL);
         makeRequest(url: url!, authorization: getToken(), httpMethod: .get, callback: {json, errString in
@@ -23,8 +29,6 @@ public class HotPostsSession: BaseSession {
                 if let dictionary = json {
                     CoreDataManager.instance.clear()
                     if let items = PostsParser().parseItems(json: dictionary) {
-                        //DatabaseManagerFactory.getDatabaseManager().deleteAllPosts()
-                        //DatabaseManagerFactory.getDatabaseManager().savePosts(posts: items)
                         CoreDataManager.instance.saveContext()
                         if let delegate = callback {                           
                             delegate.onPostsDelivered(posts: items)                            
@@ -40,6 +44,10 @@ public class HotPostsSession: BaseSession {
         })
     }
     
+    
+    /// Request the posts after some post.
+    ///
+    /// - Parameter callback: delegate
     func requestMorePosts(callback: HotPostsDelegate? = nil) {
         var urlString = HotPostsSession.POSTS_URL
         if let parameters = PostsParser.LAST_POST {
@@ -54,7 +62,6 @@ public class HotPostsSession: BaseSession {
             } else {
                 if let dictionary = json {
                     if let items = PostsParser().parseItems(json: dictionary) {
-                        //DatabaseManagerFactory.getDatabaseManager().savePosts(posts: items)
                         CoreDataManager.instance.saveContext()
                         if let delegate = callback {
                             delegate.onMorePostsDelivered(posts: items)

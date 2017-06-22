@@ -8,7 +8,19 @@
 
 import Foundation
 
+
+/// A delegate for gett9ing comments from the server.
 protocol CommentsDelegate {
+    
+    
+    /// Called when a list of comments arrived.
+    ///
+    /// - Parameter comments: a list of comments.
     func onCommentsDelivered(comments: [Comment])
+    
+    
+    /// Called when error occurred.
+    ///
+    /// - Parameter error: a string describing the error
     func onError(error: String)
 }

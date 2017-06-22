@@ -10,8 +10,7 @@ import Foundation
 import CoreData
 
 @objc(LinkM)
-public class LinkM: NSManagedObject {
-    
+public class LinkM: NSManagedObject {    
     
     public var bigImages: [String?] = []
     public var smallImages: [String?] = []

@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		47B0A7560B3D72BCC49E3C71 /* Pods_testreddit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A81B784879460A9122A78838 /* Pods_testreddit.framework */; };
 		84134E0D1EF191D100183EEC /* HotPostsSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84134E0C1EF191D100183EEC /* HotPostsSession.swift */; };
+		841FB6971EFBD8880049475C /* BaseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841FB6961EFBD8880049475C /* BaseParser.swift */; };
 		84279C701EF2CD62006BDD70 /* PostsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C6F1EF2CD62006BDD70 /* PostsParser.swift */; };
 		84279C721EF2CEAF006BDD70 /* HotPostsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C711EF2CEAF006BDD70 /* HotPostsDelegate.swift */; };
-		84279C741EF431F1006BDD70 /* SqliteDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C731EF431F1006BDD70 /* SqliteDatabaseManager.swift */; };
 		84279C761EF44AB4006BDD70 /* PostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */; };
 		84279C781EF44AE7006BDD70 /* PostCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C771EF44AE7006BDD70 /* PostCellTableViewCell.swift */; };
 		847D2DBA1EF828E9007FC21F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847D2DB91EF828E9007FC21F /* CoreData.framework */; };
@@ -25,7 +25,6 @@
 		848640611EF535AC003ACD98 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848640601EF535AC003ACD98 /* Comment.swift */; };
 		84D806091EF1893400A6F5CA /* BaseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D806081EF1893400A6F5CA /* BaseSession.swift */; };
 		84DCDF7D1EF19BAF004EFEE7 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DCDF7C1EF19BAF004EFEE7 /* Token.m */; };
-		84E705CA1EF283ED00DCAA3F /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E705C91EF283ED00DCAA3F /* Link.swift */; };
 		84F66BD31EF00FB800408CF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F66BD21EF00FB800408CF0 /* AppDelegate.swift */; };
 		84F66BD51EF00FB800408CF0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F66BD41EF00FB800408CF0 /* ViewController.swift */; };
 		84F66BD81EF00FB800408CF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84F66BD61EF00FB800408CF0 /* Main.storyboard */; };
@@ -64,9 +63,9 @@
 		4919EA1198F6CF20CDFA8A1A /* Pods-testredditUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testredditUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-testredditUITests/Pods-testredditUITests.release.xcconfig"; sourceTree = "<group>"; };
 		72708330B66C2FEB01E172EF /* Pods-testredditUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testredditUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testredditUITests/Pods-testredditUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		84134E0C1EF191D100183EEC /* HotPostsSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotPostsSession.swift; sourceTree = "<group>"; };
+		841FB6961EFBD8880049475C /* BaseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseParser.swift; sourceTree = "<group>"; };
 		84279C6F1EF2CD62006BDD70 /* PostsParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsParser.swift; sourceTree = "<group>"; };
 		84279C711EF2CEAF006BDD70 /* HotPostsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotPostsDelegate.swift; sourceTree = "<group>"; };
-		84279C731EF431F1006BDD70 /* SqliteDatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SqliteDatabaseManager.swift; sourceTree = "<group>"; };
 		84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsTableViewController.swift; sourceTree = "<group>"; };
 		84279C771EF44AE7006BDD70 /* PostCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCellTableViewCell.swift; sourceTree = "<group>"; };
 		847D2DB91EF828E9007FC21F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -80,7 +79,6 @@
 		848640601EF535AC003ACD98 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		84D806081EF1893400A6F5CA /* BaseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseSession.swift; sourceTree = "<group>"; };
 		84DCDF7C1EF19BAF004EFEE7 /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
-		84E705C91EF283ED00DCAA3F /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		84F66BCF1EF00FB800408CF0 /* testreddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testreddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84F66BD21EF00FB800408CF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84F66BD41EF00FB800408CF0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -134,12 +132,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		841FB6981EFBDE950049475C /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				84F66BD41EF00FB800408CF0 /* ViewController.swift */,
+				84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */,
+				84279C771EF44AE7006BDD70 /* PostCellTableViewCell.swift */,
+			);
+			name = ui;
+			sourceTree = "<group>";
+		};
 		84279C791EF44B95006BDD70 /* utils */ = {
 			isa = PBXGroup;
 			children = (
 				84F66C021EF14DF100408CF0 /* PreferenceManager.swift */,
 				84279C6F1EF2CD62006BDD70 /* PostsParser.swift */,
 				8486405C1EF53549003ACD98 /* CommentsParser.swift */,
+				841FB6961EFBD8880049475C /* BaseParser.swift */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -160,7 +169,6 @@
 		847D2DBE1EF82A7E007FC21F /* database */ = {
 			isa = PBXGroup;
 			children = (
-				84279C731EF431F1006BDD70 /* SqliteDatabaseManager.swift */,
 				847D2DCD1EF94138007FC21F /* CoreDataManager.swift */,
 			);
 			name = database;
@@ -173,7 +181,6 @@
 				847D2DD01EF942EF007FC21F /* LinkM+CoreDataProperties.swift */,
 				84DCDF7C1EF19BAF004EFEE7 /* Token.m */,
 				84F66C0B1EF1660B00408CF0 /* Token.h */,
-				84E705C91EF283ED00DCAA3F /* Link.swift */,
 				848640601EF535AC003ACD98 /* Comment.swift */,
 			);
 			name = models;
@@ -205,15 +212,13 @@
 		84F66BD11EF00FB800408CF0 /* testreddit */ = {
 			isa = PBXGroup;
 			children = (
+				841FB6981EFBDE950049475C /* ui */,
 				847D2DBE1EF82A7E007FC21F /* database */,
 				84279C791EF44B95006BDD70 /* utils */,
 				84E705C81EF283CD00DCAA3F /* models */,
 				84F66C0C1EF1866100408CF0 /* session */,
 				84F66BD21EF00FB800408CF0 /* AppDelegate.swift */,
-				84F66BD41EF00FB800408CF0 /* ViewController.swift */,
 				84F66BD61EF00FB800408CF0 /* Main.storyboard */,
-				84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */,
-				84279C771EF44AE7006BDD70 /* PostCellTableViewCell.swift */,
 				84F66BDB1EF00FB800408CF0 /* LaunchScreen.storyboard */,
 				84F66BD91EF00FB800408CF0 /* Assets.xcassets */,
 				84F66BDE1EF00FB800408CF0 /* Info.plist */,
@@ -558,7 +563,6 @@
 				8486405D1EF53549003ACD98 /* CommentsParser.swift in Sources */,
 				84279C761EF44AB4006BDD70 /* PostsTableViewController.swift in Sources */,
 				84279C701EF2CD62006BDD70 /* PostsParser.swift in Sources */,
-				84279C741EF431F1006BDD70 /* SqliteDatabaseManager.swift in Sources */,
 				847D2DD11EF942EF007FC21F /* LinkM+CoreDataClass.swift in Sources */,
 				8486405F1EF5357A003ACD98 /* CommentsDelegate.swift in Sources */,
 				848640611EF535AC003ACD98 /* Comment.swift in Sources */,
@@ -569,7 +573,7 @@
 				84F66C011EF14CFC00408CF0 /* TokenDelegate.swift in Sources */,
 				84F66BD51EF00FB800408CF0 /* ViewController.swift in Sources */,
 				84DCDF7D1EF19BAF004EFEE7 /* Token.m in Sources */,
-				84E705CA1EF283ED00DCAA3F /* Link.swift in Sources */,
+				841FB6971EFBD8880049475C /* BaseParser.swift in Sources */,
 				84F66BD31EF00FB800408CF0 /* AppDelegate.swift in Sources */,
 				8486405B1EF53500003ACD98 /* CommentsSession.swift in Sources */,
 				84F66C051EF1558B00408CF0 /* TokenSession.swift in Sources */,

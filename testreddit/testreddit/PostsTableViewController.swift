@@ -10,23 +10,18 @@ import UIKit
 
 class PostsTableViewController: UITableViewController, HotPostsDelegate {
     
-    //Contains the list of posts from the interenet.
+    //MARK: - Properties
+    //Contains the list of posts from the internet.
     var postsList = [LinkM]()
     
     //Defines whether the table should show local or loaded from the internet version of data.
     var local = false
     
+    //MARK: - Table View events
     override func viewDidLoad() {
         super.viewDidLoad()
+        startRefreshControl()
         CoreDataManager.instance.getAll()
-        refreshControl = UIRefreshControl()
-        refreshControl!.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
-        tableView.addSubview(refreshControl!)
-        refreshControl!.beginRefreshing()
-        HotPostsSession().requestPosts(callback: self)
-    }
-    
-    func refresh(sender:AnyObject) {
         HotPostsSession().requestPosts(callback: self)
     }
     
@@ -46,6 +41,18 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    //MARK: - Refreshing
+    func startRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl!)
+        refreshControl!.beginRefreshing()
+    }
+    
+    func refresh(sender:AnyObject) {
+        HotPostsSession().requestPosts(callback: self)
     }
     
     // MARK: - Table view data source
@@ -89,7 +96,7 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
         header.backgroundView?.backgroundColor = UIColor.red
     }
     
-    //MARK: HotPostsDelegate
+    //MARK: - HotPostsDelegate
     
     func onPostsDelivered(posts: [LinkM]) {
         local = false
@@ -103,11 +110,6 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     func onError(error: String) {
         local = true
         DispatchQueue.main.sync() {
-            //guard let postsFromDB = DatabaseManagerFactory.getDatabaseManager().getAllPosts() else {
-           //     print("error!")
-            //    return
-            //}
-            //postsList = postsFromDB
             tableView.reloadData()
             refreshControl!.endRefreshing()
         }
@@ -124,7 +126,7 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
         }
     }
     
-    //MARK: Navigation
+    //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         

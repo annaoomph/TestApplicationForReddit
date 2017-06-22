@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 public class CoreDataManager {
+    
     static let instance = CoreDataManager()
     
     var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
@@ -33,8 +34,7 @@ public class CoreDataManager {
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
-        
+    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {        
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
@@ -59,23 +59,6 @@ public class CoreDataManager {
         return managedObjectContext
     }()
     
-    func getAll() {
-        do {
-            try fetchedResultsController().performFetch()
-        } catch {}
-    }
-    
-    func clear() {
-        if let objects = fetchedResultsController().fetchedObjects {
-            for object in objects {
-                managedObjectContext.delete(object)
-            }
-            do {
-                try managedObjectContext.save()
-            } catch {}
-        }
-    }
-    
     // MARK: - Core Data Saving support
     func saveContext () {
         if managedObjectContext.hasChanges {
@@ -98,6 +81,26 @@ public class CoreDataManager {
             fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         }
         return fetchedResultsControllerForPosts!
+    }
+    
+    //MARK: - Management functions
+    
+    //
+    func getAll() {
+        do {
+            try fetchedResultsController().performFetch()
+        } catch {}
+    }
+    
+    func clear() {
+        if let objects = fetchedResultsController().fetchedObjects {
+            for object in objects {
+                managedObjectContext.delete(object)
+            }
+            do {
+                try managedObjectContext.save()
+            } catch {}
+        }
     }
     
     func getPostCount() -> Int {

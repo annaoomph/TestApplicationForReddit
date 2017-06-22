@@ -7,36 +7,37 @@
 //
 
 import Foundation
-public class CommentsParser {
+
+
+/// Parses comments from the server.
+class CommentsParser: BaseParser {
+    
+    
+    /// Parses a json with comments to some post.
+    ///
+    /// - Parameters:
+    ///   - json: json string
+    ///   - inner: if this is the inner list of comments connected to some other comment or this is the top of the comments tree
+    /// - Returns: an optional list of comments
     func parseItems(json: [NSDictionary], inner: Bool) -> [Comment]? {
         var comments: [Comment] = []
         
-        guard let kind = json[inner ? 0 : 1]["kind"] as! String? else {
+        let (items, afterLink) = getItems(json: json)
+        
+        if let after = afterLink {
+            PostsParser.LAST_POST = after
+        }
+        guard let itemsArray = items else {
             return nil
         }
-        guard kind == "Listing" else {
-            return nil
-        }
-        guard let items = json[inner ? 0 : 1]["data"] as! NSDictionary? else {
-            return nil
-        }
-        guard let itemsArray = items["children"] as! [NSDictionary]? else {
-            return nil
-        }
+        
         for item: NSDictionary in itemsArray {
-            guard let itemKind = item["kind"] as! String? else {
-                continue
-            }
-            guard itemKind == "t1" else {
-                continue
-            }
-            guard let itemData = item["data"] as! NSDictionary? else {
+            guard let itemData = getItemData(item: item, type: .COMMENT) else {
                 continue
             }
             if let comment = Comment(JSONData: itemData) {
                 comments.append(comment)
-            }
-            
+            }            
         }
         return comments
     }

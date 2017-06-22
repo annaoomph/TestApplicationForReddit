@@ -13,8 +13,8 @@ class ViewController: UIViewController, CommentsDelegate {
     var post: LinkM?
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var titleLabel: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let realPost = post {

@@ -19,30 +19,20 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SQLite.swift.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>22B0729223132E4105B251E41A95001C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B968B31568B34B741AF7736580B5520A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DBEB65008C89128C5FEFB1233ACB310C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>E62FDDC5E5449BD0888BA0AE754AFD34</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E7FEDD805C7683439BA836F6A982120C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

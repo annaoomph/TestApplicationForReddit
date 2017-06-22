@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+/// A session resposible for retrieving token from server.
 class TokenSession: BaseSession {
     
     static let TOKEN_URL = "https://www.reddit.com/api/v1/access_token"
@@ -16,6 +18,12 @@ class TokenSession: BaseSession {
     
     var body = ["grant_type" : "", "device_id" : ""]
     
+    
+    /// Gets the new token value.
+    ///
+    /// - Parameters:
+    ///   - callback: delegate
+    ///   - forceRefresh: whether to refresh token anyway or check if it needs refreshing first
     func updateToken(callback: TokenDelegate? = nil, forceRefresh: Bool = false) {
         if forceRefresh || TokenSession.tokenExpired() {
             let url = URL(string: TokenSession.TOKEN_URL);
@@ -52,6 +60,10 @@ class TokenSession: BaseSession {
         }
     }
     
+    
+    /// Checks if the current token has expired.
+    ///
+    /// - Returns: true if it needs to be refreshed, false otherwise.
     class func tokenExpired() -> Bool {
         let expirationDate = PreferenceManager().getTokenExpirationDate()
         let date = Date(timeIntervalSince1970: TimeInterval(expirationDate))
