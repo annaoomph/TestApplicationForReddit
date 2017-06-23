@@ -92,12 +92,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if let receivedComments = comments {
             self.comments = receivedComments
         } else if let errorString = error {
-        //TODO: Show UIAlert
+            displayError(errorString: errorString)
         }
         DispatchQueue.main.sync() {
             tableView.reloadData()
             tableView.refreshControl?.endRefreshing()
         }
+    }
+    
+    func displayError(errorString: String) {
+        let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion:nil)
     }
     
 }

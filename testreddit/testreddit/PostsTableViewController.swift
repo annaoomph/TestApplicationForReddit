@@ -135,6 +135,7 @@ class PostsTableViewController: UITableViewController {
         lastPost = after
         if let errorString = error {
             local = true
+            displayError(errorString: errorString)
         } else {
             local = false
         }
@@ -151,7 +152,8 @@ class PostsTableViewController: UITableViewController {
         lastPost = after
         if let errorString = error {
             local = true
-        }else {
+            displayError(errorString: errorString)
+        } else {
             local = false
         }
         if let receivedPosts = posts {
@@ -187,6 +189,13 @@ class PostsTableViewController: UITableViewController {
         default:
             fatalError("Unexpected destination")
         }
-    }   
+    }
+    
+    func displayError(errorString: String) {
+        let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion:nil)
+    }
     
 }
