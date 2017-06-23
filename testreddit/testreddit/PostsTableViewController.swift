@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class PostsTableViewController: UITableViewController {
     
@@ -22,10 +23,12 @@ class PostsTableViewController: UITableViewController {
     /// Stores the id of the last loaded from the server post.
     var lastPost: String?
     
+    var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         startRefreshControl()
-        CoreDataManager.instance.getAll()
+        loadFromDatabase()
         refresh(sender: self)
     }
     
@@ -60,6 +63,31 @@ class PostsTableViewController: UITableViewController {
         loader.getPosts(callback: onPostsDelivered(posts: after: error:))
     }
     
+    
+    //MARK: - Fetching
+    func loadFromDatabase() {
+        let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
+        let sortDescriptor = NSSortDescriptor(key: "score", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        do {try fetchedResultsControllerForPosts!.performFetch()} catch {}
+    }
+    
+    
+    func getPostCount() -> Int {
+        if let fetchedObjects = fetchedResultsControllerForPosts!.fetchedObjects {
+            return fetchedObjects.count
+        } else {
+            return 0
+        }
+    }
+    
+    func getPostAt(indexPath: IndexPath) -> LinkM {
+        return fetchedResultsControllerForPosts!.object(at: indexPath)
+    }
+    
+
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -67,7 +95,7 @@ class PostsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (local) ? CoreDataManager.instance.getPostCount() : postsList.count
+        return (local) ? getPostCount() : postsList.count
     }
     
     
@@ -77,7 +105,7 @@ class PostsTableViewController: UITableViewController {
         }
         var post: LinkM
         if (local) {
-            post = CoreDataManager.instance.getPostAt(indexPath: indexPath)
+            post = getPostAt(indexPath: indexPath)
         } else {
             post = postsList[indexPath.row]
         }

@@ -13,13 +13,10 @@ public class CoreDataManager {
     
     static let instance = CoreDataManager()
     
-    var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
-    
     private init() {
     }
     
     // MARK: - Core Data stack
-    
     lazy var applicationDocumentsDirectory: NSURL = {
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1] as NSURL
@@ -34,7 +31,7 @@ public class CoreDataManager {
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {        
+    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
@@ -64,7 +61,6 @@ public class CoreDataManager {
         if managedObjectContext.hasChanges {
             do {
                 try managedObjectContext.save()
-                try fetchedResultsController().performFetch()
             } catch {
                 let nserror = error as NSError
                 NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -73,45 +69,15 @@ public class CoreDataManager {
         }
     }
     
-    func fetchedResultsController() -> NSFetchedResultsController<LinkM> {
-        if (fetchedResultsControllerForPosts == nil) {
-            let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
-            let sortDescriptor = NSSortDescriptor(key: "score", ascending: false)
-            fetchRequest.sortDescriptors = [sortDescriptor]
-            fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        }
-        return fetchedResultsControllerForPosts!
-    }
-    
-    //MARK: - Management functions
-    
-    //
-    func getAll() {
-        do {
-            try fetchedResultsController().performFetch()
-        } catch {}
-    }
-    
     func clear() {
-        if let objects = fetchedResultsController().fetchedObjects {
+        let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
+        do {
+            let objects = try managedObjectContext.fetch(fetchRequest)
             for object in objects {
                 managedObjectContext.delete(object)
             }
-            do {
-                try managedObjectContext.save()
-            } catch {}
-        }
-    }
-    
-    func getPostCount() -> Int {
-        if let fetchedObjects = fetchedResultsController().fetchedObjects {
-            return fetchedObjects.count
-        } else {
-            return 0
-        }
-    }
-    
-    func getPostAt(indexPath: IndexPath) -> LinkM {
-        return fetchedResultsController().object(at: indexPath)
+            try managedObjectContext.save()
+        } catch {}
+        
     }
 }

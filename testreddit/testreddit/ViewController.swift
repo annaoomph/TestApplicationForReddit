@@ -60,11 +60,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             fatalError("Not loaded cell")
         }
         let (level, _, returnedComment) = CommentUtils.findComment(currentIndex: -1, indexOfTheComment: indexPath.row, level: -1, comments: comments)
+        var mark = "  "
         if let comment = returnedComment {
             cell.titleLabel.text = comment.body
+            if let replies = comment.replies,
+                replies.count > 0 {
+                mark = ">"
+            }
         }
         let margin = String(repeating: "    ", count: level)
-        cell.marginLabel.text = "\(margin)>"
+        cell.marginLabel.text = "\(margin)\(mark)"
         return cell
     }
     
