@@ -8,13 +8,20 @@
 
 import UIKit
 
-class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource, UITableViewDelegate {
+
+/// A controller for the post view.
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    
+    /// Shown post (link).
     var post: LinkM?
+    
+    /// A list of comments for the shown post.
     var comments: [Comment] = []
     
-    @IBOutlet weak var tableView: UITableView!
+    let loader = Loader()
     
+    @IBOutlet weak var tableView: UITableView!    
     @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
@@ -48,7 +55,6 @@ class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource,
         return cellsCount
     }
     
-   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else {
             fatalError("Not loaded cell")
@@ -72,24 +78,17 @@ class ViewController: UIViewController, CommentsDelegate, UITableViewDataSource,
     func refresh(sender:AnyObject) {
         if let realPost = post {
             titleLabel.text = realPost.title
-            CommentsSession().getComments(postId: realPost.id, callback: self)
+            loader.getComments(postId: realPost.id, callback: onCommentsDelivered(comments:error:))
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    //MARK: - Comments Delegate
-    func onError(error: String) {
-        DispatchQueue.main.sync() {
-            tableView.reloadData()
-            tableView.refreshControl?.endRefreshing()
+    //MARK: - Callbacks
+    func onCommentsDelivered(comments: [Comment]?, error: String?) {
+        if let receivedComments = comments {
+            self.comments = receivedComments
+        } else if let errorString = error {
+        //TODO: Show UIAlert
         }
-    }
-    
-    func onCommentsDelivered(comments: [Comment]) {
-        self.comments = comments
         DispatchQueue.main.sync() {
             tableView.reloadData()
             tableView.refreshControl?.endRefreshing()

@@ -8,17 +8,15 @@
 
 import Foundation
 
-
 /// Parses json data from reddit.
 class BaseParser {
     
     //MARK: - Enums and Constants
     
-    
     /// Data types in reddit.
     ///
     /// - THING: a post
-    /// - COMMENT: a comment to post
+    /// - COMMENT: a comment for post
     /// - LISTING: a list of smth
     public enum RedditTypes: String {
         case THING = "t3"
@@ -32,7 +30,6 @@ class BaseParser {
     static let AFTER_KEY = "after"
     
     //MARK: - Parser functions
-    
     
     /// Gets a dictionary of items of some kind.
     ///
@@ -58,7 +55,7 @@ class BaseParser {
     }
     
     
-    /// Gets a dictionary with item data
+    /// Gets a dictionary with item data.
     ///
     /// - Parameters:
     ///   - item: item data with wrapping

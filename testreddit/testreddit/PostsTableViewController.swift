@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostsTableViewController: UITableViewController, HotPostsDelegate {
+class PostsTableViewController: UITableViewController {
     
     //MARK: - Properties
     //Contains the list of posts from the internet.
@@ -17,13 +17,18 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     //Defines whether the table should show local or loaded from the internet version of data.
     var local = false
     
-    //MARK: - Table View events
+    let loader = Loader()
+    
+    /// Stores the id of the last loaded from the server post.
+    var lastPost: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         startRefreshControl()
         CoreDataManager.instance.getAll()
-        HotPostsSession().requestPosts(callback: self)
+        refresh(sender: self)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -38,13 +43,9 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
         let h = size.height;
         let reload_distance = CGFloat(50);
         if y > h + reload_distance {
-            HotPostsSession().requestMorePosts(callback: self)
+            loader.getPosts(more: true, lastPost: lastPost, callback: onMorePostsDelivered(posts: after: error:))
         }
         
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     //MARK: - Refreshing
@@ -56,7 +57,7 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
     }
     
     func refresh(sender:AnyObject) {
-        HotPostsSession().requestPosts(callback: self)
+        loader.getPosts(callback: onPostsDelivered(posts: after: error:))
     }
     
     // MARK: - Table view data source
@@ -93,40 +94,48 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
             return ""
         }
     }
-       
+    
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = UIColor.white
         header.backgroundView?.backgroundColor = UIColor.red
     }
     
-    //MARK: - HotPostsDelegate
+    //MARK: - Callbacks
     
-    func onPostsDelivered(posts: [LinkM]) {
-        local = false
-        postsList = posts
+    func onPostsDelivered(posts: [LinkM]?, after: String?, error: String?) {
+        lastPost = after
+        if let errorString = error {
+            local = true
+        } else {
+            local = false
+        }
+        if let receivedPosts = posts {
+            postsList = receivedPosts
+        }
         DispatchQueue.main.sync() {
             tableView.reloadData()
             refreshControl!.endRefreshing()
         }
     }
     
-    func onError(error: String) {
-        local = true
-        DispatchQueue.main.sync() {
-            tableView.reloadData()
-            refreshControl!.endRefreshing()
+    func onMorePostsDelivered(posts: [LinkM]?, after: String?, error: String?) {
+        lastPost = after
+        if let errorString = error {
+            local = true
+        }else {
+            local = false
         }
-    }
-    
-    func onMorePostsDelivered(posts: [LinkM]) {
-        local = false
-        postsList += posts
+        if let receivedPosts = posts {
+            postsList += receivedPosts
+        }
         DispatchQueue.main.sync() {
             tableView.reloadData()
-            let indexPath = IndexPath(row: postsList.count - 25, section: 0)
-            tableView.scrollToRow(at: indexPath,
-                                  at: UITableViewScrollPosition.middle, animated: true)
+            if error == nil {
+                let indexPath = IndexPath(row: postsList.count - 25, section: 0)
+                tableView.scrollToRow(at: indexPath,
+                                      at: UITableViewScrollPosition.middle, animated: true)
+            }
         }
     }
     
@@ -150,8 +159,6 @@ class PostsTableViewController: UITableViewController, HotPostsDelegate {
         default:
             fatalError("Unexpected destination")
         }
-    }
-    
-    
+    }   
     
 }

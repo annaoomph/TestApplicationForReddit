@@ -12,7 +12,6 @@ import Foundation
 /// Parses comments from the server.
 class CommentsParser: BaseParser {
     
-    
     /// Parses a json with comments to some post.
     ///
     /// - Parameters:
@@ -22,11 +21,8 @@ class CommentsParser: BaseParser {
     func parseItems(json: [NSDictionary], inner: Bool) -> [Comment]? {
         var comments: [Comment] = []
         
-        let (items, afterLink) = getItems(json: json, inner: inner)
+        let (items, _) = getItems(json: json, inner: inner)
         
-        if let after = afterLink {
-            PostsParser.LAST_POST = after
-        }
         guard let itemsArray = items else {
             return nil
         }

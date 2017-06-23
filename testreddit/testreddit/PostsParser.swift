@@ -12,25 +12,17 @@ import Foundation
 /// Parses json data from reddit.
 class PostsParser: BaseParser {
     
-    
-    /// Anchor to the last loaded post (its id) to load more posts after it.
-    static var LAST_POST: String?
-    
-    
     /// Parses a json with posts (links).
     ///
     /// - Parameter json: json string from server
-    /// - Returns: an optional array of links (posts)
-    func parseItems(json: [NSDictionary]) -> [LinkM]? {
+    /// - Returns: an optional array of links (posts) and the last loaded post id
+    func parseItems(json: [NSDictionary]) -> ([LinkM]?, String?) {
         var links: [LinkM] = []
         
         let (items, afterLink) = getItems(json: json)
         
-        if let after = afterLink {
-            PostsParser.LAST_POST = after
-        }
         guard let itemsArray = items else {
-            return nil
+            return (nil, nil)
         }
         
         for item: NSDictionary in itemsArray {
@@ -39,9 +31,8 @@ class PostsParser: BaseParser {
             }
             if let link = LinkM.create(JSONData: itemData) {
                 links.append(link)
-            }
-            
+            }            
         }
-        return links
+        return (links, afterLink)
     }
 }
