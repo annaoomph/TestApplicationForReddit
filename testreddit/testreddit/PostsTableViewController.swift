@@ -100,7 +100,7 @@ class PostsTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCellTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
             fatalError("Not loaded cell")
         }
         var post: LinkM
@@ -175,7 +175,7 @@ class PostsTableViewController: UITableViewController {
         
         switch(segue.identifier ?? "") {
         case "ShowItem":
-            guard let postController = segue.destination as? ViewController else {
+            guard let postController = segue.destination as? PostDetailViewController else {
                 fallthrough
             }
             guard let selectedTableCell = sender as? UITableViewCell else {

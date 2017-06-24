@@ -10,7 +10,7 @@ import UIKit
 
 
 /// A controller for the post view.
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
     /// Shown post (link).
@@ -46,12 +46,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
         
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        CommentUtils.markComments(currentIndex: -1, commentToMark: indexPath.row, comments: comments)
+        CommentUtils().markComments(commentToMark: indexPath.row, comments: comments)
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let cellsCount = CommentUtils.countComments(initialCount: 0, comments: comments)
+        let cellsCount = CommentUtils().countComments(initialCount: 0, comments: comments)
         return cellsCount
     }
     
@@ -59,7 +59,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else {
             fatalError("Not loaded cell")
         }
-        let (level, _, returnedComment) = CommentUtils.findComment(currentIndex: -1, indexOfTheComment: indexPath.row, level: -1, comments: comments)
+        let (level, returnedComment) = CommentUtils().findComment(indexOfTheComment: indexPath.row, level: -1, comments: comments)
         var mark = "  "
         if let comment = returnedComment {
             cell.titleLabel.text = comment.body

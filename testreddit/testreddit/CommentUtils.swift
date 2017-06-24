@@ -10,7 +10,11 @@ import Foundation
 
 /// Utils for working with comment trees.
 class CommentUtils {
+    var currentIndex: Int
     
+    init() {
+        currentIndex = -1
+    }
     
     /// Marks comment opened or closed based on the index of the clicked comment.
     ///
@@ -18,57 +22,50 @@ class CommentUtils {
     ///   - currentIndex: current index we have reached so far
     ///   - lastIndex: index of the comment we need to mark
     ///   - commentsSubTree: comment list we are working with
-    /// - Returns: index we stopped at
-    class func markComments(currentIndex: Int, commentToMark lastIndex: Int, comments commentsSubTree: [Comment]) -> Int {
-        var current = currentIndex
+    func markComments(commentToMark lastIndex: Int, comments commentsSubTree: [Comment]) {
         for comment in commentsSubTree {
-            if current > lastIndex {
+            if currentIndex > lastIndex {
                 break;
             }
-            current += 1
-            if (current == lastIndex) {
+            currentIndex += 1
+            if (currentIndex == lastIndex) {
                 comment.opened = !comment.opened
                 break
             } else
                 if comment.opened,
                     let replies = comment.replies {
-                    current = markComments(currentIndex: current, commentToMark: lastIndex, comments: replies)
+                    markComments(commentToMark: lastIndex, comments: replies)
             }
         }
-        return current
     }
     
     
     /// Finds a comment at a certain index and checks its level.
     ///
     /// - Parameters:
-    ///   - currentIndex: current index we have reached so far
     ///   - lastIndex: index of the comment we are looking for.
     ///   - level: current level of the comment tree
     ///   - commentsSubTree: comment sub tree we have reached
-    /// - Returns: level we have reached, index we have reached, and the comment, if it is found (otherwise nil)
-    class func findComment(currentIndex: Int, indexOfTheComment lastIndex: Int, level: Int, comments commentsSubTree: [Comment]) -> (Int, Int, Comment?) {
-        var current = currentIndex
+    /// - Returns: level we have reached, and the comment, if it is found (otherwise nil)
+    func findComment(indexOfTheComment lastIndex: Int, level: Int, comments commentsSubTree: [Comment]) -> (Int, Comment?) {
         let currentLevel = level + 1
         for comment in commentsSubTree {
-            current += 1
-            if current > lastIndex {
+            currentIndex += 1
+            if currentIndex > lastIndex {
                 break;
             }
-            if (current == lastIndex) {
-                return (currentLevel, current, comment)
+            if (currentIndex == lastIndex) {
+                return (currentLevel, comment)
             } else
                 if comment.opened,
                     let replies = comment.replies {
-                    let (returnedLevel, returnedIndex, returnedComment) = findComment(currentIndex: current, indexOfTheComment: lastIndex, level: currentLevel, comments: replies)
+                    let (returnedLevel, returnedComment) = findComment(indexOfTheComment: lastIndex, level: currentLevel, comments: replies)
                     if let foundComment = returnedComment {
-                        return (returnedLevel, current, foundComment)
-                    } else {
-                        current = returnedIndex
+                        return (returnedLevel, foundComment)
                     }
             }
         }
-        return (currentLevel, current, nil)
+        return (currentLevel, nil)
     }
     
     
@@ -78,7 +75,7 @@ class CommentUtils {
     ///   - initialCount: current number of comments we have calculated
     ///   - commentsSubTree: comment sub tree we have reached
     /// - Returns: number of the comments shown
-    class func countComments(initialCount: Int, comments commentsSubTree: [Comment]) -> Int {
+    func countComments(initialCount: Int, comments commentsSubTree: [Comment]) -> Int {
         var initial = initialCount
         for comment in commentsSubTree {
             initial += 1
