@@ -60,6 +60,13 @@ class WebService {
         task.resume()
     }
     
+    func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
+        URLSession.shared.dataTask(with: url) {
+            (data, response, error) in
+            completion(data, response, error)
+            }.resume()
+    }
+    
     /// Get the body string from the given array of parameters.
     ///
     /// - Parameter body: array of parameters

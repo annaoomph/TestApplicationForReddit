@@ -12,15 +12,26 @@ import UIKit
 /// A controller for the post view.
 class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var imgView: UIImageView!
     
     /// Shown post (link).
     var post: LinkM?
     
+    @IBAction func op(_ sender: UIBarButtonItem) {
+        if let image = mainImage {
+            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popup") as! PopupViewController
+            self.addChildViewController(popOverVC)
+            popOverVC.view.frame = self.view.frame
+            self.view.addSubview(popOverVC.view)
+            popOverVC.imgView.image = image
+            popOverVC.didMove(toParentViewController: self)
+        }
+    }
     /// A list of comments for the shown post.
     var comments: [Comment] = []
     
     let loader = Loader()
-    
+    var mainImage: UIImage?
     @IBOutlet weak var tableView: UITableView!    
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -33,11 +44,17 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         refresh(sender: self)
     }
     
+   
+    
     override func viewWillAppear(_ animated: Bool) {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
     }
     
+    
+    func displayPopup(image: UIImage) {
+        
+    }
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -83,7 +100,27 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     func refresh(sender:AnyObject) {
         if let realPost = post {
             titleLabel.text = realPost.title
+            if realPost.bigImages.count > 0,
+                let checkedUrl = URL(string: (realPost.bigImages[0])!) {
+                imgView.contentMode = .scaleAspectFit
+                downloadImage(url: checkedUrl)
+            }
             loader.getComments(postId: realPost.id, callback: onCommentsDelivered(comments:error:))
+        }
+    }
+    
+    
+    
+    func downloadImage(url: URL) {
+        WebService().getDataFromUrl(url: url) { (data, response, error)  in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            DispatchQueue.main.async() { () -> Void in
+                if let img = UIImage(data: data) {
+                self.imgView.image = img
+                self.mainImage = img
+                }
+            }
         }
     }
     
