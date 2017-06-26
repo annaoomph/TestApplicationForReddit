@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -26,37 +27,58 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="89"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8k1-O0-Vej">
-                                            <rect key="frame" x="86" y="8" width="34" height="74"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="Yc6-Hb-ATZ"/>
-                                            </constraints>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FXx-bZ-jhC">
+                                            <rect key="frame" x="8" y="8" width="359" height="65"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eu0-bF-Wym">
+                                                    <rect key="frame" x="0.0" y="0.0" width="70" height="65"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="GTr-bQ-V7C"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8k1-O0-Vej">
+                                                    <rect key="frame" x="78" y="0.0" width="208" height="65"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="Yc6-Hb-ATZ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hkD-kI-Qes">
+                                                    <rect key="frame" x="294" y="0.0" width="65" height="65"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="73" id="C0L-ls-OcW"/>
+                                                        <constraint firstAttribute="width" secondItem="hkD-kI-Qes" secondAttribute="height" multiplier="1:1" id="QgU-4i-8Eh"/>
+                                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="73" id="ayG-po-RBL"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                        </stackView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyW-I6-d9e">
+                                            <rect key="frame" x="8" y="81" width="42" height="0.0"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eu0-bF-Wym">
-                                            <rect key="frame" x="8" y="8" width="70" height="74"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="70" id="GTr-bQ-V7C"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="8k1-O0-Vej" firstAttribute="leading" secondItem="Eu0-bF-Wym" secondAttribute="trailing" constant="8" id="Ju3-4n-fQv"/>
-                                        <constraint firstItem="Eu0-bF-Wym" firstAttribute="leading" secondItem="LRQ-Le-ju9" secondAttribute="leading" constant="8" id="chj-zG-nlz"/>
-                                        <constraint firstItem="Eu0-bF-Wym" firstAttribute="top" secondItem="LRQ-Le-ju9" secondAttribute="top" constant="8" id="g0h-Fd-Yyy"/>
-                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="8k1-O0-Vej" secondAttribute="trailing" constant="8" id="k9T-Nw-hI4"/>
-                                        <constraint firstItem="8k1-O0-Vej" firstAttribute="centerY" secondItem="LRQ-Le-ju9" secondAttribute="centerY" id="lK5-jN-TT4"/>
-                                        <constraint firstItem="8k1-O0-Vej" firstAttribute="top" secondItem="LRQ-Le-ju9" secondAttribute="topMargin" id="uTO-GB-wgi"/>
-                                        <constraint firstItem="Eu0-bF-Wym" firstAttribute="centerY" secondItem="8k1-O0-Vej" secondAttribute="centerY" id="vES-5E-KAO"/>
+                                        <constraint firstAttribute="trailing" secondItem="FXx-bZ-jhC" secondAttribute="trailing" constant="8" id="2Uu-yz-GKI"/>
+                                        <constraint firstItem="qyW-I6-d9e" firstAttribute="leading" secondItem="LRQ-Le-ju9" secondAttribute="leading" constant="8" id="84R-aI-Ak0"/>
+                                        <constraint firstItem="FXx-bZ-jhC" firstAttribute="top" secondItem="LRQ-Le-ju9" secondAttribute="top" constant="8" id="D38-TA-Zl5"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qyW-I6-d9e" secondAttribute="trailing" constant="8" id="Z5L-oi-Dji"/>
+                                        <constraint firstAttribute="bottom" secondItem="qyW-I6-d9e" secondAttribute="bottom" constant="8" id="hLB-kq-W7N"/>
+                                        <constraint firstItem="FXx-bZ-jhC" firstAttribute="leading" secondItem="LRQ-Le-ju9" secondAttribute="leading" constant="8" id="uDn-Jl-6pS"/>
+                                        <constraint firstItem="qyW-I6-d9e" firstAttribute="top" secondItem="FXx-bZ-jhC" secondAttribute="bottom" constant="8" id="zzK-op-3AW"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <connections>
+                                    <outlet property="imgView" destination="hkD-kI-Qes" id="HRV-yi-n0V"/>
+                                    <outlet property="infoLabel" destination="qyW-I6-d9e" id="8iX-oT-CZS"/>
                                     <outlet property="scoreLabel" destination="Eu0-bF-Wym" id="ROt-n8-UNs"/>
                                     <outlet property="titleLabel" destination="8k1-O0-Vej" id="But-5p-gVY"/>
                                     <segue destination="BYZ-38-t0r" kind="show" identifier="ShowItem" id="LzN-cO-21V"/>

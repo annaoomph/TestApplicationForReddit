@@ -112,9 +112,26 @@ class PostsTableViewController: UITableViewController {
         
         cell.titleLabel.text = post.title
         cell.scoreLabel.text = "\(post.score)"
+        let date = DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(post.created)), dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.short)
+            if let author = post.author {
+                let domain = post.is_self ? "" : "at \(post.domain)"
+                let myMutableString = NSMutableAttributedString(string: "Created at \(date) by \(author) in \(post.subreddit) \(domain)", attributes: nil)
+                myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 135/255, green: 234/255, blue: 162/255, alpha: 1), range: NSRange(location: 11, length:String(date)!.characters.count))
+                myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 100/255, green: 180/255, blue: 240/255, alpha: 1), range: NSRange(location: 15 + String(date)!.characters.count, length:author.characters.count))
+                myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 255/255, green: 106/255, blue: 5/255, alpha: 1), range: NSRange(location: myMutableString.length - post.subreddit.characters.count - domain.characters.count - 1, length: post.subreddit.characters.count))
+                if domain.characters.count > 0 {
+                myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 251/255, green: 61/255, blue: 13/255, alpha: 1), range: NSRange(location: myMutableString.length - domain.characters.count, length: domain.characters.count))
+                }
+                cell.infoLabel.attributedText = myMutableString
+        }
+        if let checkedUrl = URL(string: post.thumbnail) {
+            cell.imgView.contentMode = .scaleAspectFit
+            cell.downloadImage(url: checkedUrl)
+        }
         return cell
     }
     
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if local {
             return "Can't connect to server. Showing cashed posts"
