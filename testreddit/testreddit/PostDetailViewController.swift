@@ -12,19 +12,29 @@ import SwiftGifOrigin
 /// A controller for the post view.
 class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    /// A view with the post image or gif.
     @IBOutlet weak var imgView: UIImageView!
+    
+    /// An activity indicator that shows that imnage or gif is still loading.
+    @IBOutlet weak var imageSpinner: UIActivityIndicatorView!
+    
+    /// Table for comments.
+    @IBOutlet weak var tableView: UITableView!
+    
+    /// Title of the post.
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    /// Loads data from server.
+    let loader = Loader()
+    
+    /// Image or gif connected with the post.
+    var mainImage: UIImage?
     
     /// Shown post (link).
     var post: LinkM?
     
     /// A list of comments for the shown post.
     var comments: [Comment] = []
-    
-    let loader = Loader()
-    
-    var mainImage: UIImage?
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,24 +50,11 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         tableView.rowHeight = UITableViewAutomaticDimension
     }
     
-    @IBAction func open(_ sender: UITapGestureRecognizer) {
-        if let image = mainImage {
-            let popupWindow = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popup") as! PopupViewController
-            self.addChildViewController(popupWindow)
-            popupWindow.view.frame = self.view.frame
-            self.view.addSubview(popupWindow.view)
-            popupWindow.imgView.image = image
-            popupWindow.imgView.contentMode = .scaleAspectFit
-            popupWindow.didMove(toParentViewController: self)
-        }
-    }
-    
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         CommentUtils().markComments(commentToMark: indexPath.row, comments: comments)
@@ -80,13 +77,13 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             cell.titleLabel.text = comment.body
             if let replies = comment.replies,
                 replies.count > 0 {
-                mark = ">"
+                mark = comment.opened ? "v" : ">"
                 repliesText = "\(replies.count)"
             }
-            let myMutableString = NSMutableAttributedString(string: "\(comment.author) replies: \(repliesText)", attributes: nil)
-            myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 135/255, green: 234/255, blue: 162/255, alpha: 1), range: NSRange(location: 0, length:comment.author.characters.count))
-            cell.infoLabel.attributedText = myMutableString
-            
+            let mutableString = NSMutableAttributedString(string: "\(comment.score) \(comment.author) replies: \(repliesText)", attributes: nil)
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(comment.score)".characters.count))
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: "\(comment.score)".characters.count + 1, length:comment.author.characters.count))
+            cell.infoLabel.attributedText = mutableString
         }
         let margin = String(repeating: "    ", count: level)
         cell.marginLabel.text = "\(margin)\(mark)"
@@ -94,7 +91,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    return "Comments"
+        return "Comments: \(post?.num_comments ?? 0)"
     }
     
     //MARK: - Refreshing
@@ -106,18 +103,11 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     func refresh(sender:AnyObject) {
         if let realPost = post {
-            titleLabel.text = realPost.title
+            let mutableString = NSMutableAttributedString(string: "\(realPost.score) \(realPost.title)", attributes: nil)
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(realPost.score)".characters.count))
+            titleLabel.attributedText = mutableString
             if let data = realPost.additionalData {
-                imgView.contentMode = .scaleAspectFit
-                DispatchQueue.global().async {
-                    let gif = UIImage.gif(url: data)
-                    DispatchQueue.main.async {
-                        self.mainImage = gif
-                        self.imgView.image = gif
-                        self.imgView.contentMode = .scaleAspectFit
-                    }
-                }
-                
+                downloadImage(url: URL(string: data)!, isGif: true)
             } else {
                 if realPost.bigImages.count > 0,
                     let checkedUrl = URL(string: (realPost.bigImages[0])!) {
@@ -129,15 +119,32 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     
-    
-    func downloadImage(url: URL) {
-        WebService().getDataFromUrl(url: url) { (data, response, error)  in
-            guard let data = data, error == nil else { return }
-            DispatchQueue.main.async() { () -> Void in
-                if let img = UIImage(data: data) {
-                    self.imgView.image = img
+    /// Loads the post image from the given url.
+    ///
+    /// - Parameter url: url with the image
+    /// - Parameter isGif: whether it is gif image
+    func downloadImage(url: URL, isGif: Bool = false) {
+        imageSpinner.startAnimating()
+        if isGif {
+            DispatchQueue.global().async {
+                let gif = UIImage.gif(url: url.absoluteString)
+                DispatchQueue.main.async {
+                    self.mainImage = gif
+                    self.imgView.image = gif
                     self.imgView.contentMode = .scaleAspectFit
-                    self.mainImage = img
+                    self.imageSpinner.stopAnimating()
+                }
+            }
+        } else {
+            WebService().getDataFromUrl(url: url) { (data, response, error)  in
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async() { () -> Void in
+                    if let img = UIImage(data: data) {
+                        self.imgView.image = img
+                        self.imgView.contentMode = .scaleAspectFit
+                        self.mainImage = img
+                        self.imageSpinner.stopAnimating()
+                    }
                 }
             }
         }
@@ -163,5 +170,17 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         self.present(alertController, animated: true, completion:nil)
     }
     
+    //MARK: - Navigation
+    @IBAction func open(_ sender: UITapGestureRecognizer) {
+        if let image = mainImage {
+            let popupWindow = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popup") as! PopupViewController
+            self.addChildViewController(popupWindow)
+            popupWindow.view.frame = self.view.frame
+            self.view.addSubview(popupWindow.view)
+            popupWindow.imgView.image = image
+            popupWindow.imgView.contentMode = .scaleAspectFit
+            popupWindow.didMove(toParentViewController: self)
+        }
+    }
 }
 

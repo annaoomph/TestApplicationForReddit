@@ -105,44 +105,44 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testreddit/LinkM+CoreDataClass.swift"
-            timestampString = "520253962.298578"
+            filePath = "testreddit/PostsTableViewController.swift"
+            timestampString = "520263331.232253"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "create(JSONData:)"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "static testreddit.LinkM.create (JSONData : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.NSDictionary&gt;) -&gt; Swift.Optional&lt;testreddit.LinkM&gt;"
+                  symbolName = "testreddit.PostsTableViewController.tableView (__ObjC.UITableView, cellForRowAt : Foundation.IndexPath) -&gt; __ObjC.UITableViewCell"
                   moduleName = "testreddit"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/admin/TestApplicationForReddit/testreddit/testreddit/LinkM+CoreDataClass.swift"
-                  timestampString = "520253823.271223"
+                  urlString = "file:///Users/admin/TestApplicationForReddit/testreddit/testreddit/PostsTableViewController.swift"
+                  timestampString = "520263610.436038"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "76"
-                  endingLineNumber = "76"
-                  offsetFromSymbolStart = "22937">
+                  startingLineNumber = "130"
+                  endingLineNumber = "130"
+                  offsetFromSymbolStart = "7071">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "static testreddit.LinkM.create (JSONData : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.NSDictionary&gt;) -&gt; Swift.Optional&lt;testreddit.LinkM&gt;"
+                  symbolName = "testreddit.PostsTableViewController.tableView (__ObjC.UITableView, cellForRowAt : Foundation.IndexPath) -&gt; __ObjC.UITableViewCell"
                   moduleName = "testreddit"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/admin/TestApplicationForReddit/testreddit/testreddit/LinkM+CoreDataClass.swift"
-                  timestampString = "520253823.27388"
+                  urlString = "file:///Users/admin/TestApplicationForReddit/testreddit/testreddit/PostsTableViewController.swift"
+                  timestampString = "520263610.438311"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "76"
-                  endingLineNumber = "76"
-                  offsetFromSymbolStart = "23838">
+                  startingLineNumber = "130"
+                  endingLineNumber = "130"
+                  offsetFromSymbolStart = "7159">
                </Location>
             </Locations>
          </BreakpointContent>

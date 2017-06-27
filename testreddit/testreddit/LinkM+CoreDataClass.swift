@@ -1,6 +1,6 @@
 //
 //  LinkM+CoreDataClass.swift
-//  
+//
 //
 //  Created by Alexander on 6/20/17.
 //
@@ -12,12 +12,10 @@ import CoreData
 @objc(LinkM)
 
 /// A class describing a link (or a post) in reddit.
-public class LinkM: NSManagedObject {    
+public class LinkM: NSManagedObject {
     
     //A list of url's to the images connected with the post.
     public var bigImages: [String?] = []
-    //A list of url's to the small resolution images connected with the post.
-    public var smallImages: [String?] = []
     
     public var additionalData: String?
     
@@ -59,19 +57,6 @@ public class LinkM: NSManagedObject {
                         linkM.bigImages.append(imageUrl)
                     }
                 }
-                if let resolutions = image["resolutions"] as! [NSDictionary]? {
-                    if resolutions.count > 0 {
-                    if let smallImage = resolutions[0]["url"] as! String? {
-                        linkM.smallImages.append(smallImage)
-                    }
-                    }
-                }
-                if (linkM.bigImages.count < linkM.smallImages.count) {
-                    linkM.bigImages.append(nil)
-                }
-                if (linkM.bigImages.count > linkM.smallImages.count) {
-                    linkM.smallImages.append(nil)
-                }
                 if let variants = image["variants"] as! NSDictionary? {
                     if let gifs = variants["gif"] as! NSDictionary? {
                         if let gifSource = gifs["source"] as! NSDictionary? {
@@ -79,20 +64,18 @@ public class LinkM: NSManagedObject {
                                 linkM.additionalData = gifUrl
                             }
                         }
-                    } else
+                    } else {
                         if let mp4 = variants["mp4"] as! NSDictionary? {
                             if let mp4Source = mp4["source"] as! NSDictionary? {
                                 if let mp4Url = mp4Source["url"] as! String? {
                                     linkM.additionalData = mp4Url
                                 }
                             }
+                        }
                     }
-                    
                 }
             }
-            
         }
         return linkM
     }
-
 }

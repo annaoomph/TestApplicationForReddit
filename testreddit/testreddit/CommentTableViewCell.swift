@@ -10,8 +10,14 @@ import UIKit
 
 class CommentTableViewCell: UITableViewCell {
 
+    
+    /// A label for margin defining the tree label, also displays the pointer (>/v).
     @IBOutlet weak var marginLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel! 
+    
+    /// A label with comment body.
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    /// A label with additional information about the comment.
     @IBOutlet weak var infoLabel: UILabel!
 
 }
