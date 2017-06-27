@@ -7,16 +7,18 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 
 /// Parses json data from reddit.
 class PostsParser: BaseParser {
     
+    var dbCleared = false
     /// Parses a json with posts (links).
     ///
     /// - Parameter json: json string from server
     /// - Returns: an optional array of links (posts) and the last loaded post id
-    func parseItems(json: [NSDictionary]) -> ([LinkM]?, String?) {
+    func parseItems(json: JSON, clearDb: Bool = false) -> ([LinkM]?, String?) {
         var links: [LinkM] = []
         
         let (items, afterLink) = getItems(json: json)
@@ -25,13 +27,17 @@ class PostsParser: BaseParser {
             return (nil, nil)
         }
         
-        for item: NSDictionary in itemsArray {
+        for (key, item) in itemsArray {
             guard let itemData = getItemData(item: item, type: RedditTypes.THING) else {
                 continue
             }
+            if clearDb, !dbCleared {
+                CoreDataManager.instance.clear()
+                dbCleared = true
+            }
             if let link = LinkM.create(JSONData: itemData) {
                 links.append(link)
-            }            
+            }
         }
         return (links, afterLink)
     }

@@ -10,7 +10,7 @@
 #define Token_h
 
 
-#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h> 
 @interface Token : NSObject
 @property NSString *access_token;
 @property NSString *token_type;

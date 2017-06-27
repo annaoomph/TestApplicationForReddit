@@ -122,7 +122,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Loads the post image from the given url.
     ///
     /// - Parameter url: url with the image
-    /// - Parameter isGif: whether it is gif image
+    /// - Parameter isGif: whether it is a gif image
     func downloadImage(url: URL, isGif: Bool = false) {
         imageSpinner.startAnimating()
         if isGif {

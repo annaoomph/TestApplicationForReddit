@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-
+import SwiftyJSON
 @objc(LinkM)
 
 /// A class describing a link (or a post) in reddit.
@@ -19,19 +19,19 @@ public class LinkM: NSManagedObject {
     
     public var additionalData: String?
     
-    class func create(JSONData: NSDictionary!) -> LinkM? {
+    class func create(JSONData: JSON) -> LinkM? {
         let linkM = NSEntityDescription.insertNewObject(forEntityName: "LinkM", into: CoreDataManager.instance.managedObjectContext) as! LinkM
         
-        guard let title = JSONData["title"] as! String?,
-            let url = JSONData["url"] as! String?,
-            let score = JSONData["score"] as! Int32?,
-            let created = JSONData["created"] as! Int32?,
-            let thumbnail = JSONData["thumbnail"] as! String?,
-            let num_comments = JSONData["num_comments"] as! Int32?,
-            let domain = JSONData["domain"] as! String?,
-            let is_self = JSONData["is_self"] as! Bool?,
-            let subreddit = JSONData["subreddit"] as! String?,
-            let id = JSONData["id"] as! String?
+        guard let title = JSONData["title"].string,
+            let url = JSONData["url"].string,
+            let score = JSONData["score"].int32,
+            let created = JSONData["created"].int32,
+            let thumbnail = JSONData["thumbnail"].string,
+            let num_comments = JSONData["num_comments"].int32,
+            let domain = JSONData["domain"].string,
+            let is_self = JSONData["is_self"].bool,
+            let subreddit = JSONData["subreddit"].string,
+            let id = JSONData["id"].string
             else {
                 return nil
         }
@@ -45,36 +45,28 @@ public class LinkM: NSManagedObject {
         linkM.subreddit = subreddit
         linkM.thumbnail = thumbnail
         linkM.is_self = is_self
-        linkM.author = JSONData["author"] as? String
-        linkM.selftext_html = JSONData["selftext_html"] as? String
+        linkM.author = JSONData["author"].string
+        linkM.selftext_html = JSONData["selftext_html"].string
         linkM.id = id
-        if let preview = JSONData["preview"] as! NSDictionary?,
-            let images = preview["images"] as! [NSDictionary]? {
+        let images = JSONData["preview"]["images"]
+        
+        for (key, image) in images {
+            if let bigImage = image["source"]["url"].string {
+                linkM.bigImages.append(bigImage)
+            }
             
-            for image in images {
-                if let bigImage = image["source"] as! NSDictionary? {
-                    if let imageUrl = bigImage["url"] as! String? {
-                        linkM.bigImages.append(imageUrl)
-                    }
-                }
-                if let variants = image["variants"] as! NSDictionary? {
-                    if let gifs = variants["gif"] as! NSDictionary? {
-                        if let gifSource = gifs["source"] as! NSDictionary? {
-                            if let gifUrl = gifSource["url"] as! String? {
-                                linkM.additionalData = gifUrl
-                            }
-                        }
-                    } else {
-                        if let mp4 = variants["mp4"] as! NSDictionary? {
-                            if let mp4Source = mp4["source"] as! NSDictionary? {
-                                if let mp4Url = mp4Source["url"] as! String? {
-                                    linkM.additionalData = mp4Url
-                                }
-                            }
-                        }
+            if let variants = image["variants"].dictionary {
+                if let gifs = variants["gif"]?["source"]["url"].string {
+                    linkM.additionalData = gifs         
+                    
+                } else {
+                    if let mp4 = variants["mp4"]?["source"]["url"].string {
+                        linkM.additionalData = mp4
+                        
                     }
                 }
             }
+            
         }
         return linkM
     }

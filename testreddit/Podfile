@@ -5,6 +5,7 @@ target 'testreddit' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
   pod 'SwiftGifOrigin', '~> 1.6.1'
+  pod 'SwiftyJSON'
   
   target 'testredditTests' do
     inherit! :search_paths

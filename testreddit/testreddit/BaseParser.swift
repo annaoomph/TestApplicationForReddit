@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SwiftyJSON
 /// Parses json data from reddit.
 class BaseParser {
     
@@ -37,20 +37,27 @@ class BaseParser {
     ///   - json: json string
     ///   - inner: if this is an inner dictionary
     /// - Returns: a dictionary of items and the anchor to the last item (can be nil)
-    func getItems(json: [NSDictionary], inner: Bool = true) -> ([NSDictionary]?, String?) {
-        guard let kind = json[inner ? 0 : 1][BaseParser.KIND_KEY] as! String? else {
+    func getItems(json: JSON, inner: Bool = false) -> (JSON?, String?) {
+        var kindA: String
+        if inner {
+        guard let kind = json[1][BaseParser.KIND_KEY].string else {
+            return (nil, nil)
+            }
+            kindA = kind
+        } else {
+            guard let kind = json[BaseParser.KIND_KEY].string else {
+                return (nil, nil)
+            }
+            kindA = kind
+        }
+        
+        guard kindA == RedditTypes.LISTING.rawValue else {
             return (nil, nil)
         }
-        guard kind == RedditTypes.LISTING.rawValue else {
-            return (nil, nil)
-        }
-        guard let items = json[inner ? 0 : 1][BaseParser.DATA_KEY] as! NSDictionary? else {
-            return (nil, nil)
-        }
-        guard let itemsArray = items[BaseParser.CHILDREN_KEY] as! [NSDictionary]? else {
-            return (nil, nil)
-        }
-        let after = items[BaseParser.AFTER_KEY] as? String
+        let items = inner ? json[1][BaseParser.DATA_KEY] : json[BaseParser.DATA_KEY]
+        
+        let itemsArray = items[BaseParser.CHILDREN_KEY]
+        let after = items[BaseParser.AFTER_KEY].stringValue
         return (itemsArray, after)
     }
     
@@ -61,16 +68,12 @@ class BaseParser {
     ///   - item: item data with wrapping
     ///   - type: type of item needed
     /// - Returns: an optinal dictionaty with the item itself
-    func getItemData(item: NSDictionary, type: RedditTypes) -> NSDictionary? {
-        guard let itemKind = item[BaseParser.KIND_KEY] as! String? else {
-            return nil
-        }
+    func getItemData(item: JSON, type: RedditTypes) -> JSON? {
+        let itemKind = item[BaseParser.KIND_KEY].stringValue
         guard itemKind == type.rawValue else {
             return nil
         }
-        guard let itemData = item[BaseParser.DATA_KEY] as! NSDictionary? else {
-            return nil
-        }
+        let itemData = item[BaseParser.DATA_KEY]
         return itemData
     }
 }

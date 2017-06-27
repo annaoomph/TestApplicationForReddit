@@ -25,7 +25,7 @@ class WebService {
     ///   - httpMethod: method for the request
     ///   - body: optional parameter body
     ///   - callback: delegate
-    func makeRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: [NSDictionary]? , _ error: String?) -> Void) {
+    func makeRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: Data?, _ error: String?) -> Void) {
         var request = URLRequest(url:url)
         
         request.httpMethod = httpMethod.rawValue
@@ -48,11 +48,7 @@ class WebService {
                 callback(nil, error?.localizedDescription)
             }
             do {
-                if let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary {
-                    callback([json], nil)
-                } else if let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? [NSDictionary] {
-                    callback(json, nil)
-                }
+                callback(data, nil)
             } catch {
                 callback(nil, "Parse error.")
             }

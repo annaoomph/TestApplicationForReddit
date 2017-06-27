@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SwiftyJSON
 
 /// Parses comments from the server.
 class CommentsParser: BaseParser {
@@ -18,7 +18,7 @@ class CommentsParser: BaseParser {
     ///   - json: json string
     ///   - inner: if this is the inner list of comments connected to some other comment or this is the top of the comments tree
     /// - Returns: an optional list of comments
-    func parseItems(json: [NSDictionary], inner: Bool) -> [Comment]? {
+    func parseItems(json: JSON, inner: Bool) -> [Comment]? {
         var comments: [Comment] = []
         
         let (items, _) = getItems(json: json, inner: inner)
@@ -27,14 +27,15 @@ class CommentsParser: BaseParser {
             return nil
         }
         
-        for item: NSDictionary in itemsArray {
+        for (key, item) in itemsArray {
             guard let itemData = getItemData(item: item, type: RedditTypes.COMMENT) else {
                 continue
             }
             if let comment = Comment(JSONData: itemData) {
                 comments.append(comment)
-            }            
+            }
         }
+        
         return comments
     }
 }

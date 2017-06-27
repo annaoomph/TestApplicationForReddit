@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SwiftyJSON
 
 /// Loads data from server and parses it.
 class Loader {
@@ -34,17 +34,25 @@ class Loader {
                 } else {
                     if let dictionary = json {
                         let token = Token()
-                        if token.initWithJson(dictionary[0] as! [AnyHashable : Any]) {
-                            if token.token_type == Configuration.ACCEPTED_TOKEN_TYPE {
-                                PreferenceManager().saveToken(token: token.access_token)
-                                var expirationDate = Date()
-                                expirationDate.addTimeInterval(TimeInterval(Int(token.expires_in)))
-                                PreferenceManager().saveTokenExpirationDate(date: Int(expirationDate.timeIntervalSince1970))
-                                pendingRequest(token.access_token, nil)
+                        do {
+                            if let jsonDt = try JSONSerialization.jsonObject(with: dictionary, options: .mutableContainers) as? NSDictionary {
+                                if token.initWithJson(jsonDt as! [AnyHashable : Any]) {
+                                    if token.token_type == Configuration.ACCEPTED_TOKEN_TYPE {
+                                        PreferenceManager().saveToken(token: token.access_token)
+                                        var expirationDate = Date()
+                                        expirationDate.addTimeInterval(TimeInterval(Int(token.expires_in)))
+                                        PreferenceManager().saveTokenExpirationDate(date: Int(expirationDate.timeIntervalSince1970))
+                                        pendingRequest(token.access_token, nil)
+                                        
+                                    }
+                                }
+                            } else {
+                                pendingRequest(nil, "Could not retrieve token!")
                             }
-                        } else {
-                            pendingRequest(nil, "Could not retrieve token!")
+                        } catch {
+                            // callback(nil, "Parse error.")
                         }
+                        
                     }
                 }
             })
@@ -75,10 +83,7 @@ class Loader {
                         callback(nil, nil, error)
                     } else {
                         if let dictionary = json {
-                            if !more {
-                                CoreDataManager.instance.clear()
-                            }
-                            let (items, after) = PostsParser().parseItems(json: dictionary)
+                            let (items, after) = PostsParser().parseItems(json: JSON(data: dictionary), clearDb: !more)
                             
                             if let itemsArray = items {
                                 CoreDataManager.instance.saveContext()
@@ -110,12 +115,11 @@ class Loader {
                         callback(nil, error)
                     } else {
                         if let dictionary = json {
-                            if let items = CommentsParser().parseItems(json: dictionary, inner: false) {
+                            if let items = CommentsParser().parseItems(json: JSON(data: dictionary), inner: true) {
                                 callback(items, nil)
                             } else {
                                 callback(nil, "Could not get items.")
                             }
-                            
                         }
                     }})
             } else { callback(nil, error) }

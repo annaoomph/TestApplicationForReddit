@@ -36,6 +36,7 @@ class PopupViewController: UIViewController {
         self.removeAnimate()
     }
     
+    //MARK: - Animation
     func showAnimate() {
         self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         self.view.alpha = 0.0;

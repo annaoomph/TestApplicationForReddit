@@ -7,83 +7,118 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E1B0B55E286F4EDE58EF22CBF47D68F /* Pods-testreddit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F38EB7C5C17433EB8A6B5927A0FD29 /* Pods-testreddit-dummy.m */; };
+		16185620BB95EC47CEA9C674DDF5E948 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		18CA619787D0D64DC2212240FEE3D9DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		2705A573ECD574C433D9C409DE355F39 /* SwiftyJSON-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 63FEA3BF21B15E4A9FCF2DE241033331 /* SwiftyJSON-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2BD3CA656BCF1FB9EDAF7AAE3C0BA2BB /* Pods-testreddit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F38EB7C5C17433EB8A6B5927A0FD29 /* Pods-testreddit-dummy.m */; };
+		3FD386C492F5A40E5B7E303DA4C4F0C3 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9EA6E91007836E8576D2F47A6FDF41C /* SwiftyJSON.swift */; };
+		41C2768CA095E1E07FD45A163FD7F5CF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		4FA55BD4EC17FD6995F6509773F03822 /* Pods-testredditUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6433D180617785616103B20878C48C8D /* Pods-testredditUITests-dummy.m */; };
-		4FC4E9F46F8CB73B540B2772B353FA25 /* SwiftGifOrigin-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A79597D7691CDD2E78B165697E47D33 /* SwiftGifOrigin-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6500C75494F3E9533A46B88A2ECE4995 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FA5B18F2CB4D05C97B8A21400E4EC4 /* UIImage+Gif.swift */; };
 		6EA7D7F49A1C25D69BC36CC789B43D65 /* Pods-testredditUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A269B2FB1D6013AE202DAA18A99558B5 /* Pods-testredditUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A6640599BBA2B3EFB3FFEEE2E31B58 /* SwiftGifOrigin-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CE541C4BB84DC86FAD1C16BA0DDFE695 /* SwiftGifOrigin-dummy.m */; };
 		77AC4DC7E1BAC90C132C5C30C1759A6F /* Pods-testredditTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5270A86E7E4DF68BE0761A6419F8BE45 /* Pods-testredditTests-dummy.m */; };
-		79EACEF6F74138EE7A9245B84EAC48F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		8167DF652171DBF35ED31A47882A347C /* Pods-testredditTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B34A423BB312CAB40A6DCA2219E16C3 /* Pods-testredditTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A200A84A76DC509050478B3000D4317D /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38D269B98B57E56040F729F7EB45A57 /* UIImage+Gif.swift */; };
+		8EE8BA318803ECFAD8CF39851DFCB1FF /* SwiftyJSON-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5901E0E00252A7104DC86F9E3E01A44F /* SwiftyJSON-dummy.m */; };
 		A294DC181944CCBF9FF57DD1F3191A5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		A8BA6B80FE24CE6D79C809C55778020B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
-		ACEB4910AB53F4AE0A654DF98CFA9FBA /* Pods-testreddit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B13EE4760BFB0E13E71BE780CE14B5 /* Pods-testreddit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D275E89F6601C9BCD4FDD8C50E659FD1 /* SwiftGifOrigin-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4196D8AF155DA5471346375971BE66 /* SwiftGifOrigin-dummy.m */; };
-		ECD325FD0108A86C231B66490B4594F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		E4042D963B6B33C8AD3443F103C927B7 /* Pods-testreddit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B13EE4760BFB0E13E71BE780CE14B5 /* Pods-testreddit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EF3C23D8404FFA18C93175903D648002 /* SwiftGifOrigin-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7999CC0928D6E551BA527219CCA96FC6 /* SwiftGifOrigin-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B66F432597F0E90AFD0027848CFD4BB9 /* PBXContainerItemProxy */ = {
+		3C1B0B530C91461A9D8A3721AB61C698 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = FC2838D0636D33BEE80021CCCCEE9748;
+			remoteGlobalIDString = F80C1B494AD4D18BAC945410D1F0001E;
 			remoteInfo = SwiftGifOrigin;
+		};
+		41EE1029315A86A590311798A584AF03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27BFC6A195B2D7A1A965453233F6962E;
+			remoteInfo = SwiftyJSON;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A79597D7691CDD2E78B165697E47D33 /* SwiftGifOrigin-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftGifOrigin-umbrella.h"; sourceTree = "<group>"; };
+		0221C96DEE0848D6A899E433CC3F6991 /* SwiftGifOrigin-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftGifOrigin-prefix.pch"; sourceTree = "<group>"; };
 		0BF83EBA1479CF4163998AD6EA605670 /* Pods-testredditUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-testredditUITests-acknowledgements.plist"; sourceTree = "<group>"; };
-		0C907120A7715AB90284F3F20C89C58C /* SwiftGifOrigin-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftGifOrigin-prefix.pch"; sourceTree = "<group>"; };
+		0D70C463365EE30AF37B1D6306E97AA5 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftyJSON.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4CBCAE7F7F60973A2F471770F71F6A /* Pods-testredditTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-testredditTests-frameworks.sh"; sourceTree = "<group>"; };
-		0EE7D4F1AE2E9D00CDB3A7514276D6AA /* Pods_testreddit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_testreddit.framework; path = "Pods-testreddit.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		10156AC31C20FAEE11F22156D541BE63 /* Pods-testredditUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-testredditUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1D10D9717252319F5D5855BED5CFE810 /* Pods_testredditTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_testredditTests.framework; path = "Pods-testredditTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		11C47AB892A2833FBCDA6B50017C0EDC /* SwiftGifOrigin.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftGifOrigin.modulemap; sourceTree = "<group>"; };
 		1E12184A13D46ED2CAFD029C84E1B289 /* Pods-testredditTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-testredditTests.modulemap"; sourceTree = "<group>"; };
-		2452DFF9195C984A3EC86FC7EAAE1F7E /* SwiftGifOrigin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftGifOrigin.framework; path = SwiftGifOrigin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EC4D6500C9282D03ECF71172277B5B1 /* SwiftGifOrigin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftGifOrigin.framework; path = SwiftGifOrigin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33936F6F747AC34C6D20DD2DE5D083F5 /* Pods_testredditTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_testredditTests.framework; path = "Pods-testredditTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		344FFAFD078A1EC068216A43C8B76F32 /* Pods-testredditTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-testredditTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		39A662CF32C99C46E0010D7E7A641198 /* Pods-testreddit-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-testreddit-resources.sh"; sourceTree = "<group>"; };
 		4921D4B917B049F6D0719604BF9038F7 /* Pods-testredditUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-testredditUITests-frameworks.sh"; sourceTree = "<group>"; };
 		4E1FB79C9CA37E831F9D6E244D677830 /* Pods-testredditTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-testredditTests.debug.xcconfig"; sourceTree = "<group>"; };
 		516655B5E0B0AE7A2650FF57F3B87073 /* Pods-testredditUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-testredditUITests.modulemap"; sourceTree = "<group>"; };
+		51FA5B18F2CB4D05C97B8A21400E4EC4 /* UIImage+Gif.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Gif.swift"; path = "SwiftGifCommon/UIImage+Gif.swift"; sourceTree = "<group>"; };
 		5270A86E7E4DF68BE0761A6419F8BE45 /* Pods-testredditTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-testredditTests-dummy.m"; sourceTree = "<group>"; };
-		5F82892FA6028D0F84BB9EC798A2E7CE /* SwiftGifOrigin.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftGifOrigin.modulemap; sourceTree = "<group>"; };
-		63E7343B4623BF9ACC81098BFF577B13 /* SwiftGifOrigin.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftGifOrigin.xcconfig; sourceTree = "<group>"; };
+		5901E0E00252A7104DC86F9E3E01A44F /* SwiftyJSON-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftyJSON-dummy.m"; sourceTree = "<group>"; };
+		60F459A4A05045140107F7CC8D9FBA15 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63FEA3BF21B15E4A9FCF2DE241033331 /* SwiftyJSON-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyJSON-umbrella.h"; sourceTree = "<group>"; };
 		6433D180617785616103B20878C48C8D /* Pods-testredditUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-testredditUITests-dummy.m"; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6DF435F531F1092FF384FF3B32B8A2AA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		772627B8C907F857E26398194979672E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78699D707A45033DD05906CB74D6FEDE /* Pods-testredditUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-testredditUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		7999CC0928D6E551BA527219CCA96FC6 /* SwiftGifOrigin-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftGifOrigin-umbrella.h"; sourceTree = "<group>"; };
+		7A131B240E2BB90A61804BEF4545CCC3 /* SwiftyJSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftyJSON.modulemap; sourceTree = "<group>"; };
 		7C0C32104E50085DFE51F8C5FC779D64 /* Pods-testreddit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-testreddit.release.xcconfig"; sourceTree = "<group>"; };
 		877851EFF4C898C03C316BF95ED22A27 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		925F6DE856F9DBC90AE7E3DA4DF5A8A5 /* SwiftyJSON.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyJSON.xcconfig; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9724781B940B056893527A171C73645F /* SwiftyJSON-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyJSON-prefix.pch"; sourceTree = "<group>"; };
+		97CB8203FAD2F30F3EB691CD0603E451 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B34A423BB312CAB40A6DCA2219E16C3 /* Pods-testredditTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-testredditTests-umbrella.h"; sourceTree = "<group>"; };
 		A269B2FB1D6013AE202DAA18A99558B5 /* Pods-testredditUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-testredditUITests-umbrella.h"; sourceTree = "<group>"; };
-		A38D269B98B57E56040F729F7EB45A57 /* UIImage+Gif.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Gif.swift"; path = "SwiftGifCommon/UIImage+Gif.swift"; sourceTree = "<group>"; };
 		A3ADAFB044C33196A4FC75BE4FD6EF6C /* Pods-testredditTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-testredditTests.release.xcconfig"; sourceTree = "<group>"; };
 		A7692AB3DE3BFAB0D6D3B69767688ED2 /* Pods-testreddit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-testreddit-acknowledgements.plist"; sourceTree = "<group>"; };
+		AE08BB28F38E7E246CDA06C994252BB7 /* SwiftGifOrigin.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftGifOrigin.xcconfig; sourceTree = "<group>"; };
 		BC39D2FDB778A3789771FA2328FB0108 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2582255562FDF7FB0ADE0CFEF8BAB33 /* Pods-testredditUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-testredditUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C5EADE7E5FF71B494E86C6CA5EDC090D /* Pods-testreddit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-testreddit.debug.xcconfig"; sourceTree = "<group>"; };
 		C6B1543FEDEDD4E42535142C2A747F36 /* Pods-testredditTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-testredditTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C8F38EB7C5C17433EB8A6B5927A0FD29 /* Pods-testreddit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-testreddit-dummy.m"; sourceTree = "<group>"; };
-		CF85B01CB88758231A9746CB25AC3B5D /* Pods_testredditUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_testredditUITests.framework; path = "Pods-testredditUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE541C4BB84DC86FAD1C16BA0DDFE695 /* SwiftGifOrigin-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftGifOrigin-dummy.m"; sourceTree = "<group>"; };
+		D11B76E44D1472AF0C7339A74D4898D2 /* Pods_testreddit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_testreddit.framework; path = "Pods-testreddit.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDA9C086BF7ECA8FE24947F003D5CABE /* Pods_testredditUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_testredditUITests.framework; path = "Pods-testredditUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0B13EE4760BFB0E13E71BE780CE14B5 /* Pods-testreddit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-testreddit-umbrella.h"; sourceTree = "<group>"; };
 		E50F54486CBC9891FB8584CE2857D02F /* Pods-testreddit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-testreddit.modulemap"; sourceTree = "<group>"; };
 		EB98AA48B132E8C7DA0A5BEE1875C0D4 /* Pods-testreddit-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-testreddit-acknowledgements.markdown"; sourceTree = "<group>"; };
 		EDE68B58E1448C5850DE5AFD7662EEF1 /* Pods-testredditTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-testredditTests-resources.sh"; sourceTree = "<group>"; };
 		F9E76239964FE3D09D690600EB9322B1 /* Pods-testreddit-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-testreddit-frameworks.sh"; sourceTree = "<group>"; };
-		FA4196D8AF155DA5471346375971BE66 /* SwiftGifOrigin-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftGifOrigin-dummy.m"; sourceTree = "<group>"; };
+		F9EA6E91007836E8576D2F47A6FDF41C /* SwiftyJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Source/SwiftyJSON.swift; sourceTree = "<group>"; };
 		FD0D25C118942C402E9A6749AF93D3CB /* Pods-testredditUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-testredditUITests-resources.sh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		49D11C8457698CE448ABD80BE4641173 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18CA619787D0D64DC2212240FEE3D9DE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		80DD58F4899AF44550645BED642B897F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A294DC181944CCBF9FF57DD1F3191A5E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86EA98E00412DF3BF191FA279100D957 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16185620BB95EC47CEA9C674DDF5E948 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,47 +130,62 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D97DDA6D451E4C532FA22EB002AD2887 /* Frameworks */ = {
+		F4C5B146707758E41159DBABCAE0BC2B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79EACEF6F74138EE7A9245B84EAC48F6 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DF73B7D63B9DFB6D625970D8CCE1FC00 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ECD325FD0108A86C231B66490B4594F6 /* Foundation.framework in Frameworks */,
+				41C2768CA095E1E07FD45A163FD7F5CF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1FD8CE5DEB17C1C76F236ADF231BD040 /* Support Files */ = {
+		1D40972606EBA850D47CE326CC81F2B7 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				772627B8C907F857E26398194979672E /* Info.plist */,
-				5F82892FA6028D0F84BB9EC798A2E7CE /* SwiftGifOrigin.modulemap */,
-				63E7343B4623BF9ACC81098BFF577B13 /* SwiftGifOrigin.xcconfig */,
-				FA4196D8AF155DA5471346375971BE66 /* SwiftGifOrigin-dummy.m */,
-				0C907120A7715AB90284F3F20C89C58C /* SwiftGifOrigin-prefix.pch */,
-				0A79597D7691CDD2E78B165697E47D33 /* SwiftGifOrigin-umbrella.h */,
+				60F459A4A05045140107F7CC8D9FBA15 /* Info.plist */,
+				11C47AB892A2833FBCDA6B50017C0EDC /* SwiftGifOrigin.modulemap */,
+				AE08BB28F38E7E246CDA06C994252BB7 /* SwiftGifOrigin.xcconfig */,
+				CE541C4BB84DC86FAD1C16BA0DDFE695 /* SwiftGifOrigin-dummy.m */,
+				0221C96DEE0848D6A899E433CC3F6991 /* SwiftGifOrigin-prefix.pch */,
+				7999CC0928D6E551BA527219CCA96FC6 /* SwiftGifOrigin-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/SwiftGifOrigin";
 			sourceTree = "<group>";
 		};
-		26699727C250983FF494AD0DE3CFBC88 /* SwiftGifOrigin */ = {
+		1F664809B0C0A2F9CD626A0CFDCEE209 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				A38D269B98B57E56040F729F7EB45A57 /* UIImage+Gif.swift */,
-				1FD8CE5DEB17C1C76F236ADF231BD040 /* Support Files */,
+				97CB8203FAD2F30F3EB691CD0603E451 /* Info.plist */,
+				7A131B240E2BB90A61804BEF4545CCC3 /* SwiftyJSON.modulemap */,
+				925F6DE856F9DBC90AE7E3DA4DF5A8A5 /* SwiftyJSON.xcconfig */,
+				5901E0E00252A7104DC86F9E3E01A44F /* SwiftyJSON-dummy.m */,
+				9724781B940B056893527A171C73645F /* SwiftyJSON-prefix.pch */,
+				63FEA3BF21B15E4A9FCF2DE241033331 /* SwiftyJSON-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SwiftyJSON";
+			sourceTree = "<group>";
+		};
+		2C35D96A8C502AAFEC62FF65CB75E88F /* SwiftGifOrigin */ = {
+			isa = PBXGroup;
+			children = (
+				51FA5B18F2CB4D05C97B8A21400E4EC4 /* UIImage+Gif.swift */,
+				1D40972606EBA850D47CE326CC81F2B7 /* Support Files */,
 			);
 			name = SwiftGifOrigin;
 			path = SwiftGifOrigin;
+			sourceTree = "<group>";
+		};
+		2DA6E8DEF5A1A022CAB9FEA1DC82A188 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2C35D96A8C502AAFEC62FF65CB75E88F /* SwiftGifOrigin */,
+				9C9FE61AFB9F84BE406DCF803718E272 /* SwiftyJSON */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		4311386D34C7440EBBB9915E7F829F23 /* Pods-testredditUITests */ = {
@@ -154,17 +204,6 @@
 			);
 			name = "Pods-testredditUITests";
 			path = "Target Support Files/Pods-testredditUITests";
-			sourceTree = "<group>";
-		};
-		5138CD5C7B185154FDB4BF46AA1D8922 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0EE7D4F1AE2E9D00CDB3A7514276D6AA /* Pods_testreddit.framework */,
-				1D10D9717252319F5D5855BED5CFE810 /* Pods_testredditTests.framework */,
-				CF85B01CB88758231A9746CB25AC3B5D /* Pods_testredditUITests.framework */,
-				2452DFF9195C984A3EC86FC7EAAE1F7E /* SwiftGifOrigin.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		63DE2530306A33347C95345EE14C994E /* Pods-testreddit */ = {
@@ -190,8 +229,8 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
-				CBDE1A1234E4B1D43F65A57BED38E87C /* Pods */,
-				5138CD5C7B185154FDB4BF46AA1D8922 /* Products */,
+				2DA6E8DEF5A1A022CAB9FEA1DC82A188 /* Pods */,
+				B360548C5FC67CA536D2B05C9D094029 /* Products */,
 				848C716515027BEE29122425A6A0584B /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -206,20 +245,34 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		9C9FE61AFB9F84BE406DCF803718E272 /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				F9EA6E91007836E8576D2F47A6FDF41C /* SwiftyJSON.swift */,
+				1F664809B0C0A2F9CD626A0CFDCEE209 /* Support Files */,
+			);
+			name = SwiftyJSON;
+			path = SwiftyJSON;
+			sourceTree = "<group>";
+		};
+		B360548C5FC67CA536D2B05C9D094029 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D11B76E44D1472AF0C7339A74D4898D2 /* Pods_testreddit.framework */,
+				33936F6F747AC34C6D20DD2DE5D083F5 /* Pods_testredditTests.framework */,
+				DDA9C086BF7ECA8FE24947F003D5CABE /* Pods_testredditUITests.framework */,
+				2EC4D6500C9282D03ECF71172277B5B1 /* SwiftGifOrigin.framework */,
+				0D70C463365EE30AF37B1D6306E97AA5 /* SwiftyJSON.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				D35AF013A5F0BAD4F32504907A52519E /* iOS */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CBDE1A1234E4B1D43F65A57BED38E87C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				26699727C250983FF494AD0DE3CFBC88 /* SwiftGifOrigin */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		D2083DE9EE9014E4B9B791B3B688F652 /* Pods-testredditTests */ = {
@@ -251,6 +304,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		2B20EF61FB9E03CE3C62CD658245AE7B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2705A573ECD574C433D9C409DE355F39 /* SwiftyJSON-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2CBCAC7FC13DA7264FC332049A0D2D36 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -259,19 +320,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5B18250A04293B1BD64C63E96B637DB6 /* Headers */ = {
+		5A7918E591F35EA83020C72968AE28EB /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FC4E9F46F8CB73B540B2772B353FA25 /* SwiftGifOrigin-umbrella.h in Headers */,
+				EF3C23D8404FFA18C93175903D648002 /* SwiftGifOrigin-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D74D9EF9BAE29966AE00727F96DC102E /* Headers */ = {
+		9895D17FC9C6D6E1A675CF9478BE3A0A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACEB4910AB53F4AE0A654DF98CFA9FBA /* Pods-testreddit-umbrella.h in Headers */,
+				E4042D963B6B33C8AD3443F103C927B7 /* Pods-testreddit-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,22 +347,40 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		713D95D5FAFB1800B99D8638D3D02E14 /* Pods-testreddit */ = {
+		27BFC6A195B2D7A1A965453233F6962E /* SwiftyJSON */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4042EEDDC73F3CC34F8B603F2659F05 /* Build configuration list for PBXNativeTarget "Pods-testreddit" */;
+			buildConfigurationList = 09F1E55838E0BA4EA6F199607DE0E3F6 /* Build configuration list for PBXNativeTarget "SwiftyJSON" */;
 			buildPhases = (
-				0B399521779D4173B61340D75D44DEAA /* Sources */,
-				D97DDA6D451E4C532FA22EB002AD2887 /* Frameworks */,
-				D74D9EF9BAE29966AE00727F96DC102E /* Headers */,
+				BB523C2F27051770D8A3BDD93D17D838 /* Sources */,
+				49D11C8457698CE448ABD80BE4641173 /* Frameworks */,
+				2B20EF61FB9E03CE3C62CD658245AE7B /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				05EE712C25A6C52F631D173929384D1D /* PBXTargetDependency */,
+			);
+			name = SwiftyJSON;
+			productName = SwiftyJSON;
+			productReference = 0D70C463365EE30AF37B1D6306E97AA5 /* SwiftyJSON.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B4690D1D4BA2D97980672D8860FDC51C /* Pods-testreddit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 949AC9E67256064F076E70F4C4FF3980 /* Build configuration list for PBXNativeTarget "Pods-testreddit" */;
+			buildPhases = (
+				7CD7053F6D90A4AA074CC92DDC6CA593 /* Sources */,
+				86EA98E00412DF3BF191FA279100D957 /* Frameworks */,
+				9895D17FC9C6D6E1A675CF9478BE3A0A /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9A622CA985315ECCDC4D8FE740E7D3E2 /* PBXTargetDependency */,
+				CE9BEF9C19470A4EF1611DA936F977C2 /* PBXTargetDependency */,
 			);
 			name = "Pods-testreddit";
 			productName = "Pods-testreddit";
-			productReference = 0EE7D4F1AE2E9D00CDB3A7514276D6AA /* Pods_testreddit.framework */;
+			productReference = D11B76E44D1472AF0C7339A74D4898D2 /* Pods_testreddit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B968B31568B34B741AF7736580B5520A /* Pods-testredditUITests */ = {
@@ -318,7 +397,7 @@
 			);
 			name = "Pods-testredditUITests";
 			productName = "Pods-testredditUITests";
-			productReference = CF85B01CB88758231A9746CB25AC3B5D /* Pods_testredditUITests.framework */;
+			productReference = DDA9C086BF7ECA8FE24947F003D5CABE /* Pods_testredditUITests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E62FDDC5E5449BD0888BA0AE754AFD34 /* Pods-testredditTests */ = {
@@ -335,16 +414,16 @@
 			);
 			name = "Pods-testredditTests";
 			productName = "Pods-testredditTests";
-			productReference = 1D10D9717252319F5D5855BED5CFE810 /* Pods_testredditTests.framework */;
+			productReference = 33936F6F747AC34C6D20DD2DE5D083F5 /* Pods_testredditTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		FC2838D0636D33BEE80021CCCCEE9748 /* SwiftGifOrigin */ = {
+		F80C1B494AD4D18BAC945410D1F0001E /* SwiftGifOrigin */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0D8CA0919312FB1544D722E4E5196047 /* Build configuration list for PBXNativeTarget "SwiftGifOrigin" */;
+			buildConfigurationList = 9B3587CDBFF4864E198F31AF26B96CEC /* Build configuration list for PBXNativeTarget "SwiftGifOrigin" */;
 			buildPhases = (
-				1DF61321D19FD511B97E8719F239C217 /* Sources */,
-				DF73B7D63B9DFB6D625970D8CCE1FC00 /* Frameworks */,
-				5B18250A04293B1BD64C63E96B637DB6 /* Headers */,
+				E0D51FC3165A862EA9C0104DEF7FD4AE /* Sources */,
+				F4C5B146707758E41159DBABCAE0BC2B /* Frameworks */,
+				5A7918E591F35EA83020C72968AE28EB /* Headers */,
 			);
 			buildRules = (
 			);
@@ -352,7 +431,7 @@
 			);
 			name = SwiftGifOrigin;
 			productName = SwiftGifOrigin;
-			productReference = 2452DFF9195C984A3EC86FC7EAAE1F7E /* SwiftGifOrigin.framework */;
+			productReference = 2EC4D6500C9282D03ECF71172277B5B1 /* SwiftGifOrigin.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -372,41 +451,33 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 5138CD5C7B185154FDB4BF46AA1D8922 /* Products */;
+			productRefGroup = B360548C5FC67CA536D2B05C9D094029 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				713D95D5FAFB1800B99D8638D3D02E14 /* Pods-testreddit */,
+				B4690D1D4BA2D97980672D8860FDC51C /* Pods-testreddit */,
 				E62FDDC5E5449BD0888BA0AE754AFD34 /* Pods-testredditTests */,
 				B968B31568B34B741AF7736580B5520A /* Pods-testredditUITests */,
-				FC2838D0636D33BEE80021CCCCEE9748 /* SwiftGifOrigin */,
+				F80C1B494AD4D18BAC945410D1F0001E /* SwiftGifOrigin */,
+				27BFC6A195B2D7A1A965453233F6962E /* SwiftyJSON */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0B399521779D4173B61340D75D44DEAA /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2E1B0B55E286F4EDE58EF22CBF47D68F /* Pods-testreddit-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1DF61321D19FD511B97E8719F239C217 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D275E89F6601C9BCD4FDD8C50E659FD1 /* SwiftGifOrigin-dummy.m in Sources */,
-				A200A84A76DC509050478B3000D4317D /* UIImage+Gif.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DF14C5F7D84575438D6DF44C5A65EB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				77AC4DC7E1BAC90C132C5C30C1759A6F /* Pods-testredditTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CD7053F6D90A4AA074CC92DDC6CA593 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BD3CA656BCF1FB9EDAF7AAE3C0BA2BB /* Pods-testreddit-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,53 +489,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BB523C2F27051770D8A3BDD93D17D838 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE8BA318803ECFAD8CF39851DFCB1FF /* SwiftyJSON-dummy.m in Sources */,
+				3FD386C492F5A40E5B7E303DA4C4F0C3 /* SwiftyJSON.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0D51FC3165A862EA9C0104DEF7FD4AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70A6640599BBA2B3EFB3FFEEE2E31B58 /* SwiftGifOrigin-dummy.m in Sources */,
+				6500C75494F3E9533A46B88A2ECE4995 /* UIImage+Gif.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		05EE712C25A6C52F631D173929384D1D /* PBXTargetDependency */ = {
+		9A622CA985315ECCDC4D8FE740E7D3E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftGifOrigin;
-			target = FC2838D0636D33BEE80021CCCCEE9748 /* SwiftGifOrigin */;
-			targetProxy = B66F432597F0E90AFD0027848CFD4BB9 /* PBXContainerItemProxy */;
+			target = F80C1B494AD4D18BAC945410D1F0001E /* SwiftGifOrigin */;
+			targetProxy = 3C1B0B530C91461A9D8A3721AB61C698 /* PBXContainerItemProxy */;
+		};
+		CE9BEF9C19470A4EF1611DA936F977C2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftyJSON;
+			target = 27BFC6A195B2D7A1A965453233F6962E /* SwiftyJSON */;
+			targetProxy = 41EE1029315A86A590311798A584AF03 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		02D284124A5A22B5576AB467C7C1425F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63E7343B4623BF9ACC81098BFF577B13 /* SwiftGifOrigin.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftGifOrigin/SwiftGifOrigin-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftGifOrigin/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SwiftGifOrigin/SwiftGifOrigin.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = SwiftGifOrigin;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		0A9AC365974611AEC18A9825A1F407B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A3ADAFB044C33196A4FC75BE4FD6EF6C /* Pods-testredditTests.release.xcconfig */;
@@ -495,40 +555,6 @@
 				PRODUCT_NAME = Pods_testredditTests;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		0EBF6A3D7617DBB7E5B402711B861230 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63E7343B4623BF9ACC81098BFF577B13 /* SwiftGifOrigin.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftGifOrigin/SwiftGifOrigin-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftGifOrigin/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SwiftGifOrigin/SwiftGifOrigin.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = SwiftGifOrigin;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -583,7 +609,150 @@
 			};
 			name = Debug;
 		};
-		1D2AAE2F9C14C7DBF86F516A83395D42 /* Release */ = {
+		18B07CAD11CD714FF599B86C2F704D06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C5EADE7E5FF71B494E86C6CA5EDC090D /* Pods-testreddit.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-testreddit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-testreddit/Pods-testreddit.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_testreddit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		216EF4D67DA3C38D175A54291DDE1F98 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 925F6DE856F9DBC90AE7E3DA4DF5A8A5 /* SwiftyJSON.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftyJSON/SwiftyJSON-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftyJSON/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SwiftyJSON/SwiftyJSON.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SwiftyJSON;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		49A9C27982F03F70E8402976AA2AF6BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE08BB28F38E7E246CDA06C994252BB7 /* SwiftGifOrigin.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftGifOrigin/SwiftGifOrigin-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftGifOrigin/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SwiftGifOrigin/SwiftGifOrigin.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SwiftGifOrigin;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4A39A47228AA4EB8C1291B12CF5B81BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE08BB28F38E7E246CDA06C994252BB7 /* SwiftGifOrigin.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftGifOrigin/SwiftGifOrigin-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftGifOrigin/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SwiftGifOrigin/SwiftGifOrigin.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SwiftGifOrigin;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		59A3EE15D188FD1DFCE90049FFD92D26 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7C0C32104E50085DFE51F8C5FC779D64 /* Pods-testreddit.release.xcconfig */;
 			buildSettings = {
@@ -701,45 +870,6 @@
 			};
 			name = Debug;
 		};
-		B08C8F395D66D0464115461E9BA549DA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C5EADE7E5FF71B494E86C6CA5EDC090D /* Pods-testreddit.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-testreddit/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-testreddit/Pods-testreddit.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_testreddit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		B663BD63A61B1E76E9292B3F0716EDBE /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C2582255562FDF7FB0ADE0CFEF8BAB33 /* Pods-testredditUITests.release.xcconfig */;
@@ -812,14 +942,48 @@
 			};
 			name = Debug;
 		};
+		F5EA8381F017D3E1C73B70F7DB09EDC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 925F6DE856F9DBC90AE7E3DA4DF5A8A5 /* SwiftyJSON.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftyJSON/SwiftyJSON-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftyJSON/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SwiftyJSON/SwiftyJSON.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SwiftyJSON;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0D8CA0919312FB1544D722E4E5196047 /* Build configuration list for PBXNativeTarget "SwiftGifOrigin" */ = {
+		09F1E55838E0BA4EA6F199607DE0E3F6 /* Build configuration list for PBXNativeTarget "SwiftyJSON" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				02D284124A5A22B5576AB467C7C1425F /* Debug */,
-				0EBF6A3D7617DBB7E5B402711B861230 /* Release */,
+				216EF4D67DA3C38D175A54291DDE1F98 /* Debug */,
+				F5EA8381F017D3E1C73B70F7DB09EDC1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -851,11 +1015,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E4042EEDDC73F3CC34F8B603F2659F05 /* Build configuration list for PBXNativeTarget "Pods-testreddit" */ = {
+		949AC9E67256064F076E70F4C4FF3980 /* Build configuration list for PBXNativeTarget "Pods-testreddit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B08C8F395D66D0464115461E9BA549DA /* Debug */,
-				1D2AAE2F9C14C7DBF86F516A83395D42 /* Release */,
+				18B07CAD11CD714FF599B86C2F704D06 /* Debug */,
+				59A3EE15D188FD1DFCE90049FFD92D26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9B3587CDBFF4864E198F31AF26B96CEC /* Build configuration list for PBXNativeTarget "SwiftGifOrigin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49A9C27982F03F70E8402976AA2AF6BA /* Debug */,
+				4A39A47228AA4EB8C1291B12CF5B81BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

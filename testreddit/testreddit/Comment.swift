@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SwiftyJSON
 /// A class describing a reddit comment (can include a tree of replies).
 public class Comment: NSObject {
     
@@ -30,24 +30,12 @@ public class Comment: NSObject {
     /// A list of replies to the comment.
     var replies: [Comment]?
     
-    init?(JSONData: NSDictionary!) {
-        
-        guard let score = JSONData["score"] as! Int?,
-            let created = JSONData["created"] as! Int?,
-            let author = JSONData["author"] as! String?,
-            let body = JSONData["body"] as! String?
-            else {
-                return nil
-        }
-        
-        self.score = score
-        self.created = created
-        self.author = author
-        self.body = body
-        
-        if let replies = JSONData["replies"] as? NSDictionary {
-            self.replies = CommentsParser().parseItems(json: [replies], inner: true)
-        }
+    init?(JSONData: JSON) {
+        self.score = JSONData["score"].intValue
+        self.created = JSONData["created"].intValue
+        self.author = JSONData["author"].stringValue
+        self.body = JSONData["body"].stringValue
+        self.replies = CommentsParser().parseItems(json: JSONData["replies"], inner: false)        
         self.opened = false
         super.init()
     }
