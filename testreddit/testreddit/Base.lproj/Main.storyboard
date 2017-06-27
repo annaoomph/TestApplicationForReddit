@@ -24,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PEV-kr-uXQ" id="LRQ-Le-ju9">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="89"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FXx-bZ-jhC">
@@ -116,7 +116,7 @@
                                         <rect key="frame" x="0.0" y="28" width="359" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Sem-ie-Jpr" id="kpU-kH-wXA">
-                                            <rect key="frame" x="0.0" y="0.0" width="359" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="359" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1rd-MZ-uGf">
@@ -223,15 +223,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RrL-3T-Hz8">
-                                <rect key="frame" x="0.0" y="146" width="375" height="375"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="RrL-3T-Hz8" secondAttribute="height" multiplier="1:1" id="38u-bN-KuR"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RrL-3T-Hz8">
+                                <rect key="frame" x="8" y="28" width="359" height="10"/>
                             </imageView>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-AV-gXZ">
+                                <rect key="frame" x="8" y="38" width="359" height="591"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="pFg-M4-sa7" appends="YES" id="kpC-Sb-Vwr"/>
+                                </connections>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VkR-Oe-NGp">
                                 <rect key="frame" x="8" y="629" width="359" height="30"/>
                                 <color key="backgroundColor" red="0.97999286167512689" green="0.97999286167512689" blue="0.97999286167512689" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="GO3-Cq-gfv"/>
+                                </constraints>
                                 <state key="normal" title="Close"/>
                                 <connections>
                                     <action selector="closePopup:" destination="mLw-lF-TPS" eventType="touchUpInside" id="fDt-6L-bfU"/>
@@ -240,12 +248,18 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.80145012842465757" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="VkR-Oe-NGp" firstAttribute="top" secondItem="wMd-AV-gXZ" secondAttribute="bottom" id="6QC-Vk-gTm"/>
                             <constraint firstItem="VkR-Oe-NGp" firstAttribute="leading" secondItem="yGS-Mr-CB6" secondAttribute="leading" constant="8" id="6hz-TA-1w5"/>
-                            <constraint firstItem="RrL-3T-Hz8" firstAttribute="leading" secondItem="yGS-Mr-CB6" secondAttribute="leading" id="Toa-ii-i8q"/>
+                            <constraint firstItem="wMd-AV-gXZ" firstAttribute="centerX" secondItem="yGS-Mr-CB6" secondAttribute="centerX" id="Aox-XV-nha"/>
+                            <constraint firstItem="RrL-3T-Hz8" firstAttribute="top" secondItem="amU-XB-EMB" secondAttribute="bottom" constant="8" id="Gs3-1a-eUQ"/>
+                            <constraint firstAttribute="trailing" secondItem="wMd-AV-gXZ" secondAttribute="trailing" constant="8" id="Jox-nl-mdY"/>
+                            <constraint firstItem="wMd-AV-gXZ" firstAttribute="top" secondItem="RrL-3T-Hz8" secondAttribute="bottom" id="TOv-T1-HdY"/>
+                            <constraint firstItem="RrL-3T-Hz8" firstAttribute="leading" secondItem="yGS-Mr-CB6" secondAttribute="leading" constant="8" id="cAA-J9-gD8"/>
+                            <constraint firstItem="wMd-AV-gXZ" firstAttribute="leading" secondItem="yGS-Mr-CB6" secondAttribute="leading" constant="8" id="deW-KS-ZMg"/>
                             <constraint firstItem="rSl-PB-La1" firstAttribute="top" secondItem="VkR-Oe-NGp" secondAttribute="bottom" constant="8" id="gUL-8M-kyR"/>
-                            <constraint firstItem="RrL-3T-Hz8" firstAttribute="centerY" secondItem="yGS-Mr-CB6" secondAttribute="centerY" id="tAf-5x-zFT"/>
+                            <constraint firstItem="RrL-3T-Hz8" firstAttribute="centerX" secondItem="yGS-Mr-CB6" secondAttribute="centerX" id="s1d-0H-hwM"/>
+                            <constraint firstAttribute="trailing" secondItem="RrL-3T-Hz8" secondAttribute="trailing" constant="8" id="tVg-lL-dcm"/>
                             <constraint firstAttribute="trailing" secondItem="VkR-Oe-NGp" secondAttribute="trailing" constant="8" id="yf2-Ck-w0k"/>
-                            <constraint firstAttribute="trailing" secondItem="RrL-3T-Hz8" secondAttribute="trailing" id="ziX-vF-8cA"/>
                         </constraints>
                     </view>
                     <connections>
@@ -254,6 +268,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGo-RU-OTU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="pFg-M4-sa7">
+                    <connections>
+                        <action selector="close:" destination="mLw-lF-TPS" id="HUR-VK-Odc"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2181.5999999999999" y="62.518740629685162"/>
         </scene>

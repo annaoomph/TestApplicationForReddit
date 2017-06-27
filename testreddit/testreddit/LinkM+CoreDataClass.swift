@@ -19,6 +19,8 @@ public class LinkM: NSManagedObject {
     //A list of url's to the small resolution images connected with the post.
     public var smallImages: [String?] = []
     
+    public var additionalData: String?
+    
     class func create(JSONData: NSDictionary!) -> LinkM? {
         let linkM = NSEntityDescription.insertNewObject(forEntityName: "LinkM", into: CoreDataManager.instance.managedObjectContext) as! LinkM
         
@@ -70,7 +72,25 @@ public class LinkM: NSManagedObject {
                 if (linkM.bigImages.count > linkM.smallImages.count) {
                     linkM.smallImages.append(nil)
                 }
+                if let variants = image["variants"] as! NSDictionary? {
+                    if let gifs = variants["gif"] as! NSDictionary? {
+                        if let gifSource = gifs["source"] as! NSDictionary? {
+                            if let gifUrl = gifSource["url"] as! String? {
+                                linkM.additionalData = gifUrl
+                            }
+                        }
+                    } else
+                        if let mp4 = variants["mp4"] as! NSDictionary? {
+                            if let mp4Source = mp4["source"] as! NSDictionary? {
+                                if let mp4Url = mp4Source["url"] as! String? {
+                                    linkM.additionalData = mp4Url
+                                }
+                            }
+                    }
+                    
+                }
             }
+            
         }
         return linkM
     }

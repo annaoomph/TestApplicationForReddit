@@ -23,6 +23,10 @@ class PopupViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func close(_ sender: UITapGestureRecognizer) {
+        self.view.removeFromSuperview()
+    }
+    
     @IBAction func closePopup(_ sender: UIButton) {
         self.view.removeFromSuperview()
     }

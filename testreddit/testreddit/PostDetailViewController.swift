@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SwiftGifOrigin
 
 /// A controller for the post view.
 class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -16,12 +16,14 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Shown post (link).
     var post: LinkM?
+    
     /// A list of comments for the shown post.
     var comments: [Comment] = []
     
     let loader = Loader()
+    
     var mainImage: UIImage?
-    @IBOutlet weak var tableView: UITableView!    
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
@@ -45,6 +47,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             popupWindow.view.frame = self.view.frame
             self.view.addSubview(popupWindow.view)
             popupWindow.imgView.image = image
+            popupWindow.imgView.contentMode = .scaleAspectFit
             popupWindow.didMove(toParentViewController: self)
         }
     }
@@ -55,7 +58,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         return 1
     }
     
-        
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         CommentUtils().markComments(commentToMark: indexPath.row, comments: comments)
         tableView.reloadData()
@@ -80,17 +83,18 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                 mark = ">"
                 repliesText = "\(replies.count)"
             }
-                let myMutableString = NSMutableAttributedString(string: "\(comment.author) replies: \(repliesText)", attributes: nil)
-                myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 135/255, green: 234/255, blue: 162/255, alpha: 1), range: NSRange(location: 0, length:comment.author.characters.count))
+            let myMutableString = NSMutableAttributedString(string: "\(comment.author) replies: \(repliesText)", attributes: nil)
+            myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 135/255, green: 234/255, blue: 162/255, alpha: 1), range: NSRange(location: 0, length:comment.author.characters.count))
+            cell.infoLabel.attributedText = myMutableString
             
-              
-        cell.infoLabel.attributedText = myMutableString
-            
-
         }
         let margin = String(repeating: "    ", count: level)
         cell.marginLabel.text = "\(margin)\(mark)"
-                return cell
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return "Comments"
     }
     
     //MARK: - Refreshing
@@ -103,10 +107,22 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     func refresh(sender:AnyObject) {
         if let realPost = post {
             titleLabel.text = realPost.title
-            if realPost.bigImages.count > 0,
-                let checkedUrl = URL(string: (realPost.bigImages[0])!) {
+            if let data = realPost.additionalData {
                 imgView.contentMode = .scaleAspectFit
-                downloadImage(url: checkedUrl)
+                DispatchQueue.global().async {
+                    let gif = UIImage.gif(url: data)
+                    DispatchQueue.main.async {
+                        self.mainImage = gif
+                        self.imgView.image = gif
+                        self.imgView.contentMode = .scaleAspectFit
+                    }
+                }
+                
+            } else {
+                if realPost.bigImages.count > 0,
+                    let checkedUrl = URL(string: (realPost.bigImages[0])!) {
+                    downloadImage(url: checkedUrl)
+                }
             }
             loader.getComments(postId: realPost.id, callback: onCommentsDelivered(comments:error:))
         }
@@ -117,11 +133,11 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     func downloadImage(url: URL) {
         WebService().getDataFromUrl(url: url) { (data, response, error)  in
             guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
             DispatchQueue.main.async() { () -> Void in
                 if let img = UIImage(data: data) {
-                self.imgView.image = img
-                self.mainImage = img
+                    self.imgView.image = img
+                    self.imgView.contentMode = .scaleAspectFit
+                    self.mainImage = img
                 }
             }
         }

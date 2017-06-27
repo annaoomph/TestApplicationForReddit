@@ -99,5 +99,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "testreddit/LinkM+CoreDataClass.swift"
+            timestampString = "520253962.298578"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "create(JSONData:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static testreddit.LinkM.create (JSONData : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.NSDictionary&gt;) -&gt; Swift.Optional&lt;testreddit.LinkM&gt;"
+                  moduleName = "testreddit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/TestApplicationForReddit/testreddit/testreddit/LinkM+CoreDataClass.swift"
+                  timestampString = "520253823.271223"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "22937">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static testreddit.LinkM.create (JSONData : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.NSDictionary&gt;) -&gt; Swift.Optional&lt;testreddit.LinkM&gt;"
+                  moduleName = "testreddit"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/admin/TestApplicationForReddit/testreddit/testreddit/LinkM+CoreDataClass.swift"
+                  timestampString = "520253823.27388"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "23838">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
