@@ -120,7 +120,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1rd-MZ-uGf">
-                                                    <rect key="frame" x="16" y="8" width="42" height="84"/>
+                                                    <rect key="frame" x="16" y="8" width="42" height="53"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iOd-Mk-Y6c">
+                                                    <rect key="frame" x="16" y="51" width="42" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="r6p-gw-Qjo"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -133,23 +142,27 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="xRd-rl-Hte" firstAttribute="centerY" secondItem="kpU-kH-wXA" secondAttribute="centerY" id="6dF-FP-Fkp"/>
-                                                <constraint firstItem="xRd-rl-Hte" firstAttribute="leading" secondItem="kpU-kH-wXA" secondAttribute="leadingMargin" id="9Mo-a9-QZB"/>
+                                                <constraint firstAttribute="bottom" secondItem="iOd-Mk-Y6c" secondAttribute="bottom" constant="8" id="FuA-Vj-nx5" userLabel="Label.bottom = bottom"/>
                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="1rd-MZ-uGf" secondAttribute="trailing" constant="8" id="JIl-eV-zGB"/>
-                                                <constraint firstItem="xRd-rl-Hte" firstAttribute="top" secondItem="kpU-kH-wXA" secondAttribute="topMargin" constant="8" id="Nvq-bm-Rvd"/>
+                                                <constraint firstItem="xRd-rl-Hte" firstAttribute="top" secondItem="kpU-kH-wXA" secondAttribute="topMargin" constant="8" id="PRj-lU-syr"/>
                                                 <constraint firstItem="1rd-MZ-uGf" firstAttribute="top" secondItem="kpU-kH-wXA" secondAttribute="topMargin" id="SVf-uq-c35"/>
-                                                <constraint firstItem="1rd-MZ-uGf" firstAttribute="leading" secondItem="xRd-rl-Hte" secondAttribute="trailing" constant="8" symbolic="YES" id="hbX-5F-e6u"/>
-                                                <constraint firstItem="xRd-rl-Hte" firstAttribute="centerY" secondItem="1rd-MZ-uGf" secondAttribute="centerY" id="y3v-MC-nX6"/>
+                                                <constraint firstItem="xRd-rl-Hte" firstAttribute="leading" secondItem="kpU-kH-wXA" secondAttribute="leadingMargin" id="XfP-d1-ggO"/>
+                                                <constraint firstItem="xRd-rl-Hte" firstAttribute="centerY" secondItem="kpU-kH-wXA" secondAttribute="centerY" id="ZdZ-FR-cQl"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iOd-Mk-Y6c" secondAttribute="trailing" constant="8" id="eXZ-6C-8oa" userLabel="trailingMargin ≥ Label.trailing + 8"/>
+                                                <constraint firstItem="iOd-Mk-Y6c" firstAttribute="leading" secondItem="1rd-MZ-uGf" secondAttribute="leading" id="h7T-nU-ZQH" userLabel="Label.leading = Margin Label.trailing"/>
+                                                <constraint firstItem="1rd-MZ-uGf" firstAttribute="bottom" secondItem="iOd-Mk-Y6c" secondAttribute="top" constant="10" id="vaa-BR-D4R" userLabel="Title Label.bottom = Label.top"/>
+                                                <constraint firstItem="1rd-MZ-uGf" firstAttribute="leading" secondItem="xRd-rl-Hte" secondAttribute="trailing" constant="8" symbolic="YES" id="vq9-HT-rXN"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="infoLabel" destination="iOd-Mk-Y6c" id="wl8-hx-ZSl"/>
                                             <outlet property="marginLabel" destination="xRd-rl-Hte" id="wEn-IX-hLl"/>
                                             <outlet property="titleLabel" destination="1rd-MZ-uGf" id="ljo-hn-5Qt"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C5g-WU-ca9">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C5g-WU-ca9">
                                 <rect key="frame" x="127" y="85" width="120" height="120"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -159,7 +172,7 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="vKX-dW-jWb"/>
                                 </constraints>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="Ita-17-vcS" appends="YES" id="Set-bZ-orz"/>
+                                    <outletCollection property="gestureRecognizers" destination="JD7-Gk-Mja" appends="YES" id="C2w-KD-2yn"/>
                                 </connections>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WTY-Za-WXe">
@@ -182,13 +195,7 @@
                             <constraint firstItem="WTY-Za-WXe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="rDx-F8-gFa"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Post" id="arP-NE-rqk">
-                        <barButtonItem key="rightBarButtonItem" title="Open" id="697-en-RCh">
-                            <connections>
-                                <action selector="op:" destination="BYZ-38-t0r" id="vVf-lF-j2n"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Post" id="arP-NE-rqk"/>
                     <connections>
                         <outlet property="imgView" destination="C5g-WU-ca9" id="ddV-Cw-1w4"/>
                         <outlet property="tableView" destination="ZAW-oE-BN5" id="Z5g-fg-2sC"/>
@@ -196,9 +203,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="Ita-17-vcS">
+                <tapGestureRecognizer id="JD7-Gk-Mja">
                     <connections>
-                        <action selector="openI:" destination="BYZ-38-t0r" id="EYE-Ex-bh8"/>
+                        <action selector="open:" destination="BYZ-38-t0r" id="MF9-wr-72T"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

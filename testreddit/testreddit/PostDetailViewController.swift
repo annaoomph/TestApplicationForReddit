@@ -16,17 +16,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Shown post (link).
     var post: LinkM?
-    
-    @IBAction func op(_ sender: UIBarButtonItem) {
-        if let image = mainImage {
-            let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popup") as! PopupViewController
-            self.addChildViewController(popOverVC)
-            popOverVC.view.frame = self.view.frame
-            self.view.addSubview(popOverVC.view)
-            popOverVC.imgView.image = image
-            popOverVC.didMove(toParentViewController: self)
-        }
-    }
     /// A list of comments for the shown post.
     var comments: [Comment] = []
     
@@ -44,17 +33,22 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         refresh(sender: self)
     }
     
-   
-    
     override func viewWillAppear(_ animated: Bool) {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
     }
     
-    
-    func displayPopup(image: UIImage) {
-        
+    @IBAction func open(_ sender: UITapGestureRecognizer) {
+        if let image = mainImage {
+            let popupWindow = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popup") as! PopupViewController
+            self.addChildViewController(popupWindow)
+            popupWindow.view.frame = self.view.frame
+            self.view.addSubview(popupWindow.view)
+            popupWindow.imgView.image = image
+            popupWindow.didMove(toParentViewController: self)
+        }
     }
+    
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -78,16 +72,25 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         }
         let (level, returnedComment) = CommentUtils().findComment(indexOfTheComment: indexPath.row, level: -1, comments: comments)
         var mark = "  "
+        var repliesText = "0"
         if let comment = returnedComment {
             cell.titleLabel.text = comment.body
             if let replies = comment.replies,
                 replies.count > 0 {
                 mark = ">"
+                repliesText = "\(replies.count)"
             }
+                let myMutableString = NSMutableAttributedString(string: "\(comment.author) replies: \(repliesText)", attributes: nil)
+                myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 135/255, green: 234/255, blue: 162/255, alpha: 1), range: NSRange(location: 0, length:comment.author.characters.count))
+            
+              
+        cell.infoLabel.attributedText = myMutableString
+            
+
         }
         let margin = String(repeating: "    ", count: level)
         cell.marginLabel.text = "\(margin)\(mark)"
-        return cell
+                return cell
     }
     
     //MARK: - Refreshing

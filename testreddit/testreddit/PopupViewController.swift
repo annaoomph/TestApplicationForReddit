@@ -14,8 +14,7 @@ class PopupViewController: UIViewController {
     @IBOutlet weak var imgView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        close.type = .roundedRect
-
+        close.layer.cornerRadius = 10
         // Do any additional setup after loading the view.
     }
 

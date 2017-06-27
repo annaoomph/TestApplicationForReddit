@@ -116,7 +116,7 @@ class PostsTableViewController: UITableViewController {
             if let author = post.author {
                 let domain = post.is_self ? "" : "at \(post.domain)"
                 let myMutableString = NSMutableAttributedString(string: "Submitted at \(date) by \(author) to \(post.subreddit) \(domain)", attributes: nil)
-                myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 135/255, green: 234/255, blue: 162/255, alpha: 1), range: NSRange(location: 11, length:String(date)!.characters.count))
+                myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 135/255, green: 234/255, blue: 162/255, alpha: 1), range: NSRange(location: 13, length:String(date)!.characters.count))
                 myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 100/255, green: 180/255, blue: 240/255, alpha: 1), range: NSRange(location: 17 + String(date)!.characters.count, length: author.characters.count))
                 myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 255/255, green: 106/255, blue: 5/255, alpha: 1), range: NSRange(location: myMutableString.length - post.subreddit.characters.count - domain.characters.count - 1, length: post.subreddit.characters.count))
                 if domain.characters.count > 0 {
