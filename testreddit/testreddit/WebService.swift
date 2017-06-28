@@ -25,7 +25,7 @@ class WebService {
     ///   - httpMethod: method for the request
     ///   - body: optional parameter body
     ///   - callback: delegate
-    func makeRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: Data?, _ error: String?) -> Void) {
+    func makeRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: Data?, _ error: Error?) -> Void) {
         var request = URLRequest(url:url)
         
         request.httpMethod = httpMethod.rawValue
@@ -45,17 +45,20 @@ class WebService {
         let task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             
             if error != nil {
-                callback(nil, error?.localizedDescription)
-            }
-            do {
+                callback(nil, error)
+            } else {
                 callback(data, nil)
-            } catch {
-                callback(nil, "Parse error.")
             }
         }
         task.resume()
     }
     
+    
+    /// Gets an item (such as picture) from url.
+    ///
+    /// - Parameters:
+    ///   - url: path to item
+    ///   - completion: callback
     func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         URLSession.shared.dataTask(with: url) {
             (data, response, error) in

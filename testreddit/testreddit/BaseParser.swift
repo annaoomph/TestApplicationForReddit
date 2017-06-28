@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+
 /// Parses json data from reddit.
 class BaseParser {
     
@@ -38,26 +39,17 @@ class BaseParser {
     ///   - inner: if this is an inner dictionary
     /// - Returns: a dictionary of items and the anchor to the last item (can be nil)
     func getItems(json: JSON, inner: Bool = false) -> (JSON?, String?) {
-        var kindA: String
-        if inner {
-        guard let kind = json[1][BaseParser.KIND_KEY].string else {
-            return (nil, nil)
-            }
-            kindA = kind
-        } else {
-            guard let kind = json[BaseParser.KIND_KEY].string else {
-                return (nil, nil)
-            }
-            kindA = kind
-        }
+        let kind = inner ? json[1][BaseParser.KIND_KEY].stringValue : json[BaseParser.KIND_KEY].stringValue
         
-        guard kindA == RedditTypes.LISTING.rawValue else {
+        guard kind == RedditTypes.LISTING.rawValue else {
             return (nil, nil)
         }
-        let items = inner ? json[1][BaseParser.DATA_KEY] : json[BaseParser.DATA_KEY]
+        guard let items = inner ? json[1][BaseParser.DATA_KEY].dictionary : json[BaseParser.DATA_KEY].dictionary else {
+            return (nil, nil)
+        }
         
         let itemsArray = items[BaseParser.CHILDREN_KEY]
-        let after = items[BaseParser.AFTER_KEY].stringValue
+        let after = items[BaseParser.AFTER_KEY]?.string
         return (itemsArray, after)
     }
     

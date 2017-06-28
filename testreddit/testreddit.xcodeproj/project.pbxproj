@@ -25,6 +25,7 @@
 		8486405D1EF53549003ACD98 /* CommentsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8486405C1EF53549003ACD98 /* CommentsParser.swift */; };
 		848640611EF535AC003ACD98 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848640601EF535AC003ACD98 /* Comment.swift */; };
 		8486C5011F017E2900B81FD8 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8486C5001F017E2900B81FD8 /* PopupViewController.swift */; };
+		84B5733A1F03B9B7009EFB12 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B573391F03B9B7009EFB12 /* ErrorHandler.swift */; };
 		84DCDF7D1EF19BAF004EFEE7 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DCDF7C1EF19BAF004EFEE7 /* Token.m */; };
 		84F66BD31EF00FB800408CF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F66BD21EF00FB800408CF0 /* AppDelegate.swift */; };
 		84F66BD51EF00FB800408CF0 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F66BD41EF00FB800408CF0 /* PostDetailViewController.swift */; };
@@ -78,6 +79,7 @@
 		8486405C1EF53549003ACD98 /* CommentsParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsParser.swift; sourceTree = "<group>"; };
 		848640601EF535AC003ACD98 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		8486C5001F017E2900B81FD8 /* PopupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
+		84B573391F03B9B7009EFB12 /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		84DCDF7C1EF19BAF004EFEE7 /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
 		84F66BCF1EF00FB800408CF0 /* testreddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testreddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84F66BD21EF00FB800408CF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				84F66BDE1EF00FB800408CF0 /* Info.plist */,
 				847D2DBB1EF82A41007FC21F /* RedditDataModel.xcdatamodeld */,
 				84777A041EFD296300F13CA4 /* Configuration.swift */,
+				84B573391F03B9B7009EFB12 /* ErrorHandler.swift */,
 			);
 			path = testreddit;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				84DCDF7D1EF19BAF004EFEE7 /* Token.m in Sources */,
 				84777A011EFD24CD00F13CA4 /* WebService.swift in Sources */,
 				84777A031EFD24E600F13CA4 /* Loader.swift in Sources */,
+				84B5733A1F03B9B7009EFB12 /* ErrorHandler.swift in Sources */,
 				8486C5011F017E2900B81FD8 /* PopupViewController.swift in Sources */,
 				84777A051EFD296300F13CA4 /* Configuration.swift in Sources */,
 				841FB6971EFBD8880049475C /* BaseParser.swift in Sources */,
@@ -729,11 +733,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = testreddit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.akvelon.testreddit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "testreddit-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -746,11 +754,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = testreddit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.akvelon.testreddit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "testreddit-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

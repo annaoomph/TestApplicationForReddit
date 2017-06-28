@@ -51,8 +51,7 @@ class PopupViewController: UIViewController {
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             self.view.alpha = 0.0;
         }, completion:{(finished : Bool)  in
-            if (finished)
-            {
+            if (finished) {
                 self.view.removeFromSuperview()
             }
         });

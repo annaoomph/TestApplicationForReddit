@@ -148,11 +148,11 @@ class PostsTableViewController: UITableViewController {
     }
     
     //MARK: - Callbacks
-    func onPostsDelivered(posts: [LinkM]?, after: String?, error: String?) {
+    func onPostsDelivered(posts: [LinkM]?, after: String?, error: Error?) {
         lastPost = after
-        if let errorString = error {
+        if let caughtError = error {
             local = true
-            displayError(errorString: errorString)
+            displayError(error: caughtError)
         } else {
             local = false
         }
@@ -165,11 +165,11 @@ class PostsTableViewController: UITableViewController {
         }
     }
     
-    func onMorePostsDelivered(posts: [LinkM]?, after: String?, error: String?) {
+    func onMorePostsDelivered(posts: [LinkM]?, after: String?, error: Error?) {
         lastPost = after
-        if let errorString = error {
+        if let caughtError = error {
             local = true
-            displayError(errorString: errorString)
+            displayError(error: caughtError)
         } else {
             local = false
         }
@@ -212,7 +212,8 @@ class PostsTableViewController: UITableViewController {
     /// Displays a certain error.
     ///
     /// - Parameter errorString: a string describing the error
-    func displayError(errorString: String) {
+    func displayError(error: Error) {
+        let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error: error as! RedditError) : error.localizedDescription
         let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(OKAction)

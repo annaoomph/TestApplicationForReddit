@@ -27,7 +27,7 @@ class PostsParser: BaseParser {
             return (nil, nil)
         }
         
-        for (key, item) in itemsArray {
+        for (_, item) in itemsArray {
             guard let itemData = getItemData(item: item, type: RedditTypes.THING) else {
                 continue
             }

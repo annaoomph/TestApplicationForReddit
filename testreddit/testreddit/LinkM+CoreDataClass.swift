@@ -50,7 +50,7 @@ public class LinkM: NSManagedObject {
         linkM.id = id
         let images = JSONData["preview"]["images"]
         
-        for (key, image) in images {
+        for (_, image) in images {
             if let bigImage = image["source"]["url"].string {
                 linkM.bigImages.append(bigImage)
             }
@@ -61,8 +61,7 @@ public class LinkM: NSManagedObject {
                     
                 } else {
                     if let mp4 = variants["mp4"]?["source"]["url"].string {
-                        linkM.additionalData = mp4
-                        
+                        linkM.additionalData = mp4                        
                     }
                 }
             }

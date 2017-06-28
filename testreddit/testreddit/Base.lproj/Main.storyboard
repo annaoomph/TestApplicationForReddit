@@ -195,7 +195,13 @@
                             <constraint firstItem="WTY-Za-WXe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="rDx-F8-gFa"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Post" id="arP-NE-rqk"/>
+                    <navigationItem key="navigationItem" title="Post" id="arP-NE-rqk">
+                        <barButtonItem key="rightBarButtonItem" title="View in browser" id="2At-oJ-lnl">
+                            <connections>
+                                <action selector="viewInBrowser:" destination="BYZ-38-t0r" id="IQG-N7-fNQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="imageSpinner" destination="Ntc-wE-jF7" id="HAg-gv-fOM"/>
                         <outlet property="imgView" destination="C5g-WU-ca9" id="ddV-Cw-1w4"/>

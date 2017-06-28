@@ -27,7 +27,7 @@ class CommentsParser: BaseParser {
             return nil
         }
         
-        for (key, item) in itemsArray {
+        for (_, item) in itemsArray {
             guard let itemData = getItemData(item: item, type: RedditTypes.COMMENT) else {
                 continue
             }

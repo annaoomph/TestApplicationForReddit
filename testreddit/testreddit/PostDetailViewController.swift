@@ -9,6 +9,7 @@
 import UIKit
 import SwiftGifOrigin
 
+
 /// A controller for the post view.
 class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -150,12 +151,18 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
+    @IBAction func viewInBrowser(_ sender: UIBarButtonItem) {
+        if let loadedPost = post, let url = URL(string: loadedPost.url) {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+    
     //MARK: - Callbacks
-    func onCommentsDelivered(comments: [Comment]?, error: String?) {
+    func onCommentsDelivered(comments: [Comment]?, error: Error?) {
         if let receivedComments = comments {
             self.comments = receivedComments
-        } else if let errorString = error {
-            displayError(errorString: errorString)
+        } else if let caughterror = error {
+            displayError(error: caughterror)
         }
         DispatchQueue.main.sync() {
             tableView.reloadData()
@@ -163,7 +170,8 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    func displayError(errorString: String) {
+    func displayError(error: Error) {
+        let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error: error as! RedditError) : error.localizedDescription
         let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(OKAction)

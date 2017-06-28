@@ -23,7 +23,7 @@ class Loader {
     ///
     /// - Parameters:
     ///   - pendingRequest: a request waiting to be executed, needs a valid token value to perform execution
-    private func updateToken(pendingRequest: @escaping (_ token: String?, _ error: String?) -> Void) {
+    private func updateToken(pendingRequest: @escaping (_ token: String?, _ error: Error?) -> Void) {
         if tokenExpired() {
             let url = URL(string: Configuration.TOKEN_URL);
             let body = ["grant_type" : Configuration.GRANT_TYPE_VALUE, "device_id" : NSUUID().uuidString]
@@ -43,14 +43,13 @@ class Loader {
                                         expirationDate.addTimeInterval(TimeInterval(Int(token.expires_in)))
                                         PreferenceManager().saveTokenExpirationDate(date: Int(expirationDate.timeIntervalSince1970))
                                         pendingRequest(token.access_token, nil)
-                                        
                                     }
                                 }
                             } else {
-                                pendingRequest(nil, "Could not retrieve token!")
+                                pendingRequest(nil, RedditError.LoadError(type: "token"))
                             }
                         } catch {
-                            // callback(nil, "Parse error.")
+                             pendingRequest(nil, RedditError.ParseError(type: "token"))
                         }
                         
                     }
@@ -69,7 +68,7 @@ class Loader {
     ///   - more: if the request for loading more posts was made
     ///   - lastPost: last shown post (can be nil, if more set to false)
     ///   - callback: delegate
-    func getPosts(more: Bool = false, lastPost: String? = nil, callback: @escaping (_ posts: [LinkM]?, _ after: String?, _ error: String?) -> Void) {
+    func getPosts(more: Bool = false, lastPost: String? = nil, callback: @escaping (_ posts: [LinkM]?, _ after: String?, _ error: Error?) -> Void) {
         updateToken(pendingRequest: {token, error in
             if let appToken = token {
                 var urlString = Configuration.POSTS_URL
@@ -83,15 +82,16 @@ class Loader {
                         callback(nil, nil, error)
                     } else {
                         if let dictionary = json {
-                            let (items, after) = PostsParser().parseItems(json: JSON(data: dictionary), clearDb: !more)
-                            
+                            let (items, after) = PostsParser().parseItems(json: JSON(data: dictionary), clearDb: !more)                            
                             if let itemsArray = items {
                                 CoreDataManager.instance.saveContext()
                                 callback(itemsArray, after, nil)
                             } else {
-                                callback(nil, nil, "Could not get items.")
+                                callback(nil, nil, RedditError.ParseError(type: "posts"))
                             }
                             
+                        } else {
+                            callback(nil, nil, RedditError.LoadError(type: "posts"))
                         }
                     }
                 })
@@ -106,7 +106,7 @@ class Loader {
     /// - Parameters:
     ///   - postId: id of the post (or link)
     ///   - callback: delegate
-    func getComments(postId: String,  callback: @escaping (_ comments: [Comment]? , _ error: String?) -> Void) {
+    func getComments(postId: String,  callback: @escaping (_ comments: [Comment]? , _ error: Error?) -> Void) {
         updateToken(pendingRequest: {token, error in
             if let appToken = token {
                 let url = URL(string: "\(Configuration.COMMENTS_URL)\(postId)");
@@ -118,8 +118,10 @@ class Loader {
                             if let items = CommentsParser().parseItems(json: JSON(data: dictionary), inner: true) {
                                 callback(items, nil)
                             } else {
-                                callback(nil, "Could not get items.")
+                                callback(nil, RedditError.ParseError(type: "comments"))
                             }
+                        } else {
+                            callback(nil, RedditError.LoadError(type: "comments"))
                         }
                     }})
             } else { callback(nil, error) }
@@ -134,7 +136,7 @@ class Loader {
     /// - Returns: true if it needs to be refreshed, false otherwise.
     func tokenExpired() -> Bool {
         let expirationDate = PreferenceManager().getTokenExpirationDate()
-        let date = Date(timeIntervalSince1970: TimeInterval(expirationDate))
+        let date = Date(timeIntervalSince1970: TimeInterval(expirationDate - 60))
         return date < Date()
     }
     
