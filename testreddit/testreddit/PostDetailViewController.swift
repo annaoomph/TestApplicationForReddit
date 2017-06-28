@@ -13,6 +13,7 @@ import SwiftGifOrigin
 /// A controller for the post view.
 class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    //MARK: - Storyboard elements
     /// A view with the post image or gif.
     @IBOutlet weak var imgView: UIImageView!
     
@@ -25,6 +26,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Title of the post.
     @IBOutlet weak var titleLabel: UILabel!
     
+    //MARK: - Properties
     /// Loads data from server.
     let loader = Loader()
     
@@ -37,13 +39,14 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// A list of comments for the shown post.
     var comments: [Comment] = []
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         automaticallyAdjustsScrollViewInsets = false
         startRefreshControl()
-        refresh(sender: self)
+        loadPost()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,6 +107,13 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     func refresh(sender:AnyObject) {
         if let realPost = post {
+            loader.getComments(postId: realPost.id, callback: onCommentsDelivered(comments:error:))
+        }
+    }
+    
+    /// Loads the post information on initialization.
+    func loadPost() {
+        if let realPost = post {
             let mutableString = NSMutableAttributedString(string: "\(realPost.score) \(realPost.title)", attributes: nil)
             mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(realPost.score)".characters.count))
             titleLabel.attributedText = mutableString
@@ -115,10 +125,10 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                     downloadImage(url: checkedUrl)
                 }
             }
-            loader.getComments(postId: realPost.id, callback: onCommentsDelivered(comments:error:))
+            refresh(sender: self)
         }
+
     }
-    
     
     /// Loads the post image from the given url.
     ///
@@ -130,10 +140,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             DispatchQueue.global().async {
                 let gif = UIImage.gif(url: url.absoluteString)
                 DispatchQueue.main.async {
-                    self.mainImage = gif
-                    self.imgView.image = gif
-                    self.imgView.contentMode = .scaleAspectFit
-                    self.imageSpinner.stopAnimating()
+                    if let gifImage = gif {
+                        self.stopLoading(image: gifImage)
+                    }
                 }
             }
         } else {
@@ -141,14 +150,21 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                 guard let data = data, error == nil else { return }
                 DispatchQueue.main.async() { () -> Void in
                     if let img = UIImage(data: data) {
-                        self.imgView.image = img
-                        self.imgView.contentMode = .scaleAspectFit
-                        self.mainImage = img
-                        self.imageSpinner.stopAnimating()
+                        self.stopLoading(image: img)
                     }
                 }
             }
         }
+    }
+    
+    /// A callback on loaded image or gif. Stops all spinners and loads the image.
+    ///
+    /// - Parameter image: loaded image
+    func stopLoading(image: UIImage) {
+        self.mainImage = image
+        self.imgView.image = image
+        self.imgView.contentMode = .scaleAspectFit
+        self.imageSpinner.stopAnimating()
     }
     
     @IBAction func viewInBrowser(_ sender: UIBarButtonItem) {

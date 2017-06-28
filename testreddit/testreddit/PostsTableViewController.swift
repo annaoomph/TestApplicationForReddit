@@ -71,9 +71,7 @@ class PostsTableViewController: UITableViewController {
         let sortDescriptor = NSSortDescriptor(key: "score", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        do {
-            try fetchedResultsControllerForPosts!.performFetch()
-        } catch {}
+        try! fetchedResultsControllerForPosts!.performFetch()
     }
     
     
@@ -81,11 +79,7 @@ class PostsTableViewController: UITableViewController {
     ///
     /// - Returns: amount of posts
     func getPostCount() -> Int {
-        if let fetchedObjects = fetchedResultsControllerForPosts!.fetchedObjects {
-            return fetchedObjects.count
-        } else {
-            return 0
-        }
+        return fetchedResultsControllerForPosts!.fetchedObjects?.count ?? 0
     }
     
     /// Gets post at certain index path.
@@ -134,11 +128,7 @@ class PostsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if local {
-            return "Can't connect to server. Showing cashed posts"
-        } else {
-            return ""
-        }
+        return local ? "Can't connect to server. Showing cashed posts" : ""
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {

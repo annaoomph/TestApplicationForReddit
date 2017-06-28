@@ -19,16 +19,17 @@ class Loader {
     }
     
     
-    /// Tries to update the token value if needed.
+    /// Tries to update the token value if needed and returns the actual value in a callback.
     ///
     /// - Parameters:
     ///   - pendingRequest: a request waiting to be executed, needs a valid token value to perform execution
-    private func updateToken(pendingRequest: @escaping (_ token: String?, _ error: Error?) -> Void) {
+    private func getToken(pendingRequest: @escaping (_ token: String?, _ error: Error?) -> Void) {
         if tokenExpired() {
             let url = URL(string: Configuration.TOKEN_URL);
             let body = ["grant_type" : Configuration.GRANT_TYPE_VALUE, "device_id" : NSUUID().uuidString]
             
-            webService.makeRequest(url: url!, authorization: getAuthorizationString(), httpMethod: .post, body: body, callback: {json, errString in
+            webService.makeRequest(url: url!, authorization: getAuthorizationString(), httpMethod: .post, body: body) {
+                json, errString in
                 if let error = errString {
                     pendingRequest(nil, error)
                 } else {
@@ -49,12 +50,12 @@ class Loader {
                                 pendingRequest(nil, RedditError.LoadError(type: "token"))
                             }
                         } catch {
-                             pendingRequest(nil, RedditError.ParseError(type: "token"))
+                            pendingRequest(nil, RedditError.ParseError(type: "token"))
                         }
                         
                     }
                 }
-            })
+            }
             //If no need to update token (it has not expired), continue executing the callback function with the existing token value.
         } else {
             pendingRequest(getToken(), nil)
@@ -69,7 +70,8 @@ class Loader {
     ///   - lastPost: last shown post (can be nil, if more set to false)
     ///   - callback: delegate
     func getPosts(more: Bool = false, lastPost: String? = nil, callback: @escaping (_ posts: [LinkM]?, _ after: String?, _ error: Error?) -> Void) {
-        updateToken(pendingRequest: {token, error in
+        getToken {
+            token, error in
             if let appToken = token {
                 var urlString = Configuration.POSTS_URL
                 if let parameters = lastPost,
@@ -77,12 +79,13 @@ class Loader {
                     urlString.append("?after=\(parameters)")
                 }
                 let url = URL(string: urlString);
-                self.webService.makeRequest(url: url!, authorization: appToken, httpMethod: .get, callback: {json, errString in
+                self.webService.makeRequest(url: url!, authorization: appToken, httpMethod: .get) {
+                    json, errString in
                     if let error = errString {
                         callback(nil, nil, error)
                     } else {
                         if let dictionary = json {
-                            let (items, after) = PostsParser().parseItems(json: JSON(data: dictionary), clearDb: !more)                            
+                            let (items, after) = PostsParser().parseItems(json: JSON(data: dictionary), clearDb: !more)
                             if let itemsArray = items {
                                 CoreDataManager.instance.saveContext()
                                 callback(itemsArray, after, nil)
@@ -94,10 +97,11 @@ class Loader {
                             callback(nil, nil, RedditError.LoadError(type: "posts"))
                         }
                     }
-                })
-            } else { callback(nil, nil, error) }
-        })
-        
+                }
+            } else {
+                callback(nil, nil, error)
+            }
+        }
     }
     
     
@@ -107,10 +111,12 @@ class Loader {
     ///   - postId: id of the post (or link)
     ///   - callback: delegate
     func getComments(postId: String,  callback: @escaping (_ comments: [Comment]? , _ error: Error?) -> Void) {
-        updateToken(pendingRequest: {token, error in
+        getToken {
+            token, error in
             if let appToken = token {
                 let url = URL(string: "\(Configuration.COMMENTS_URL)\(postId)");
-                self.webService.makeRequest(url: url!, authorization: appToken, httpMethod: .get, callback: {json, errString in
+                self.webService.makeRequest(url: url!, authorization: appToken, httpMethod: .get) {
+                    json, errString in
                     if let error = errString {
                         callback(nil, error)
                     } else {
@@ -123,11 +129,12 @@ class Loader {
                         } else {
                             callback(nil, RedditError.LoadError(type: "comments"))
                         }
-                    }})
-            } else { callback(nil, error) }
-            
-        })
-        
+                    }
+                }
+            } else {
+                callback(nil, error)
+            }
+        }
     }
     
     
