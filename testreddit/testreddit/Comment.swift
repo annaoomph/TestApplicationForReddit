@@ -31,11 +31,17 @@ public class Comment: NSObject {
     var replies: [Comment]?
     
     init?(JSONData: JSON) {
-        self.score = JSONData["score"].intValue
-        self.created = JSONData["created"].intValue
-        self.author = JSONData["author"].stringValue
-        self.body = JSONData["body"].stringValue
-        self.replies = CommentsParser().parseItems(json: JSONData["replies"], inner: false)        
+        guard let score = JSONData["score"].int,
+            let created = JSONData["created"].int,
+            let author = JSONData["author"].string,
+            let body = JSONData["body"].string else {
+                return nil
+        }
+        self.score = score
+        self.created = created
+        self.author = author
+        self.body = body
+        self.replies = CommentsParser().parseItems(json: JSONData["replies"], inner: false)
         self.opened = false
         super.init()
     }

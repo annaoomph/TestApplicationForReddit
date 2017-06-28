@@ -8,14 +8,22 @@
 
 import Foundation
 import UIKit
+
 class Configuration {
 
+    // MARK: - Urls
     static let TOKEN_URL = "https://www.reddit.com/api/v1/access_token"
     static let POSTS_URL = "https://oauth.reddit.com/hot"
     static let COMMENTS_URL = "https://oauth.reddit.com/comments/"
+    
+    
+    // MARK: - Authorization constants
     static let APP_ONLY_USERNAME = "K75CEraOnGf3iw"
     static let GRANT_TYPE_VALUE = "https://oauth.reddit.com/grants/installed_client"
     static let ACCEPTED_TOKEN_TYPE = "bearer"
+    
+    
+    // MARK: - Application Colors
     struct Colors {
         static let red = UIColor(red: 251/255, green: 61/255, blue: 13/255, alpha: 1)
         static let blue = UIColor(red: 100/255, green: 180/255, blue: 240/255, alpha: 1)

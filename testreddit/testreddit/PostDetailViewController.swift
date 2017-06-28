@@ -79,7 +79,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         var mark = "  "
         var repliesText = "0"
         if let comment = returnedComment {
-            cell.titleLabel.text = comment.body
             if let replies = comment.replies,
                 replies.count > 0 {
                 mark = comment.opened ? "v" : ">"
@@ -89,9 +88,13 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(comment.score)".characters.count))
             mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: "\(comment.score)".characters.count + 1, length:comment.author.characters.count))
             cell.infoLabel.attributedText = mutableString
+            
+            let margin = String(repeating: "    ", count: level)
+            cell.marginLabel.text = "\(margin)\(mark)"
+            cell.marginLabel.contentMode = .scaleAspectFit
+            cell.titleLabel.text = comment.body
         }
-        let margin = String(repeating: "    ", count: level)
-        cell.marginLabel.text = "\(margin)\(mark)"
+        
         return cell
     }
     

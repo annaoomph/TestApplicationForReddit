@@ -11,9 +11,11 @@ import SwiftyJSON
 
 
 /// Parses json data from reddit.
-class PostsParser: BaseParser {
+class PostsParser: BaseParser {    
     
+    /// A parameter indicating whether the database is alredy cleared.
     var dbCleared = false
+    
     /// Parses a json with posts (links).
     ///
     /// - Parameter json: json string from server
