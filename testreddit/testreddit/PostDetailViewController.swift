@@ -26,6 +26,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Title of the post.
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var hintLabel: UILabel!
     //MARK: - Properties
     /// Loads data from server.
     let loader = Loader()
@@ -114,8 +115,10 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Loads the post information on initialization.
     func loadPost() {
         if let realPost = post {
-            let mutableString = NSMutableAttributedString(string: "\(realPost.score) \(realPost.title)", attributes: nil)
+            let domain = realPost.is_self ? "" : "(\(realPost.domain))"
+            let mutableString = NSMutableAttributedString(string: "\(realPost.score) \(realPost.title) \(domain)", attributes: nil)
             mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(realPost.score)".characters.count))
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: mutableString.length - domain.characters.count, length:domain.characters.count))
             titleLabel.attributedText = mutableString
             if let data = realPost.additionalData {
                 downloadImage(url: URL(string: data)!, isGif: true)
@@ -123,6 +126,8 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                 if realPost.bigImages.count > 0,
                     let checkedUrl = URL(string: (realPost.bigImages[0])!) {
                     downloadImage(url: checkedUrl)
+                } else if !realPost.is_self {
+                    hintLabel.isHidden = false
                 }
             }
             refresh(sender: self)
@@ -161,6 +166,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     ///
     /// - Parameter image: loaded image
     func stopLoading(image: UIImage) {
+        hintLabel.isHidden = true
         self.mainImage = image
         self.imgView.image = image
         self.imgView.contentMode = .scaleAspectFit

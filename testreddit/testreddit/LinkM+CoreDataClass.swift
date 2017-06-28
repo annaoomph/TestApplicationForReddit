@@ -49,23 +49,26 @@ public class LinkM: NSManagedObject {
         linkM.selftext_html = JSONData["selftext_html"].string
         linkM.id = id
         let images = JSONData["preview"]["images"]
-        
-        for (_, image) in images {
-            if let bigImage = image["source"]["url"].string {
-                linkM.bigImages.append(bigImage)
-            }
+        let enabled = JSONData["preview"]["enabled"].boolValue
+        if enabled {
             
-            if let variants = image["variants"].dictionary {
-                if let gifs = variants["gif"]?["source"]["url"].string {
-                    linkM.additionalData = gifs         
-                    
-                } else {
-                    if let mp4 = variants["mp4"]?["source"]["url"].string {
-                        linkM.additionalData = mp4                        
+            for (_, image) in images {
+                if let bigImage = image["source"]["url"].string {
+                    linkM.bigImages.append(bigImage)
+                }
+                
+                if let variants = image["variants"].dictionary {
+                    if let gifs = variants["gif"]?["source"]["url"].string {
+                        linkM.additionalData = gifs
+                        
+                    } else {
+                        if let mp4 = variants["mp4"]?["source"]["url"].string {
+                            linkM.additionalData = mp4
+                        }
                     }
                 }
+                
             }
-            
         }
         return linkM
     }
