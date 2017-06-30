@@ -26,7 +26,7 @@ class CommentsParser: BaseParser {
         }
         
         for (_, item) in items {
-            guard let itemData = getItemData(item: item, type: RedditTypes.COMMENT) else {
+            guard let itemData = getItemData(item: item, type: RedditJsonType.COMMENT) else {
                 continue
             }
             if let comment = Comment(JSONData: itemData) {

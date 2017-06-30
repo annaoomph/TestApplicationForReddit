@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class PostsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate  {
+class PostsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate {
     
     //MARK: - Properties
     
@@ -24,15 +24,30 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     /// Controller for loading data from local database.
     var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
     
+    var delegateAttached = false
     //MARK: - Lifecycle events
     override func viewDidLoad() {
         super.viewDidLoad()
+        if !delegateAttached {
+            tabBarController?.delegate = self
+            delegateAttached = true
+        }
+        if tabBarController?.selectedIndex == 0 {
+            title = ContentType.PostType.HOT.rawValue
+        } else {
+            title = ContentType.PostType.NEW.rawValue
+        }
         tableView.dataSource = self
         tableView.delegate = self
         startRefreshControl()
         loadFromDatabase()
     }
     
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        PreferenceManager().saveOpenedTab(tab: tabBarController.selectedIndex)
+        refresh(sender: self)
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -49,7 +64,8 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         if y > height + reloadDistance {
             if !refreshingInProgress {
                 refreshingInProgress = true
-                loader.getPosts(more: true, callback: onMorePostsDelivered(posts: error:))
+                tableView.refreshControl?.beginRefreshing()
+                loader.getPosts(type: ContentType.PostType.getPostType(selectedTab: (tabBarController?.selectedIndex)!), more: true, callback: onMorePostsDelivered(posts: error:))
             }
         }
     }
@@ -62,8 +78,9 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     
     func refresh(sender:AnyObject) {
         if !refreshingInProgress {
+            tableView.refreshControl?.beginRefreshing()
             refreshingInProgress = true
-            loader.getPosts(callback: onPostsDelivered(posts: error:))
+            loader.getPosts(type: ContentType.PostType.getPostType(selectedTab: (tabBarController?.selectedIndex)!), callback: onPostsDelivered(posts: error:))
         }
     }
     

@@ -9,11 +9,6 @@
 import Foundation
 import SwiftyJSON
 
-enum ContentType: String {
-    case POSTS = "posts"
-    case COMMENTS = "comments"
-}
-
 /// Loads data from server and parses it.
 class Loader {
     
@@ -72,8 +67,8 @@ class Loader {
     /// - Parameters:
     ///   - more: if the request for loading more posts was made
     ///   - callback: delegate
-    func getPosts(more: Bool = false, callback: @escaping (_ posts: [LinkM]?, _ error: Error?) -> Void) {
-        var urlString = Configuration.POSTS_URL
+    func getPosts(type: ContentType.PostType, more: Bool = false, callback: @escaping (_ posts: [LinkM]?, _ error: Error?) -> Void) {
+        var urlString = WebUtils.getPostUrl(for: type)
         urlString = more ? WebUtils.constructUrl(baseUrl: urlString, parameters: ["after" : "t3_\(WebUtils.getLastPostAnchor())"]) : urlString
         let url = URL(string: urlString)
         makeGetRequest(url: url!, type: .POSTS, additionalParameter: !more, callback: callback, parseFunction: PostsParser().parseItems(json:clearDb:))

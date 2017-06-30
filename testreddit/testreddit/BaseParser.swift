@@ -12,19 +12,6 @@ import SwiftyJSON
 /// Parses json data from reddit.
 class BaseParser {
     
-    //MARK: - Enums and Constants
-    
-    /// Data types in reddit.
-    ///
-    /// - THING: a post
-    /// - COMMENT: a comment for post
-    /// - LISTING: a list of smth
-    public enum RedditTypes: String {
-        case THING = "t3"
-        case COMMENT = "t1"
-        case LISTING = "Listing"
-    }
-    
     static let KIND_KEY = "kind"
     static let DATA_KEY = "data"
     static let CHILDREN_KEY = "children"
@@ -41,7 +28,7 @@ class BaseParser {
     func getItems(json: JSON, inner: Bool = false) -> (JSON?) {
         let kind = inner ? json[1][BaseParser.KIND_KEY].stringValue : json[BaseParser.KIND_KEY].stringValue
         
-        guard kind == RedditTypes.LISTING.rawValue else {
+        guard kind == RedditType.LISTING.rawValue else {
             return (nil)
         }
         let items = inner ? json[1][BaseParser.DATA_KEY][BaseParser.CHILDREN_KEY] : json[BaseParser.DATA_KEY][BaseParser.CHILDREN_KEY] 
@@ -56,7 +43,7 @@ class BaseParser {
     ///   - item: item data with wrapping
     ///   - type: type of item needed
     /// - Returns: an optinal dictionaty with the item itself
-    func getItemData(item: JSON, type: RedditTypes) -> JSON? {
+    func getItemData(item: JSON, type: RedditJsonType) -> JSON? {
         let itemKind = item[BaseParser.KIND_KEY].stringValue
         guard itemKind == type.rawValue else {
             return nil

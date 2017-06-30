@@ -21,6 +21,7 @@ public class PreferenceManager {
     //MARK: - Preferences keys
     static let TOKEN_KEY = "token"
     static let EXPIRATION_DATE_KEY = "expiration"
+    static let TAB_KEY = "tab"
     
     //MARK: - Save functions
     
@@ -38,8 +39,24 @@ public class PreferenceManager {
         preferences.set(date, forKey: PreferenceManager.EXPIRATION_DATE_KEY)
     }
     
+    /// Saves the opened tab.
+    ///
+    /// - Parameter tab: index of the selected tab.
+    func saveOpenedTab(tab: Int) {
+        preferences.set(tab, forKey: PreferenceManager.TAB_KEY)
+    }
+    
     //MARK: - Get functions
     
+    /// Gets last opened by user tab.
+    ///
+    /// - Returns: tab index
+    func getLastOpenedTab() -> Int {
+        if let tab = preferences.object(forKey: PreferenceManager.TAB_KEY) as! Int? {
+            return tab
+        }
+        return 0
+    }
     
     /// Gets the date when the current token expires.
     ///

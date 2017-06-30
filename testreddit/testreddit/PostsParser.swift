@@ -30,7 +30,7 @@ class PostsParser: BaseParser {
         }
         
         for (_, item) in itemsArray {
-            guard let itemData = getItemData(item: item, type: RedditTypes.THING) else {
+            guard let itemData = getItemData(item: item, type: RedditJsonType.THING) else {
                 continue
             }
             if clearDb, !dbCleared {

@@ -36,6 +36,19 @@ class WebUtils {
         return parameterString
     }
     
+    /// Gets the url to post depending on its type.
+    ///
+    /// - Parameter postType: type of the post (see enum)
+    /// - Returns: url string
+    static func getPostUrl(for postType: ContentType.PostType) -> String {
+        switch postType {
+        case .NEW:
+            return Configuration.NEW_POSTS_URL
+        case .HOT:
+            return Configuration.HOT_POSTS_URL
+        }
+    }
+    
     /// Gets the authorization string for getting the token (app only athorization).
     ///
     /// - Returns: header auth string

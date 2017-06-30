@@ -13,7 +13,8 @@ class Configuration {
 
     // MARK: - Urls
     static let TOKEN_URL = "https://www.reddit.com/api/v1/access_token"
-    static let POSTS_URL = "https://oauth.reddit.com/hot"
+    static let HOT_POSTS_URL = "https://oauth.reddit.com/hot"
+    static let NEW_POSTS_URL = "https://oauth.reddit.com/new"
     static let COMMENTS_URL = "https://oauth.reddit.com/comments/"
     
     
