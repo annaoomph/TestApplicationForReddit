@@ -9,6 +9,9 @@
 import UIKit
 import CoreData
 
+protocol PostSelectionDelegate: class {
+    func postSelected(newPost: LinkM)
+}
 class PostsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate {
     
     //MARK: - Properties
@@ -23,11 +26,15 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Controller for loading data from local database.
     var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
-    
+    weak var delegate: PostSelectionDelegate?
     var delegateAttached = false
     //MARK: - Lifecycle events
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let split = splitViewController {
+            let detailViewController = split.viewControllers.last as! PostDetailViewController
+            self.delegate = detailViewController        
+        }
         if !delegateAttached {
             tabBarController?.delegate = self
             delegateAttached = true
@@ -141,6 +148,10 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.delegate?.postSelected(newPost: getPostAt(indexPath: indexPath))
+    }
+    
     //MARK: - Callbacks
     func onPostsDelivered(posts: [LinkM]?, error: Error?) {
         refreshingInProgress = false
@@ -149,6 +160,10 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         }
         DispatchQueue.main.sync() {
             tableView.refreshControl!.endRefreshing()
+            if delegate != nil {
+                tableView.selectRow(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: UITableViewScrollPosition.top)
+                delegate?.postSelected(newPost: getPostAt(indexPath: IndexPath(item: 0, section: 0)))
+            }
         }
     }
     
@@ -163,6 +178,10 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
                 let indexPath = IndexPath(row: getPostCount() - 25, section: 0)
                 tableView.scrollToRow(at: indexPath,
                                       at: UITableViewScrollPosition.middle, animated: true)
+                if delegate != nil {
+                    tableView.selectRow(at: IndexPath(item: getPostCount() - 25, section: 0), animated: true, scrollPosition: UITableViewScrollPosition.top)
+                    delegate?.postSelected(newPost: getPostAt(indexPath: IndexPath(item: getPostCount() - 25, section: 0)))
+                }
             }
         }
     }

@@ -11,7 +11,7 @@ import SwiftGifOrigin
 
 
 /// A controller for the post view.
-class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PostSelectionDelegate {
     
     //MARK: - Storyboard elements
     /// A view with the post image or gif.
@@ -23,6 +23,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Table for comments.
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var textLabel: UILabel!
     /// Title of the post.
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -39,11 +40,19 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Shown post (link).
     var post: LinkM?
     
+    var popupWindow: PopupViewController?
+    
     /// A list of comments for the shown post.
     var comments: [Comment] = []
     
     /// Whether the request to server is still loading.
     var refreshingInProgress = false
+    
+    
+    func postSelected(newPost: LinkM) {
+        self.post = newPost
+        loadPost()
+    }
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -89,14 +98,17 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Comments: \(post?.num_comments ?? 0)"
+        if let selectedPost = post {
+            return "Comments: \(selectedPost.num_comments)"
+        } else {
+            return "Comments"
+        }
     }
     
     //MARK: - Refreshing
     func startRefreshControl() {
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl!.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
-        tableView.refreshControl!.beginRefreshing()
     }
     
     func refresh(sender:AnyObject) {
@@ -109,19 +121,34 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Loads the post information on initialization.
     func loadPost() {
         if let realPost = post {
+            if let popup = popupWindow, popup.isShown {
+                popup.removeAnimate()
+            }
+            comments = []
+            textLabel.text = realPost.selftext_html ?? ""
+            
+            tableView.reloadData()
+            hintLabel.isHidden = true
+            self.mainImage = nil
+            self.imgView.image = #imageLiteral(resourceName: "Placeholder")
+            self.imageSpinner.stopAnimating()
+            tableView.refreshControl!.beginRefreshing()
             let domain = realPost.is_self ? "" : "(\(realPost.domain))"
             let mutableString = NSMutableAttributedString(string: "\(realPost.score) \(realPost.title) \(domain)", attributes: nil)
             mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(realPost.score)".characters.count))
             mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: mutableString.length - domain.characters.count, length:domain.characters.count))
             titleLabel.attributedText = mutableString
+            
             if let data = realPost.additionalData {
                 downloadImage(url: URL(string: data)!, isGif: true)
             } else {
                 if realPost.bigImages.count > 0,
                     let checkedUrl = URL(string: (realPost.bigImages[0])!) {
                     downloadImage(url: checkedUrl)
-                } else if !realPost.is_self {
+                } else {
+                    if !realPost.is_self {
                     hintLabel.isHidden = false
+                }
                 }
             }
             refresh(sender: self)
@@ -134,12 +161,17 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// - Parameter isGif: whether it is a gif image
     func downloadImage(url: URL, isGif: Bool = false) {
         imageSpinner.startAnimating()
+        hintLabel.isHidden = true
+        let id = post?.thing_id
         if isGif {
             DispatchQueue.global().async {
                 let gif = UIImage.gif(url: url.absoluteString)
                 DispatchQueue.main.async {
                     if let gifImage = gif {
-                        self.stopLoading(image: gifImage)
+                        //Check if the loaded image is for the post currently being shown.
+                        if id == self.post?.thing_id {
+                            self.stopLoading(image: gifImage)
+                        }
                     }
                 }
             }
@@ -148,7 +180,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                 guard let data = data, error == nil else { return }
                 DispatchQueue.main.async() { () -> Void in
                     if let img = UIImage(data: data) {
-                        self.stopLoading(image: img)
+                        if id == self.post?.thing_id {
+                            self.stopLoading(image: img)
+                        }
                     }
                 }
             }
@@ -164,6 +198,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         self.imgView.image = image
         self.imgView.contentMode = .scaleAspectFit
         self.imageSpinner.stopAnimating()
+        
     }
     
     
@@ -204,13 +239,13 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     //MARK: - Navigation
     @IBAction func open(_ sender: UITapGestureRecognizer) {
         if let image = mainImage {
-            let popupWindow = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popup") as! PopupViewController
-            self.addChildViewController(popupWindow)
-            popupWindow.view.frame = self.view.frame
-            self.view.addSubview(popupWindow.view)
-            popupWindow.imgView.image = image
-            popupWindow.imgView.contentMode = .scaleAspectFit
-            popupWindow.didMove(toParentViewController: self)
+            popupWindow = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popup") as? PopupViewController
+            self.addChildViewController(popupWindow!)
+            popupWindow!.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+            self.view.addSubview(popupWindow!.view)
+            popupWindow!.imgView.image = image
+            popupWindow!.imgView.contentMode = .scaleAspectFit
+            popupWindow!.didMove(toParentViewController: self)
         }
     }
 }

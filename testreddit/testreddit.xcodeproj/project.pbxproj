@@ -16,6 +16,7 @@
 		84354D971F06810C00680FEA /* RedditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84354D961F06810C00680FEA /* RedditType.swift */; };
 		84354D991F06817300680FEA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84354D981F06817300680FEA /* HTTPMethod.swift */; };
 		84354D9B1F06818E00680FEA /* ContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84354D9A1F06818E00680FEA /* ContentType.swift */; };
+		84354D9D1F06959200680FEA /* MainIpad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84354D9C1F06959200680FEA /* MainIpad.storyboard */; };
 		845E88A41F0554D700F1D2F6 /* WebUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E88A31F0554D700F1D2F6 /* WebUtils.swift */; };
 		847779FF1EFD1D1300F13CA4 /* CommentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847779FE1EFD1D1300F13CA4 /* CommentUtils.swift */; };
 		84777A011EFD24CD00F13CA4 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84777A001EFD24CD00F13CA4 /* WebService.swift */; };
@@ -74,6 +75,7 @@
 		84354D961F06810C00680FEA /* RedditType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedditType.swift; sourceTree = "<group>"; };
 		84354D981F06817300680FEA /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		84354D9A1F06818E00680FEA /* ContentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentType.swift; sourceTree = "<group>"; };
+		84354D9C1F06959200680FEA /* MainIpad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MainIpad.storyboard; path = ../MainIpad.storyboard; sourceTree = "<group>"; };
 		845E88A31F0554D700F1D2F6 /* WebUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebUtils.swift; sourceTree = "<group>"; };
 		847779FE1EFD1D1300F13CA4 /* CommentUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentUtils.swift; sourceTree = "<group>"; };
 		84777A001EFD24CD00F13CA4 /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				84F66C0C1EF1866100408CF0 /* networking */,
 				84F66BD21EF00FB800408CF0 /* AppDelegate.swift */,
 				84F66BD61EF00FB800408CF0 /* Main.storyboard */,
+				84354D9C1F06959200680FEA /* MainIpad.storyboard */,
 				84F66BDB1EF00FB800408CF0 /* LaunchScreen.storyboard */,
 				84F66BD91EF00FB800408CF0 /* Assets.xcassets */,
 				84F66BDE1EF00FB800408CF0 /* Info.plist */,
@@ -413,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84F66BDD1EF00FB800408CF0 /* LaunchScreen.storyboard in Resources */,
+				84354D9D1F06959200680FEA /* MainIpad.storyboard in Resources */,
 				84F66BDA1EF00FB800408CF0 /* Assets.xcassets in Resources */,
 				84F66BD81EF00FB800408CF0 /* Main.storyboard in Resources */,
 			);

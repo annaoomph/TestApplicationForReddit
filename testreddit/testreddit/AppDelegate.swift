@@ -15,8 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if let splitViewController = self.window!.rootViewController as? UISplitViewController {
+            let masterViewController = splitViewController.viewControllers.first as! UITabBarController
+            masterViewController.selectedIndex = PreferenceManager().getLastOpenedTab()
+        }
         
-        if let tabBarController = self.window?.rootViewController as? UITabBarController {
+        if let tabBarController = self.window!.rootViewController as? UITabBarController {
             tabBarController.selectedIndex = PreferenceManager().getLastOpenedTab()
         }
         return true

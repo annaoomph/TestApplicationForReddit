@@ -28,7 +28,7 @@ class BaseParser {
     func getItems(json: JSON, inner: Bool = false) -> (JSON?) {
         let kind = inner ? json[1][BaseParser.KIND_KEY].stringValue : json[BaseParser.KIND_KEY].stringValue
         
-        guard kind == RedditType.LISTING.rawValue else {
+        guard kind == RedditJsonType.LISTING.rawValue else {
             return (nil)
         }
         let items = inner ? json[1][BaseParser.DATA_KEY][BaseParser.CHILDREN_KEY] : json[BaseParser.DATA_KEY][BaseParser.CHILDREN_KEY] 

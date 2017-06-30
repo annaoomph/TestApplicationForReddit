@@ -10,7 +10,7 @@ import UIKit
 
 class PopupViewController: UIViewController {
     
-    
+    var isShown = false
     /// A button to close the popup.
     @IBOutlet weak var close: UIButton!
     
@@ -38,6 +38,7 @@ class PopupViewController: UIViewController {
     
     //MARK: - Animation
     func showAnimate() {
+        isShown = true
         self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         self.view.alpha = 0.0;
         UIView.animate(withDuration: 0.25, animations: {
@@ -47,6 +48,7 @@ class PopupViewController: UIViewController {
     }
     
     func removeAnimate() {
+        isShown = false
         UIView.animate(withDuration: 0.25, animations: {
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             self.view.alpha = 0.0;

@@ -51,7 +51,7 @@ public class LinkM: NSManagedObject {
         linkM.thumbnail = thumbnail
         linkM.is_self = is_self
         linkM.author = JSONData["author"].string
-        linkM.selftext_html = JSONData["selftext_html"].string
+        linkM.selftext_html = JSONData["selftext"].string
         linkM.thing_id = id
         //Here autoincrement the order value.
         linkM.order = CoreDataManager.instance.getLastOrderNumber() + 1
