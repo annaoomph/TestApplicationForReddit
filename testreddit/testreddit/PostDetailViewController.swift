@@ -26,7 +26,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Title of the post.
     @IBOutlet weak var titleLabel: UILabel!
     
+    /// Label saying that the post looks better in a browser.
     @IBOutlet weak var hintLabel: UILabel!
+    
     //MARK: - Properties
     /// Loads data from server.
     let loader = Loader()
@@ -39,6 +41,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     /// A list of comments for the shown post.
     var comments: [Comment] = []
+    
+    /// Whether the request to server is still loading.
+    var refreshingInProgress = false
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -56,7 +61,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     // MARK: - Table view data source
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -76,23 +80,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             fatalError("Not loaded cell")
         }
         let (level, returnedComment) = CommentUtils().findComment(indexOfTheComment: indexPath.row, level: -1, comments: comments)
-        var mark = "  "
-        var repliesText = "0"
+        
         if let comment = returnedComment {
-            if let replies = comment.replies,
-                replies.count > 0 {
-                mark = comment.opened ? "v" : ">"
-                repliesText = "\(replies.count)"
-            }
-            let mutableString = NSMutableAttributedString(string: "\(comment.score) \(comment.author) replies: \(repliesText)", attributes: nil)
-            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(comment.score)".characters.count))
-            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: "\(comment.score)".characters.count + 1, length:comment.author.characters.count))
-            cell.infoLabel.attributedText = mutableString
-            
-            let margin = String(repeating: "    ", count: level)
-            cell.marginLabel.text = "\(margin)\(mark)"
-            cell.marginLabel.contentMode = .scaleAspectFit
-            cell.titleLabel.text = comment.body
+            cell.constructLabels(comment: comment, level: level)
         }
         
         return cell
@@ -110,8 +100,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func refresh(sender:AnyObject) {
-        if let realPost = post {
-            loader.getComments(postId: realPost.id, callback: onCommentsDelivered(comments:error:))
+        if let realPost = post, !refreshingInProgress {
+            refreshingInProgress = true
+            loader.getComments(postId: realPost.thing_id, callback: onCommentsDelivered(comments:error:))
         }
     }
     
@@ -135,7 +126,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             }
             refresh(sender: self)
         }
-
     }
     
     /// Loads the post image from the given url.
@@ -176,6 +166,10 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         self.imageSpinner.stopAnimating()
     }
     
+    
+    /// Opens the post in a browser.
+    ///
+    /// - Parameter sender: bar button
     @IBAction func viewInBrowser(_ sender: UIBarButtonItem) {
         if let loadedPost = post, let url = URL(string: loadedPost.url) {
             UIApplication.shared.open(url, options: [:])
@@ -184,6 +178,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     //MARK: - Callbacks
     func onCommentsDelivered(comments: [Comment]?, error: Error?) {
+        refreshingInProgress = false
         if let receivedComments = comments {
             self.comments = receivedComments
         } else if let caughterror = error {
@@ -195,6 +190,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
+    /// Displays an alert with an error.
+    ///
+    /// - Parameter error: error object
     func displayError(error: Error) {
         let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error: error as! RedditError) : error.localizedDescription
         let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)

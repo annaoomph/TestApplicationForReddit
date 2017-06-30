@@ -20,13 +20,13 @@ class PostsParser: BaseParser {
     ///
     /// - Parameter json: json string from server
     /// - Returns: an optional array of links (posts) and the last loaded post id
-    func parseItems(json: JSON, clearDb: Bool = false) -> ([LinkM]?, String?) {
+    func parseItems(json: JSON, clearDb: Bool = false) -> ([LinkM]?) {
         var links: [LinkM] = []
         
-        let (items, afterLink) = getItems(json: json)
+        let items = getItems(json: json)
         
         guard let itemsArray = items else {
-            return (nil, nil)
+            return (nil)
         }
         
         for (_, item) in itemsArray {
@@ -41,6 +41,6 @@ class PostsParser: BaseParser {
                 links.append(link)
             }
         }
-        return (links, afterLink)
+        return (links)
     }
 }

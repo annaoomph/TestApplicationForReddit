@@ -21,21 +21,18 @@ class CommentsParser: BaseParser {
     func parseItems(json: JSON, inner: Bool) -> [Comment]? {
         var comments: [Comment] = []
         
-        let (items, _) = getItems(json: json, inner: inner)
-        
-        guard let itemsArray = items else {
+        guard let items = getItems(json: json, inner: inner) else {
             return nil
         }
         
-        for (_, item) in itemsArray {
+        for (_, item) in items {
             guard let itemData = getItemData(item: item, type: RedditTypes.COMMENT) else {
                 continue
             }
             if let comment = Comment(JSONData: itemData) {
                 comments.append(comment)
             }
-        }
-        
+        }        
         return comments
     }
 }

@@ -69,6 +69,7 @@ public class CoreDataManager {
         }
     }
     
+    /// Clears cache in the database.
     func clear() {
         let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
         do {
@@ -79,5 +80,35 @@ public class CoreDataManager {
             try managedObjectContext.save()
         } catch {}
         
+    }
+    
+    /// Gets the id of the last post in a database.
+    ///
+    /// - Returns: id string
+    func getLastPostId() -> String? {
+        let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
+        let sort = NSSortDescriptor (key: "order", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        do {
+            let objects = try managedObjectContext.fetch(fetchRequest)
+            return objects.last?.thing_id
+        } catch {
+            return nil
+        }
+    }
+    
+    /// Gets the last post order number.
+    ///
+    /// - Returns: order number
+    func getLastOrderNumber() -> Int {
+        let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
+        let sort = NSSortDescriptor (key: "order", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        do {
+            let objects = try managedObjectContext.fetch(fetchRequest)
+            return objects.last?.order ?? 0
+        } catch {
+            return 0
+        }
     }
 }

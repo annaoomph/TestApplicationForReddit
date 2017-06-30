@@ -37,20 +37,16 @@ class BaseParser {
     /// - Parameters:
     ///   - json: json string
     ///   - inner: if this is an inner dictionary
-    /// - Returns: a dictionary of items and the anchor to the last item (can be nil)
-    func getItems(json: JSON, inner: Bool = false) -> (JSON?, String?) {
+    /// - Returns: a dictionary of items
+    func getItems(json: JSON, inner: Bool = false) -> (JSON?) {
         let kind = inner ? json[1][BaseParser.KIND_KEY].stringValue : json[BaseParser.KIND_KEY].stringValue
         
         guard kind == RedditTypes.LISTING.rawValue else {
-            return (nil, nil)
+            return (nil)
         }
-        guard let items = inner ? json[1][BaseParser.DATA_KEY].dictionary : json[BaseParser.DATA_KEY].dictionary else {
-            return (nil, nil)
-        }
+        let items = inner ? json[1][BaseParser.DATA_KEY][BaseParser.CHILDREN_KEY] : json[BaseParser.DATA_KEY][BaseParser.CHILDREN_KEY] 
         
-        let itemsArray = items[BaseParser.CHILDREN_KEY]
-        let after = items[BaseParser.AFTER_KEY]?.string
-        return (itemsArray, after)
+        return items
     }
     
     

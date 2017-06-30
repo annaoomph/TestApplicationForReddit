@@ -85,6 +85,5 @@ class CommentUtils {
             }
         }
         return initial
-    }
-    
+    }    
 }

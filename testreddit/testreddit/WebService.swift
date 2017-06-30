@@ -34,7 +34,7 @@ class WebService {
         request.addValue("User-Agent: ios:testredditapp (by /u/annaoomph", forHTTPHeaderField: "User-Agent")
         
         if httpMethod == .post, let bodyArray = body {
-            let bodyString = getBodyString(body: bodyArray)
+            let bodyString = WebUtils.getParameterString(parameters: bodyArray)
             request.httpBody = bodyString.data(using: String.Encoding.utf8)
         }
         
@@ -64,21 +64,6 @@ class WebService {
             (data, response, error) in
             completion(data, response, error)
             }.resume()
-    }
-    
-    /// Get the body string from the given array of parameters.
-    ///
-    /// - Parameter body: array of parameters
-    /// - Returns: body string
-    func getBodyString(body: [String: String]) -> String {
-        var bodyString = ""
-        for (key, value) in body {
-            let parameter = "\(key)=\(value)&"
-            bodyString.append(parameter)
-        }
-        
-        bodyString.remove(at: bodyString.index(before: bodyString.endIndex))
-        return bodyString
     }
 
 }

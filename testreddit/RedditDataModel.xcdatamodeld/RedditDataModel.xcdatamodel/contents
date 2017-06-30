@@ -4,17 +4,18 @@
         <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="created" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="domain" attributeType="String" syncable="YES"/>
-        <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="is_self" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="num_comments" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="score" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="selftext_html" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="subreddit" attributeType="String" syncable="YES"/>
+        <attribute name="thing_id" attributeType="String" syncable="YES"/>
         <attribute name="thumbnail" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
         <attribute name="url" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="LinkM" positionX="-45" positionY="0" width="128" height="225"/>
+        <element name="LinkM" positionX="-45" positionY="0" width="128" height="240"/>
     </elements>
 </model>

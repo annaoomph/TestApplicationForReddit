@@ -21,7 +21,6 @@ class PostTableViewCell: UITableViewCell {
     
     /// A label with additional information about the post (like creation time, author, etc).
     @IBOutlet weak var infoLabel: UILabel!
-   
     
     /// Starts async loading the image for the cell and displays it when ready.
     ///
@@ -34,6 +33,29 @@ class PostTableViewCell: UITableViewCell {
                 self.imgView.image = UIImage(data: data)
                 self.imgView.contentMode = .scaleAspectFit
             }
+        }
+    }
+    
+    
+    /// Constructs the text on all the call labels.
+    ///
+    /// - Parameter post: the post itself.
+    func constructLabels(post: LinkM) {
+        titleLabel.text = post.title
+        scoreLabel.text = "\(post.score)"
+        scoreLabel.textColor = Configuration.Colors.red
+        let date = DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(post.created)), dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.short)
+        //Building colored info string.
+        if let author = post.author {
+            let domain = post.is_self ? "" : "at \(post.domain)"
+            let mutableString = NSMutableAttributedString(string: "Submitted at \(date) by \(author) to \(post.subreddit) \(domain)", attributes: nil)
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.green, range: NSRange(location: 13, length:String(date)!.characters.count))
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: 17 + String(date)!.characters.count, length: author.characters.count))
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.orange, range: NSRange(location: mutableString.length - post.subreddit.characters.count - domain.characters.count - 1, length: post.subreddit.characters.count))
+            if domain.characters.count > 0 {
+                mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: mutableString.length - domain.characters.count + 3, length: domain.characters.count - 3))
+            }
+            infoLabel.attributedText = mutableString
         }
     }
 }

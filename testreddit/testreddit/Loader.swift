@@ -9,6 +9,11 @@
 import Foundation
 import SwiftyJSON
 
+enum ContentType: String {
+    case POSTS = "posts"
+    case COMMENTS = "comments"
+}
+
 /// Loads data from server and parses it.
 class Loader {
     
@@ -18,17 +23,16 @@ class Loader {
         webService = WebService()
     }
     
-    
     /// Tries to update the token value if needed and returns the actual value in a callback.
     ///
     /// - Parameters:
     ///   - pendingRequest: a request waiting to be executed, needs a valid token value to perform execution
     private func getToken(pendingRequest: @escaping (_ token: String?, _ error: Error?) -> Void) {
-        if tokenExpired() {
+        if WebUtils.tokenExpired() {
             let url = URL(string: Configuration.TOKEN_URL);
             let body = ["grant_type" : Configuration.GRANT_TYPE_VALUE, "device_id" : NSUUID().uuidString]
             
-            webService.makeRequest(url: url!, authorization: getAuthorizationString(), httpMethod: .post, body: body) {
+            webService.makeRequest(url: url!, authorization: WebUtils.getAuthorizationString(), httpMethod: .post, body: body) {
                 json, errString in
                 if let error = errString {
                     pendingRequest(nil, error)
@@ -58,7 +62,7 @@ class Loader {
             }
             //If no need to update token (it has not expired), continue executing the callback function with the existing token value.
         } else {
-            pendingRequest(getToken(), nil)
+            pendingRequest(WebUtils.getToken(), nil)
         }
     }
     
@@ -67,43 +71,13 @@ class Loader {
     ///
     /// - Parameters:
     ///   - more: if the request for loading more posts was made
-    ///   - lastPost: last shown post (can be nil, if more set to false)
     ///   - callback: delegate
-    func getPosts(more: Bool = false, lastPost: String? = nil, callback: @escaping (_ posts: [LinkM]?, _ after: String?, _ error: Error?) -> Void) {
-        getToken {
-            token, error in
-            if let appToken = token {
-                var urlString = Configuration.POSTS_URL
-                if let parameters = lastPost,
-                    more {
-                    urlString.append("?after=\(parameters)")
-                }
-                let url = URL(string: urlString);
-                self.webService.makeRequest(url: url!, authorization: appToken, httpMethod: .get) {
-                    json, errString in
-                    if let error = errString {
-                        callback(nil, nil, error)
-                    } else {
-                        if let dictionary = json {
-                            let (items, after) = PostsParser().parseItems(json: JSON(data: dictionary), clearDb: !more)
-                            if let itemsArray = items {
-                                CoreDataManager.instance.saveContext()
-                                callback(itemsArray, after, nil)
-                            } else {
-                                callback(nil, nil, RedditError.ParseError(type: "posts"))
-                            }
-                            
-                        } else {
-                            callback(nil, nil, RedditError.LoadError(type: "posts"))
-                        }
-                    }
-                }
-            } else {
-                callback(nil, nil, error)
-            }
-        }
+    func getPosts(more: Bool = false, callback: @escaping (_ posts: [LinkM]?, _ error: Error?) -> Void) {
+        var urlString = Configuration.POSTS_URL
+        urlString = more ? WebUtils.constructUrl(baseUrl: urlString, parameters: ["after" : "t3_\(WebUtils.getLastPostAnchor())"]) : urlString
+        let url = URL(string: urlString)
+        makeGetRequest(url: url!, type: .POSTS, additionalParameter: !more, callback: callback, parseFunction: PostsParser().parseItems(json:clearDb:))
     }
-    
     
     /// Requests a list of comments for a certain post.
     ///
@@ -111,23 +85,39 @@ class Loader {
     ///   - postId: id of the post (or link)
     ///   - callback: delegate
     func getComments(postId: String,  callback: @escaping (_ comments: [Comment]? , _ error: Error?) -> Void) {
+        let url = URL(string: "\(Configuration.COMMENTS_URL)\(postId)")
+        makeGetRequest(url: url!, type: .COMMENTS, additionalParameter: true, callback: callback, parseFunction: CommentsParser().parseItems(json:inner:))
+    }
+    
+    
+    /// Makes a get request, parses it with the given function and returns the result to the given callback.
+    ///
+    /// - Parameters:
+    ///   - url: url to make request to
+    ///   - type: type of the data
+    ///   - additionalParameter: additional parsing parameter
+    ///   - callback: callback for result of the request
+    ///   - parseFunction: a function for parsing data
+    func makeGetRequest<T>(url: URL, type: ContentType, additionalParameter: Bool, callback: @escaping (_ items: [T]? , _ error: Error?) -> Void, parseFunction: @escaping (_ json: JSON, _ additionalParameter: Bool) -> [T]?) {
         getToken {
             token, error in
             if let appToken = token {
-                let url = URL(string: "\(Configuration.COMMENTS_URL)\(postId)");
-                self.webService.makeRequest(url: url!, authorization: appToken, httpMethod: .get) {
+                self.webService.makeRequest(url: url, authorization: appToken, httpMethod: .get) {
                     json, errString in
-                    if let error = errString {
-                        callback(nil, error)
+                    if let errorResp = error {
+                        callback(nil, errorResp)
                     } else {
                         if let dictionary = json {
-                            if let items = CommentsParser().parseItems(json: JSON(data: dictionary), inner: true) {
+                            if let items = parseFunction(JSON(data: dictionary), additionalParameter) {
+                                if type == .POSTS {
+                                    CoreDataManager.instance.saveContext()
+                                }
                                 callback(items, nil)
                             } else {
-                                callback(nil, RedditError.ParseError(type: "comments"))
+                                callback(nil, RedditError.ParseError(type: type.rawValue))
                             }
                         } else {
-                            callback(nil, RedditError.LoadError(type: "comments"))
+                            callback(nil, RedditError.LoadError(type: type.rawValue))
                         }
                     }
                 }
@@ -135,37 +125,5 @@ class Loader {
                 callback(nil, error)
             }
         }
-    }
-    
-    
-    /// Checks if the current token has expired.
-    ///
-    /// - Returns: true if it needs to be refreshed, false otherwise.
-    func tokenExpired() -> Bool {
-        let expirationDate = PreferenceManager().getTokenExpirationDate()
-        let date = Date(timeIntervalSince1970: TimeInterval(expirationDate - 60))
-        return date < Date()
-    }
-    
-    
-    
-    /// Gets the authorization string for getting the token (app only athorization).
-    ///
-    /// - Returns: header auth string
-    func getAuthorizationString() -> String {
-        let username = Configuration.APP_ONLY_USERNAME
-        let password = ""
-        let loginString = NSString(format: "%@:%@", username, password)
-        let loginData: NSData = loginString.data(using: String.Encoding.utf8.rawValue)! as NSData
-        let base64LoginString = loginData.base64EncodedString(options: NSData.Base64EncodingOptions())
-        return "Basic \(base64LoginString)"
-    }
-    
-    
-    /// Gets the token from preferences.
-    ///
-    /// - Returns: header auth string with token
-    func getToken() -> String {
-        return "Bearer \(PreferenceManager().getToken())"
     }
 }

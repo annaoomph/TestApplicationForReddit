@@ -9,17 +9,23 @@
 import UIKit
 import CoreData
 
-class PostsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate  {
+class NewPostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     //MARK: - Properties
+    //Contains the list of posts from the internet.
+    var postsList = [LinkM]()
     
+     
     @IBOutlet weak var tableView: UITableView!
+    
+    //Defines whether the table should show local or loaded from the internet version of data.
+    var local = false
     
     /// Loader for loading data from server.
     let loader = Loader()
     
-    /// Whether the request to server is still loading.
-    var refreshingInProgress = false
+    /// Stores the id of the last loaded from the server post.
+    var lastPost: String?
     
     /// Controller for loading data from local database.
     var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
@@ -29,8 +35,9 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        startRefreshControl()
-        loadFromDatabase()
+      //  startRefreshControl()
+       // loadFromDatabase()
+       // refresh(sender: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,10 +54,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         let height = size.height;
         let reloadDistance = CGFloat(50);
         if y > height + reloadDistance {
-            if !refreshingInProgress {
-                refreshingInProgress = true
-                loader.getPosts(more: true, callback: onMorePostsDelivered(posts: error:))
-            }
+            //loader.getPosts(more: true, lastPost: lastPost, callback: onMorePostsDelivered(posts: after: error:))
         }
     }
     
@@ -58,33 +62,22 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     func startRefreshControl() {
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl!.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
+        tableView.refreshControl!.beginRefreshing()
     }
     
     func refresh(sender:AnyObject) {
-        if !refreshingInProgress {
-            refreshingInProgress = true
-            loader.getPosts(callback: onPostsDelivered(posts: error:))
-        }
+       // loader.getPosts(callback: onPostsDelivered(posts: after: error:))
     }
     
     //MARK: - Fetching
     func loadFromDatabase() {
         let fetchRequest = NSFetchRequest<LinkM>(entityName: "LinkM")
-        let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "score", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsControllerForPosts!.delegate = self
-        //Execute fetch request for table data source.
         try! fetchedResultsControllerForPosts!.performFetch()
-        
-        //Check if there are items in a database and send request to server if there are none.
-        DispatchQueue.global().async {
-            let objects = try! CoreDataManager.instance.managedObjectContext.fetch(fetchRequest)
-            if objects.count == 0 {
-                self.refresh(sender: self)
-            }
-        }
     }
+    
     
     /// Gets the number of posts in the database.
     ///
@@ -98,7 +91,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     /// - Parameter indexPath: index of the post
     /// - Returns: post
     func getPostAt(indexPath: IndexPath) -> LinkM {
-        return fetchedResultsControllerForPosts!.object(at: indexPath)
+        return local ? fetchedResultsControllerForPosts!.object(at: indexPath) : postsList[indexPath.row]
     }
     
     // MARK: - Table view data source
@@ -107,7 +100,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return getPostCount()
+        return (local) ? getPostCount() : postsList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -116,34 +109,72 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         }
         let post = getPostAt(indexPath: indexPath)
         
-        cell.constructLabels(post: post)
-        
+        cell.titleLabel.text = post.title
+        cell.scoreLabel.text = "\(post.score)"
+        cell.scoreLabel.textColor = Configuration.Colors.red
+        let date = DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(post.created)), dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.short)
+        //Building colored info string.
+        if let author = post.author {
+            let domain = post.is_self ? "" : "at \(post.domain)"
+            let mutableString = NSMutableAttributedString(string: "Submitted at \(date) by \(author) to \(post.subreddit) \(domain)", attributes: nil)
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.green, range: NSRange(location: 13, length:String(date)!.characters.count))
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: 17 + String(date)!.characters.count, length: author.characters.count))
+            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.orange, range: NSRange(location: mutableString.length - post.subreddit.characters.count - domain.characters.count - 1, length: post.subreddit.characters.count))
+            if domain.characters.count > 0 {
+                mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: mutableString.length - domain.characters.count + 3, length: domain.characters.count - 3))
+            }
+            cell.infoLabel.attributedText = mutableString
+        }
         if let checkedUrl = URL(string: post.thumbnail) {
             cell.downloadImage(url: checkedUrl)
         }
         return cell
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return local ? "Can't connect to server. Showing cashed posts" : ""
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+        header.backgroundView?.backgroundColor = UIColor.red
+    }
+    
     //MARK: - Callbacks
-    func onPostsDelivered(posts: [LinkM]?, error: Error?) {
-        refreshingInProgress = false
+    func onPostsDelivered(posts: [LinkM]?, after: String?, error: Error?) {
+        lastPost = after
         if let caughtError = error {
+            local = true
             displayError(error: caughtError)
+        } else {
+            local = false
+        }
+        if let receivedPosts = posts {
+            postsList = receivedPosts
         }
         DispatchQueue.main.sync() {
+            tableView.reloadData()
             tableView.refreshControl!.endRefreshing()
         }
     }
     
-    func onMorePostsDelivered(posts: [LinkM]?, error: Error?) {
-        refreshingInProgress = false
+    func onMorePostsDelivered(posts: [LinkM]?, after: String?, error: Error?) {
+        lastPost = after
         if let caughtError = error {
+            local = true
             displayError(error: caughtError)
+        } else {
+            local = false
+        }
+        if let receivedPosts = posts {
+            postsList += receivedPosts
         }
         DispatchQueue.main.sync() {
+            tableView.reloadData()
             if error == nil {
                 //Scrolls to the middle of the loaded posts so the user can see that they are loaded.
-                let indexPath = IndexPath(row: getPostCount() - 25, section: 0)
+                let indexPath = IndexPath(row: postsList.count - 25, section: 0)
                 tableView.scrollToRow(at: indexPath,
                                       at: UITableViewScrollPosition.middle, animated: true)
             }
@@ -171,18 +202,10 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    /// Called when fetch controller has loaded its items.
-    ///
-    /// - Parameter controller: fetch controller
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        if getPostCount() > 0 {
-            tableView.reloadData()
-        }
-    }
     
     /// Displays a certain error.
     ///
-    /// - Parameter error: error object
+    /// - Parameter errorString: a string describing the error
     func displayError(error: Error) {
         let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error: error as! RedditError) : error.localizedDescription
         let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)

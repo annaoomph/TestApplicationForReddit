@@ -14,11 +14,16 @@ import SwiftyJSON
 /// A class describing a link (or a post) in reddit.
 public class LinkM: NSManagedObject {
     
-    //A list of url's to the images connected with the post.
+    ///A list of url's to the images connected with the post.
     public var bigImages: [String?] = []
     
+    ///A path to additional information from the post (e. g. gifs, videos).
     public var additionalData: String?
     
+    /// Creates an instance of the Link and writes it to the core data context.
+    ///
+    /// - Parameter JSONData: json from the server
+    /// - Returns: an object of Link type
     class func create(JSONData: JSON) -> LinkM? {
         let linkM = NSEntityDescription.insertNewObject(forEntityName: "LinkM", into: CoreDataManager.instance.managedObjectContext) as! LinkM
         
@@ -47,11 +52,12 @@ public class LinkM: NSManagedObject {
         linkM.is_self = is_self
         linkM.author = JSONData["author"].string
         linkM.selftext_html = JSONData["selftext_html"].string
-        linkM.id = id
+        linkM.thing_id = id
+        //Here autoincrement the order value.
+        linkM.order = CoreDataManager.instance.getLastOrderNumber() + 1
         let images = JSONData["preview"]["images"]
         let enabled = JSONData["preview"]["enabled"].boolValue
         if enabled {
-            
             for (_, image) in images {
                 if let bigImage = image["source"]["url"].string {
                     linkM.bigImages.append(bigImage)

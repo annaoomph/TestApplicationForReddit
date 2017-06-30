@@ -13,6 +13,8 @@
 		84279C701EF2CD62006BDD70 /* PostsParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C6F1EF2CD62006BDD70 /* PostsParser.swift */; };
 		84279C761EF44AB4006BDD70 /* PostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */; };
 		84279C781EF44AE7006BDD70 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84279C771EF44AE7006BDD70 /* PostTableViewCell.swift */; };
+		845E88A41F0554D700F1D2F6 /* WebUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E88A31F0554D700F1D2F6 /* WebUtils.swift */; };
+		8467689D1F05111F00EA3B9A /* NewPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8467689C1F05111F00EA3B9A /* NewPostsViewController.swift */; };
 		847779FF1EFD1D1300F13CA4 /* CommentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847779FE1EFD1D1300F13CA4 /* CommentUtils.swift */; };
 		84777A011EFD24CD00F13CA4 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84777A001EFD24CD00F13CA4 /* WebService.swift */; };
 		84777A031EFD24E600F13CA4 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84777A021EFD24E600F13CA4 /* Loader.swift */; };
@@ -67,6 +69,8 @@
 		84279C6F1EF2CD62006BDD70 /* PostsParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsParser.swift; sourceTree = "<group>"; };
 		84279C751EF44AB4006BDD70 /* PostsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsTableViewController.swift; sourceTree = "<group>"; };
 		84279C771EF44AE7006BDD70 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		845E88A31F0554D700F1D2F6 /* WebUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebUtils.swift; sourceTree = "<group>"; };
+		8467689C1F05111F00EA3B9A /* NewPostsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPostsViewController.swift; sourceTree = "<group>"; };
 		847779FE1EFD1D1300F13CA4 /* CommentUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentUtils.swift; sourceTree = "<group>"; };
 		84777A001EFD24CD00F13CA4 /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		84777A021EFD24E600F13CA4 /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 				84279C771EF44AE7006BDD70 /* PostTableViewCell.swift */,
 				841FB69B1EFBEE980049475C /* CommentTableViewCell.swift */,
 				8486C5001F017E2900B81FD8 /* PopupViewController.swift */,
+				8467689C1F05111F00EA3B9A /* NewPostsViewController.swift */,
 			);
 			name = ui;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 			children = (
 				84777A001EFD24CD00F13CA4 /* WebService.swift */,
 				84777A021EFD24E600F13CA4 /* Loader.swift */,
+				845E88A31F0554D700F1D2F6 /* WebUtils.swift */,
 			);
 			name = networking;
 			sourceTree = "<group>";
@@ -559,6 +565,7 @@
 			files = (
 				847D2DBD1EF82A41007FC21F /* RedditDataModel.xcdatamodeld in Sources */,
 				8486405D1EF53549003ACD98 /* CommentsParser.swift in Sources */,
+				845E88A41F0554D700F1D2F6 /* WebUtils.swift in Sources */,
 				84279C761EF44AB4006BDD70 /* PostsTableViewController.swift in Sources */,
 				84279C701EF2CD62006BDD70 /* PostsParser.swift in Sources */,
 				847D2DD11EF942EF007FC21F /* LinkM+CoreDataClass.swift in Sources */,
@@ -572,6 +579,7 @@
 				84DCDF7D1EF19BAF004EFEE7 /* Token.m in Sources */,
 				84777A011EFD24CD00F13CA4 /* WebService.swift in Sources */,
 				84777A031EFD24E600F13CA4 /* Loader.swift in Sources */,
+				8467689D1F05111F00EA3B9A /* NewPostsViewController.swift in Sources */,
 				84B5733A1F03B9B7009EFB12 /* ErrorHandler.swift in Sources */,
 				8486C5011F017E2900B81FD8 /* PopupViewController.swift in Sources */,
 				84777A051EFD296300F13CA4 /* Configuration.swift in Sources */,

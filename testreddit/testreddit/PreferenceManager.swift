@@ -31,7 +31,6 @@ public class PreferenceManager {
         preferences.set(token, forKey: PreferenceManager.TOKEN_KEY)
     }
     
-    
     /// Save the date when the given token expires.
     ///
     /// - Parameter date: time from 1970, in seconds (TimeInterval).
@@ -51,7 +50,6 @@ public class PreferenceManager {
         }
         return 0
     }
-    
     
     /// Gets the current token value.
     ///
