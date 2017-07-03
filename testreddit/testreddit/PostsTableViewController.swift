@@ -160,7 +160,10 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         if post.thumbnailEnabled(),
             let checkedUrl = URL(string: post.thumbnail) {
             cell.downloadImage(url: checkedUrl)
+        } else {
+            cell.imgView.image = #imageLiteral(resourceName: "Placeholder")
         }
+        
         return cell
     }
     

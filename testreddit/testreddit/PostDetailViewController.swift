@@ -46,6 +46,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     var post: LinkM?
     
     var popupWindow: PopupViewController?
+    var popupWebWindow: PopupWebViewController?
     
     /// A list of comments for the shown post.
     var comments: [Comment] = []
@@ -121,6 +122,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         if let realPost = post {
             if let popup = popupWindow, popup.isShown {
                 popup.removeAnimate()
+            }
+            if let popupWeb = popupWebWindow, popupWeb.isShown {
+                popupWeb.removeAnimate()
             }
             comments = []
             textLabel.text = realPost.selftext_html ?? ""
@@ -201,9 +205,19 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     ///
     /// - Parameter sender: bar button
     @IBAction func viewInBrowser(_ sender: UIBarButtonItem) {
-        if let loadedPost = post, let url = URL(string: loadedPost.url) {
-            UIApplication.shared.open(url, options: [:])
+        if let realPost = post {
+            if popupWebWindow == nil || !popupWebWindow!.isShown {
+                popupWebWindow = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popupweb") as? PopupWebViewController
+                popupWebWindow!.urlString = realPost.url
+                self.addChildViewController(popupWebWindow!)
+                popupWebWindow!.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+                self.view.addSubview(popupWebWindow!.view)
+                popupWebWindow!.didMove(toParentViewController: self)
+            }
         }
+        /*if let loadedPost = post, let url = URL(string: loadedPost.url) {
+         UIApplication.shared.open(url, options: [:])
+         }*/
     }
     
     //MARK: - Callbacks

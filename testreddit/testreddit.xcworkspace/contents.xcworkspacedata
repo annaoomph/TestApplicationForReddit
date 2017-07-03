@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:PopupWebViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:testreddit/LinkM+CoreDataClass.swift">
    </FileRef>
    <FileRef
