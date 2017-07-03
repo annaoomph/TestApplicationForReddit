@@ -24,7 +24,7 @@ class Loader {
     ///   - pendingRequest: a request waiting to be executed, needs a valid token value to perform execution
     private func getToken(pendingRequest: @escaping (_ token: String?, _ error: Error?) -> Void) {
         if WebUtils.tokenExpired() {
-            let url = URL(string: Configuration.TOKEN_URL);
+            let url = URL(string: Configuration.TOKEN_URL)
             let body = ["grant_type" : Configuration.GRANT_TYPE_VALUE, "device_id" : NSUUID().uuidString]
             
             webService.makeRequest(url: url!, authorization: WebUtils.getAuthorizationString(), httpMethod: .post, body: body) {
@@ -42,7 +42,7 @@ class Loader {
                                         var expirationDate = Date()
                                         expirationDate.addTimeInterval(TimeInterval(Int(token.expires_in)))
                                         PreferenceManager().saveTokenExpirationDate(date: Int(expirationDate.timeIntervalSince1970))
-                                        pendingRequest(token.access_token, nil)
+                                        pendingRequest(WebUtils.getToken(), nil)
                                     }
                                 }
                             } else {

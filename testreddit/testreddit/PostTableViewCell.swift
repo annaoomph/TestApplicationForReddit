@@ -22,16 +22,25 @@ class PostTableViewCell: UITableViewCell {
     /// A label with additional information about the post (like creation time, author, etc).
     @IBOutlet weak var infoLabel: UILabel!
     
+    /// Id of the post connected with the cell.
+    var postId: String?
+    
     /// Starts async loading the image for the cell and displays it when ready.
     ///
     /// - Parameter url: url of the image
     func downloadImage(url: URL) {
-        self.imgView.image = nil
+        self.imgView.image = #imageLiteral(resourceName: "Placeholder")
+        let thisImageView = self.imgView!
+        let currentPostId = postId ?? ""
         WebService().getDataFromUrl(url: url) { (data, response, error)  in
             guard let data = data, error == nil else { return }
             DispatchQueue.main.async() { () -> Void in
-                self.imgView.image = UIImage(data: data)
-                self.imgView.contentMode = .scaleAspectFit
+                //We should not attach this image to any other post cel except the one we have been downloading it for.
+                //That's why we need to check if id of the current cell matches with the id of the cell this image is intended for.
+                if self.postId == currentPostId {
+                    thisImageView.image = UIImage(data: data)
+                    thisImageView.contentMode = .scaleAspectFit
+                }
             }
         }
     }
@@ -41,6 +50,7 @@ class PostTableViewCell: UITableViewCell {
     ///
     /// - Parameter post: the post itself.
     func constructLabels(post: LinkM) {
+        postId = post.thing_id
         titleLabel.text = post.title
         scoreLabel.text = "\(post.score)"
         scoreLabel.textColor = Configuration.Colors.red

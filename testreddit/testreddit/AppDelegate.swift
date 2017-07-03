@@ -14,14 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        //If the device is iPad, the main controller would be split view controller. 
+        //Therefore, we need to do additional job to get to the tab view controller.
         if let splitViewController = self.window!.rootViewController as? UISplitViewController {
             splitViewController.preferredDisplayMode = .allVisible
             let masterViewController = splitViewController.viewControllers.first as! UITabBarController
             masterViewController.selectedIndex = PreferenceManager().getLastOpenedTab()
-        }
-        
-        if let tabBarController = self.window!.rootViewController as? UITabBarController {
+        } else if let tabBarController = self.window!.rootViewController as? UITabBarController {
+            //Otherwise, the main view controller would already be the tab view controller.
             tabBarController.selectedIndex = PreferenceManager().getLastOpenedTab()
         }
         return true

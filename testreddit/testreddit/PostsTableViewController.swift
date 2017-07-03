@@ -15,7 +15,6 @@ protocol PostSelectionDelegate: class {
 class PostsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate {
     
     //MARK: - Properties
-    
     @IBOutlet weak var tableView: UITableView!
     
     /// Loader for loading data from server.
@@ -26,22 +25,30 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Controller for loading data from local database.
     var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
-    weak var delegate: PostSelectionDelegate?
-    var delegateAttached = false
+    
+    /// Delegate from detail view controller listening to selected post events.
+    weak var postSelectionDelegate: PostSelectionDelegate?
+    
+    /// Defines whether the tab bar controller delegate is attached.
+    var tabControllerDelegateAttached = false
+    
     //MARK: - Lifecycle events
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //If the device is iPad, the variable with split controller would be defined, and we need to attach a delegate to this controller.
         if let split = splitViewController {
-            if let navController = split.viewControllers.last as? UINavigationController
-                 {
-                    let detailViewController = navController.topViewController as! PostDetailViewController
-                self.delegate = detailViewController
+            if let navController = split.viewControllers.last as? UINavigationController {
+                let detailViewController = navController.topViewController as! PostDetailViewController
+                self.postSelectionDelegate = detailViewController
             }
         }
-        if !delegateAttached {
+        
+        //Attach the tab bar delegate to listen when user switches between tabs.
+        //We don't need this behaviour the first time a tab appears, so the initial setup's done here.
+        if !tabControllerDelegateAttached {
             tabBarController?.delegate = self
-            delegateAttached = true
+            tabControllerDelegateAttached = true
         }
         if tabBarController?.selectedIndex == 0 {
             title = ContentType.PostType.HOT.rawValue
@@ -103,15 +110,20 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         fetchedResultsControllerForPosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsControllerForPosts!.delegate = self
         //Execute fetch request for table data source.
-        try! fetchedResultsControllerForPosts!.performFetch()
-        
-        //Check if there are items in a database and send request to server if there are none.
-        DispatchQueue.global().async {
-            let objects = try! CoreDataManager.instance.managedObjectContext.fetch(fetchRequest)
-            if objects.count == 0 {
-                self.refresh(sender: self)
+        do {
+            //If the execution fails here, we take items from server right away and don't check the number of items.
+            try fetchedResultsControllerForPosts!.performFetch()
+            //Check if there are items in a database and send request to server if there are none.
+            DispatchQueue.global().async {
+                let objects = try! CoreDataManager.instance.managedObjectContext.fetch(fetchRequest)
+                if objects.count == 0 {
+                    self.refresh(sender: self)
+                }
             }
+        } catch {
+            self.refresh(sender: self)
         }
+        
     }
     
     /// Gets the number of posts in the database.
@@ -145,15 +157,16 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         let post = getPostAt(indexPath: indexPath)
         
         cell.constructLabels(post: post)
-        
-        if let checkedUrl = URL(string: post.thumbnail) {
+        if post.thumbnailEnabled(),
+            let checkedUrl = URL(string: post.thumbnail) {
             cell.downloadImage(url: checkedUrl)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.delegate?.postSelected(newPost: getPostAt(indexPath: indexPath))
+        //If the delegate is not nil, it executes its method notifying that another cell is chosen.
+        self.postSelectionDelegate?.postSelected(newPost: getPostAt(indexPath: indexPath))
     }
     
     //MARK: - Callbacks
@@ -164,9 +177,9 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         }
         DispatchQueue.main.sync() {
             tableView.refreshControl!.endRefreshing()
-            if delegate != nil {
+            if postSelectionDelegate != nil {
                 tableView.selectRow(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: UITableViewScrollPosition.top)
-                delegate?.postSelected(newPost: getPostAt(indexPath: IndexPath(item: 0, section: 0)))
+                postSelectionDelegate?.postSelected(newPost: getPostAt(indexPath: IndexPath(item: 0, section: 0)))
             }
         }
     }
@@ -182,9 +195,10 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
                 let indexPath = IndexPath(row: getPostCount() - 25, section: 0)
                 tableView.scrollToRow(at: indexPath,
                                       at: UITableViewScrollPosition.middle, animated: true)
-                if delegate != nil {
+                if postSelectionDelegate != nil {
                     tableView.selectRow(at: IndexPath(item: getPostCount() - 25, section: 0), animated: true, scrollPosition: UITableViewScrollPosition.top)
-                    delegate?.postSelected(newPost: getPostAt(indexPath: IndexPath(item: getPostCount() - 25, section: 0)))
+                    //Select the top post, if there is a delegate.
+                    postSelectionDelegate?.postSelected(newPost: getPostAt(indexPath: IndexPath(item: getPostCount() - 25, section: 0)))
                 }
             }
         }

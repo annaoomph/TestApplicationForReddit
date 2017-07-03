@@ -70,4 +70,11 @@ public class LinkM: NSManagedObject {
         }
         return linkM
     }
+    
+    func thumbnailEnabled() -> Bool {
+        if thumbnail.contains("self") || thumbnail.contains("default") || thumbnail.contains("image") {
+            return false
+        }
+        return true
+    }
 }

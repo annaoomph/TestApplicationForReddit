@@ -23,9 +23,9 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var showHideComments: UIButton!
     /// Table for comments.
     @IBOutlet weak var tableView: UITableView!
-     
+    
     @IBOutlet weak var textLabel: UILabel!
-     
+    
     @IBOutlet weak var scrollView: UIScrollView!
     /// Title of the post.
     
@@ -52,12 +52,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Whether the request to server is still loading.
     var refreshingInProgress = false
-    
-    
-    func postSelected(newPost: LinkM) {
-        self.post = newPost
-        loadPost()
-    }
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -98,7 +92,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         if let comment = returnedComment {
             cell.constructLabels(comment: comment, level: level)
         }
-        
         return cell
     }
     
@@ -131,7 +124,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             }
             comments = []
             textLabel.text = realPost.selftext_html ?? ""
-            
             tableView.reloadData()
             hintLabel.isHidden = true
             self.mainImage = nil
@@ -152,8 +144,8 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                     downloadImage(url: checkedUrl)
                 } else {
                     if !realPost.is_self {
-                    hintLabel.isHidden = false
-                }
+                        hintLabel.isHidden = false
+                    }
                 }
             }
             refresh(sender: self)
@@ -203,9 +195,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         self.imgView.image = image
         self.imgView.contentMode = .scaleAspectFit
         self.imageSpinner.stopAnimating()
-        
     }
-    
     
     /// Opens the post in a browser.
     ///
@@ -247,6 +237,12 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         let OKAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(OKAction)
         self.present(alertController, animated: true, completion:nil)
+    }
+    
+    //MARK: - Post selected delegate
+    func postSelected(newPost: LinkM) {
+        self.post = newPost
+        loadPost()
     }
     
     //MARK: - Navigation
