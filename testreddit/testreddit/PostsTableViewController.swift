@@ -31,9 +31,13 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     //MARK: - Lifecycle events
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if let split = splitViewController {
-            let detailViewController = split.viewControllers.last as! PostDetailViewController
-            self.delegate = detailViewController        
+            if let navController = split.viewControllers.last as? UINavigationController
+                 {
+                    let detailViewController = navController.topViewController as! PostDetailViewController
+                self.delegate = detailViewController
+            }
         }
         if !delegateAttached {
             tabBarController?.delegate = self

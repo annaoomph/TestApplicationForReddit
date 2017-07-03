@@ -14,11 +14,6 @@ import SwiftyJSON
 /// A class describing a link (or a post) in reddit.
 public class LinkM: NSManagedObject {
     
-    ///A list of url's to the images connected with the post.
-    public var bigImages: [String?] = []
-    
-    ///A path to additional information from the post (e. g. gifs, videos).
-    public var additionalData: String?
     
     /// Creates an instance of the Link and writes it to the core data context.
     ///
@@ -58,22 +53,19 @@ public class LinkM: NSManagedObject {
         let images = JSONData["preview"]["images"]
         let enabled = JSONData["preview"]["enabled"].boolValue
         if enabled {
-            for (_, image) in images {
-                if let bigImage = image["source"]["url"].string {
-                    linkM.bigImages.append(bigImage)
-                }
-                
-                if let variants = image["variants"].dictionary {
-                    if let gifs = variants["gif"]?["source"]["url"].string {
-                        linkM.additionalData = gifs
-                        
-                    } else {
-                        if let mp4 = variants["mp4"]?["source"]["url"].string {
-                            linkM.additionalData = mp4
-                        }
+            if let bigImage = images[0]["source"]["url"].string {
+                linkM.image = bigImage
+            }
+            
+            if let variants = images[0]["variants"].dictionary {
+                if let gifs = variants["gif"]?["source"]["url"].string {
+                    linkM.additionalData = gifs
+                    
+                } else {
+                    if let mp4 = variants["mp4"]?["source"]["url"].string {
+                        linkM.additionalData = mp4
                     }
                 }
-                
             }
         }
         return linkM

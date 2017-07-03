@@ -54,5 +54,11 @@ extension LinkM {
     
     /// Basically an autoicremented property indicating the order of items that came from the server (as we don't know exactly what the sorting algorythm is).
     @NSManaged public var order: Int
+    
+    ///A list of url's to the images connected with the post.
+    @NSManaged public var image: String?
+    
+    ///A path to additional information from the post (e. g. gifs, videos).
+    @NSManaged public var additionalData: String?
 
 }

@@ -31,7 +31,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="61i-Sz-klP" id="Kq9-t0-aof">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="89"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Pu0-p9-xGK">
@@ -145,11 +145,19 @@
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OjM-j3-fZD">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="601"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="639"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ut1-SP-5OI">
-                                                <rect key="frame" x="8" y="57" width="398" height="536"/>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKU-M3-tVP">
+                                                <rect key="frame" x="0.0" y="57" width="414" height="30"/>
+                                                <state key="normal" title="Show comments"/>
+                                                <connections>
+                                                    <action selector="showComments:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uNL-1v-j14"/>
+                                                </connections>
+                                            </button>
+                                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ut1-SP-5OI">
+                                                <rect key="frame" x="8" y="95" width="398" height="536"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <gestureRecognizers/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="100" id="Q14-Fg-WLJ" customClass="CommentTableViewCell" customModule="testreddit" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="28" width="398" height="100"/>
@@ -237,17 +245,21 @@
                                             <constraint firstAttribute="trailing" secondItem="Ut1-SP-5OI" secondAttribute="trailing" constant="8" id="3S6-cj-cZQ"/>
                                             <constraint firstItem="rIe-DC-XSC" firstAttribute="leading" secondItem="OjM-j3-fZD" secondAttribute="leadingMargin" constant="8" id="4r6-Kd-U1l"/>
                                             <constraint firstAttribute="trailing" secondItem="z4G-xe-r0z" secondAttribute="trailing" constant="8" id="CwC-uE-8OB"/>
+                                            <constraint firstItem="yKU-M3-tVP" firstAttribute="leading" secondItem="OjM-j3-fZD" secondAttribute="leading" id="DYk-Kv-9Je"/>
                                             <constraint firstItem="DMg-mn-2wy" firstAttribute="centerX" secondItem="Wi5-sM-fIT" secondAttribute="centerX" id="IrV-9C-qQI"/>
                                             <constraint firstItem="I6F-qC-lnU" firstAttribute="centerX" secondItem="Wi5-sM-fIT" secondAttribute="centerX" id="Jhy-YC-WHm"/>
                                             <constraint firstAttribute="trailing" secondItem="rIe-DC-XSC" secondAttribute="trailing" constant="8" id="MVc-lo-CGA"/>
                                             <constraint firstItem="I6F-qC-lnU" firstAttribute="centerY" secondItem="Wi5-sM-fIT" secondAttribute="centerY" id="PYi-nb-fBE"/>
+                                            <constraint firstItem="yKU-M3-tVP" firstAttribute="centerX" secondItem="OjM-j3-fZD" secondAttribute="centerX" id="TgD-9f-9m6"/>
+                                            <constraint firstItem="yKU-M3-tVP" firstAttribute="bottom" secondItem="Ut1-SP-5OI" secondAttribute="top" constant="-8" id="WcA-Fp-hq0"/>
+                                            <constraint firstAttribute="trailing" secondItem="yKU-M3-tVP" secondAttribute="trailing" id="YaL-a8-4IO"/>
                                             <constraint firstItem="rIe-DC-XSC" firstAttribute="top" secondItem="OjM-j3-fZD" secondAttribute="top" constant="8" id="b5M-sI-9aS"/>
                                             <constraint firstItem="rIe-DC-XSC" firstAttribute="bottom" secondItem="Wi5-sM-fIT" secondAttribute="top" constant="-8" id="eF2-Bm-fCk"/>
                                             <constraint firstItem="Wi5-sM-fIT" firstAttribute="centerX" secondItem="Ut1-SP-5OI" secondAttribute="centerX" id="eet-61-Pbp"/>
                                             <constraint firstAttribute="bottom" secondItem="Ut1-SP-5OI" secondAttribute="bottom" constant="8" id="eyz-5L-4H3"/>
                                             <constraint firstItem="z4G-xe-r0z" firstAttribute="leading" secondItem="OjM-j3-fZD" secondAttribute="leading" constant="8" id="kai-6Y-DUm"/>
-                                            <constraint firstItem="z4G-xe-r0z" firstAttribute="bottom" secondItem="Ut1-SP-5OI" secondAttribute="top" constant="-8" id="lZo-dZ-IMg"/>
                                             <constraint firstItem="Ut1-SP-5OI" firstAttribute="leading" secondItem="OjM-j3-fZD" secondAttribute="leading" constant="8" id="lt4-nd-TTq"/>
+                                            <constraint firstItem="yKU-M3-tVP" firstAttribute="top" secondItem="z4G-xe-r0z" secondAttribute="bottom" constant="8" id="oB9-Cz-Y9G"/>
                                             <constraint firstItem="DMg-mn-2wy" firstAttribute="centerY" secondItem="Wi5-sM-fIT" secondAttribute="centerY" id="qu6-AY-qxT"/>
                                         </constraints>
                                     </view>
@@ -282,6 +294,7 @@
                         <outlet property="imageSpinner" destination="DMg-mn-2wy" id="43V-zg-fx5"/>
                         <outlet property="imgView" destination="Wi5-sM-fIT" id="77C-Sr-nC3"/>
                         <outlet property="scrollView" destination="L94-SK-uwU" id="C8x-Zo-Idp"/>
+                        <outlet property="showHideComments" destination="yKU-M3-tVP" id="RcI-67-RZG"/>
                         <outlet property="tableView" destination="Ut1-SP-5OI" id="vsZ-KZ-Iau"/>
                         <outlet property="textLabel" destination="z4G-xe-r0z" id="rlD-U1-x1D"/>
                         <outlet property="titleLabel" destination="rIe-DC-XSC" id="2xm-4c-Ga5"/>

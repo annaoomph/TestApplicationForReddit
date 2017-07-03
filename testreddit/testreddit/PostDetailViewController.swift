@@ -20,6 +20,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// An activity indicator that shows that imnage or gif is still loading.
     @IBOutlet weak var imageSpinner: UIActivityIndicatorView!
     
+    @IBOutlet weak var showHideComments: UIButton!
     /// Table for comments.
     @IBOutlet weak var tableView: UITableView!
      
@@ -33,7 +34,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Label saying that the post looks better in a browser.
     @IBOutlet weak var hintLabel: UILabel!
     
-    var contentOffset = CGFloat(0)
+    var commentsOpened = false
     //MARK: - Properties
     /// Loads data from server.
     let loader = Loader()
@@ -86,16 +87,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let cellsCount = CommentUtils().countComments(initialCount: 0, comments: comments)
         return cellsCount
-    }
-    
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y > contentOffset {
-            self.scrollView.scrollRectToVisible(tableView.frame, animated: true)
-        } else {
-            self.scrollView.scrollRectToVisible(titleLabel.frame, animated: true)
-        }
-        contentOffset = scrollView.contentOffset.y
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,8 +147,8 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             if let data = realPost.additionalData {
                 downloadImage(url: URL(string: data)!, isGif: true)
             } else {
-                if realPost.bigImages.count > 0,
-                    let checkedUrl = URL(string: (realPost.bigImages[0])!) {
+                if let realImage = realPost.image,
+                    let checkedUrl = URL(string: realImage) {
                     downloadImage(url: checkedUrl)
                 } else {
                     if !realPost.is_self {
@@ -237,6 +228,14 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             tableView.reloadData()
             tableView.refreshControl?.endRefreshing()
         }
+    }
+    
+    @IBAction func showComments(_ sender: UIButton) {
+        commentsOpened = !commentsOpened
+        showHideComments.isSelected = commentsOpened
+        tableView.isHidden = !commentsOpened
+        self.scrollView.scrollRectToVisible(commentsOpened ? tableView.frame : titleLabel.frame, animated: true)
+        
     }
     
     /// Displays an alert with an error.

@@ -141,13 +141,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZG1-OT-Seg">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lu1-SG-Iei">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="532"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="570"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dp1-T2-lfQ">
-                                                <rect key="frame" x="8" y="57" width="359" height="467"/>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cTB-bP-maO">
+                                                <rect key="frame" x="0.0" y="57" width="375" height="30"/>
+                                                <state key="normal" title="Show comments"/>
+                                                <connections>
+                                                    <action selector="showComments:" destination="fGq-Bb-zvW" eventType="touchUpInside" id="r1D-rV-2NE"/>
+                                                </connections>
+                                            </button>
+                                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dp1-T2-lfQ">
+                                                <rect key="frame" x="8" y="95" width="359" height="467"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="100" id="vaQ-pE-LZg" customClass="CommentTableViewCell" customModule="testreddit" customModuleProvider="target">
@@ -233,20 +240,24 @@
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="dp1-T2-lfQ" secondAttribute="trailing" constant="8" id="0lr-Cv-iLL"/>
+                                            <constraint firstItem="cTB-bP-maO" firstAttribute="centerX" secondItem="Lu1-SG-Iei" secondAttribute="centerX" id="29V-oG-yZN"/>
                                             <constraint firstItem="znQ-R1-COO" firstAttribute="leading" secondItem="Lu1-SG-Iei" secondAttribute="leadingMargin" constant="8" id="2Hl-zs-JNZ"/>
+                                            <constraint firstItem="cTB-bP-maO" firstAttribute="bottom" secondItem="dp1-T2-lfQ" secondAttribute="top" constant="-8" id="449-Dr-no8"/>
                                             <constraint firstItem="znQ-R1-COO" firstAttribute="top" secondItem="Lu1-SG-Iei" secondAttribute="top" constant="8" id="GaB-HU-aOS"/>
+                                            <constraint firstAttribute="trailing" secondItem="cTB-bP-maO" secondAttribute="trailing" id="GeA-7N-GDm"/>
                                             <constraint firstItem="dp1-T2-lfQ" firstAttribute="leading" secondItem="Lu1-SG-Iei" secondAttribute="leading" constant="8" id="Hbw-4H-zwt"/>
                                             <constraint firstItem="6Xt-b9-Reg" firstAttribute="centerX" secondItem="dp1-T2-lfQ" secondAttribute="centerX" id="MbW-db-7UT"/>
                                             <constraint firstItem="8Yg-wl-VM3" firstAttribute="leading" secondItem="Lu1-SG-Iei" secondAttribute="leadingMargin" constant="8" id="N1j-Rb-aPv"/>
                                             <constraint firstItem="8Yg-wl-VM3" firstAttribute="top" secondItem="6Xt-b9-Reg" secondAttribute="bottom" constant="8" id="OrW-2Y-yYz"/>
+                                            <constraint firstItem="cTB-bP-maO" firstAttribute="leading" secondItem="Lu1-SG-Iei" secondAttribute="leading" id="Rit-Sb-QBd"/>
                                             <constraint firstAttribute="trailing" secondItem="znQ-R1-COO" secondAttribute="trailing" constant="8" id="TvD-XH-jBS"/>
                                             <constraint firstItem="KQL-OS-pGD" firstAttribute="centerX" secondItem="6Xt-b9-Reg" secondAttribute="centerX" id="aBG-CS-cTc"/>
+                                            <constraint firstItem="cTB-bP-maO" firstAttribute="top" secondItem="8Yg-wl-VM3" secondAttribute="bottom" constant="8" id="axz-Kv-4vJ"/>
                                             <constraint firstItem="KQL-OS-pGD" firstAttribute="centerY" secondItem="6Xt-b9-Reg" secondAttribute="centerY" id="bpY-FT-RMp"/>
                                             <constraint firstAttribute="bottom" secondItem="dp1-T2-lfQ" secondAttribute="bottom" constant="8" id="lPO-bB-aqR"/>
                                             <constraint firstItem="gyT-Ef-csg" firstAttribute="centerY" secondItem="6Xt-b9-Reg" secondAttribute="centerY" id="nfs-Zc-BnN"/>
                                             <constraint firstItem="8Yg-wl-VM3" firstAttribute="trailing" secondItem="Lu1-SG-Iei" secondAttribute="trailingMargin" constant="8" id="oTh-93-yq0"/>
                                             <constraint firstItem="znQ-R1-COO" firstAttribute="bottom" secondItem="6Xt-b9-Reg" secondAttribute="top" constant="-8" id="pbA-wo-Tko"/>
-                                            <constraint firstItem="8Yg-wl-VM3" firstAttribute="bottom" secondItem="dp1-T2-lfQ" secondAttribute="top" constant="-8" id="qUo-aj-NbC"/>
                                             <constraint firstItem="gyT-Ef-csg" firstAttribute="centerX" secondItem="6Xt-b9-Reg" secondAttribute="centerX" id="taY-3a-nfb"/>
                                         </constraints>
                                     </view>
@@ -272,7 +283,7 @@
                     <navigationItem key="navigationItem" title="Post" id="KQV-Uv-zSA">
                         <barButtonItem key="rightBarButtonItem" title="View in a browser" id="saL-nj-3bb">
                             <connections>
-                                <action selector="viewInBrowser:" destination="fGq-Bb-zvW" id="URn-Xm-XqS"/>
+                                <action selector="viewInBrowser:" destination="fGq-Bb-zvW" id="ca9-ye-a7Y"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -281,6 +292,7 @@
                         <outlet property="imageSpinner" destination="gyT-Ef-csg" id="vHF-WH-oMw"/>
                         <outlet property="imgView" destination="6Xt-b9-Reg" id="mgP-gY-xt8"/>
                         <outlet property="scrollView" destination="ZG1-OT-Seg" id="AxA-iw-r0c"/>
+                        <outlet property="showHideComments" destination="cTB-bP-maO" id="fWR-xw-5vm"/>
                         <outlet property="tableView" destination="dp1-T2-lfQ" id="VfR-aG-57c"/>
                         <outlet property="textLabel" destination="8Yg-wl-VM3" id="bgG-Io-cr4"/>
                         <outlet property="titleLabel" destination="znQ-R1-COO" id="WNu-Yq-0iD"/>
@@ -293,7 +305,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1447" y="2939"/>
+            <point key="canvasLocation" x="2384.8000000000002" y="2938.3808095952027"/>
         </scene>
         <!--Popup View Controller-->
         <scene sceneID="jox-T2-mF5">
@@ -359,7 +371,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2521" y="2938"/>
+            <point key="canvasLocation" x="3460" y="2937.481259370315"/>
         </scene>
         <!--Hot-->
         <scene sceneID="qyi-oY-W6G">
@@ -404,13 +416,31 @@
             <objects>
                 <splitViewController id="F1H-mv-ceJ" sceneMemberID="viewController">
                     <connections>
-                        <segue destination="fGq-Bb-zvW" kind="relationship" relationship="detailViewController" id="fuG-Bv-5DD"/>
+                        <segue destination="hvC-2h-sug" kind="relationship" relationship="detailViewController" id="fuG-Bv-5DD"/>
                         <segue destination="jea-YZ-bzq" kind="relationship" relationship="masterViewController" id="ime-Ki-gRx"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qaF-Id-N6Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1785" y="2411"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hCY-qX-7PM">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hvC-2h-sug" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Qei-nJ-iL8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fGq-Bb-zvW" kind="relationship" relationship="rootViewController" id="JDz-l5-QLA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FI6-0e-fY5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1445.5999999999999" y="2938.3808095952027"/>
         </scene>
     </scenes>
     <resources>
