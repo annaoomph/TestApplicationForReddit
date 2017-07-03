@@ -22,14 +22,18 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Table for comments.
     @IBOutlet weak var tableView: UITableView!
-    
+     
     @IBOutlet weak var textLabel: UILabel!
+     
+    @IBOutlet weak var scrollView: UIScrollView!
     /// Title of the post.
+    
     @IBOutlet weak var titleLabel: UILabel!
     
     /// Label saying that the post looks better in a browser.
     @IBOutlet weak var hintLabel: UILabel!
     
+    var contentOffset = CGFloat(0)
     //MARK: - Properties
     /// Loads data from server.
     let loader = Loader()
@@ -82,6 +86,16 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let cellsCount = CommentUtils().countComments(initialCount: 0, comments: comments)
         return cellsCount
+    }
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > contentOffset {
+            self.scrollView.scrollRectToVisible(tableView.frame, animated: true)
+        } else {
+            self.scrollView.scrollRectToVisible(titleLabel.frame, animated: true)
+        }
+        contentOffset = scrollView.contentOffset.y
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
