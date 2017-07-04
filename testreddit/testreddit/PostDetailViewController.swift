@@ -161,28 +161,34 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// - Parameter url: url with the image
     /// - Parameter isGif: whether it is a gif image
     func downloadImage(url: URL, isGif: Bool = false) {
-        imageSpinner.startAnimating()
-        hintLabel.isHidden = true
-        let id = post?.thing_id
-        if isGif {
-            DispatchQueue.global().async {
-                let gif = UIImage.gif(url: url.absoluteString)
-                DispatchQueue.main.async {
-                    if let gifImage = gif {
-                        //Check if the loaded image is for the post currently being shown.
-                        if id == self.post?.thing_id {
-                            self.stopLoading(image: gifImage)
+        if let cachedImage = ImageCache.sharedCache.imageForKey(key: url.absoluteString) {
+            self.stopLoading(image: cachedImage)
+        } else {
+            imageSpinner.startAnimating()
+            hintLabel.isHidden = true
+            let id = post?.thing_id
+            if isGif {
+                DispatchQueue.global().async {
+                    let gif = UIImage.gif(url: url.absoluteString)
+                    DispatchQueue.main.async {
+                        if let gifImage = gif {
+                            //Check if the loaded image is for the post currently being shown.
+                            if id == self.post?.thing_id {
+                                self.stopLoading(image: gifImage)
+                                ImageCache.sharedCache.setImage(image: gifImage, forKey: url.absoluteString)
+                            }
                         }
                     }
                 }
-            }
-        } else {
-            WebService().getDataFromUrl(url: url) { (data, response, error)  in
-                guard let data = data, error == nil else { return }
-                DispatchQueue.main.async() { () -> Void in
-                    if let img = UIImage(data: data) {
-                        if id == self.post?.thing_id {
-                            self.stopLoading(image: img)
+            } else {
+                WebService().getDataFromUrl(url: url) { (data, response, error)  in
+                    guard let data = data, error == nil else { return }
+                    DispatchQueue.main.async() { () -> Void in
+                        if let img = UIImage(data: data) {
+                            if id == self.post?.thing_id {
+                                self.stopLoading(image: img)
+                                ImageCache.sharedCache.setImage(image: img, forKey: url.absoluteString)
+                            }
                         }
                     }
                 }

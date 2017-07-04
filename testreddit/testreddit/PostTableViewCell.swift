@@ -29,17 +29,24 @@ class PostTableViewCell: UITableViewCell {
     ///
     /// - Parameter url: url of the image
     func downloadImage(url: URL) {
-        self.imgView.image = #imageLiteral(resourceName: "Placeholder")
-        let thisImageView = self.imgView!
-        let currentPostId = postId ?? ""
-        WebService().getDataFromUrl(url: url) { (data, response, error)  in
-            guard let data = data, error == nil else { return }
-            DispatchQueue.main.async() { () -> Void in
-                //We should not attach this image to any other post cel except the one we have been downloading it for.
-                //That's why we need to check if id of the current cell matches with the id of the cell this image is intended for.
-                if self.postId == currentPostId {
-                    thisImageView.image = UIImage(data: data)
-                    thisImageView.contentMode = .scaleAspectFit
+        if let cachedImage = ImageCache.sharedCache.imageForKey(key: url.absoluteString) {
+            self.imgView.image = cachedImage
+            self.imgView.contentMode = .scaleAspectFit
+        } else {
+            self.imgView.image = #imageLiteral(resourceName: "Placeholder")
+            let thisImageView = self.imgView!
+            let currentPostId = postId ?? ""
+            WebService().getDataFromUrl(url: url) { (data, response, error)  in
+                guard let data = data, error == nil else { return }
+                DispatchQueue.main.async() { () -> Void in
+                    //We should not attach this image to any other post cel except the one we have been downloading it for.
+                    //That's why we need to check if id of the current cell matches with the id of the cell this image is intended for.
+                    if self.postId == currentPostId {
+                        let img = UIImage(data: data)
+                        thisImageView.image = img
+                        ImageCache.sharedCache.setImage(image: img!, forKey: url.absoluteString)
+                        thisImageView.contentMode = .scaleAspectFit
+                    }
                 }
             }
         }

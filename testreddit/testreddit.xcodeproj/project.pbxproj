@@ -23,6 +23,7 @@
 		84777A011EFD24CD00F13CA4 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84777A001EFD24CD00F13CA4 /* WebService.swift */; };
 		84777A031EFD24E600F13CA4 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84777A021EFD24E600F13CA4 /* Loader.swift */; };
 		84777A051EFD296300F13CA4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84777A041EFD296300F13CA4 /* Configuration.swift */; };
+		84795BBB1F0B94E8008266F0 /* ImageUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84795BBA1F0B94E8008266F0 /* ImageUtilities.swift */; };
 		847D2DBA1EF828E9007FC21F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847D2DB91EF828E9007FC21F /* CoreData.framework */; };
 		847D2DBD1EF82A41007FC21F /* RedditDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 847D2DBB1EF82A41007FC21F /* RedditDataModel.xcdatamodeld */; };
 		847D2DCE1EF94138007FC21F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D2DCD1EF94138007FC21F /* CoreDataManager.swift */; };
@@ -83,6 +84,7 @@
 		84777A001EFD24CD00F13CA4 /* WebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		84777A021EFD24E600F13CA4 /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		84777A041EFD296300F13CA4 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		84795BBA1F0B94E8008266F0 /* ImageUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtilities.swift; sourceTree = "<group>"; };
 		847D2DB91EF828E9007FC21F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		847D2DBC1EF82A41007FC21F /* RedditDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RedditDataModel.xcdatamodel; sourceTree = "<group>"; };
 		847D2DCD1EF94138007FC21F /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				8486405C1EF53549003ACD98 /* CommentsParser.swift */,
 				841FB6961EFBD8880049475C /* BaseParser.swift */,
 				847779FE1EFD1D1300F13CA4 /* CommentUtils.swift */,
+				84795BBA1F0B94E8008266F0 /* ImageUtilities.swift */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -606,6 +609,7 @@
 				84B5733A1F03B9B7009EFB12 /* ErrorHandler.swift in Sources */,
 				8486C5011F017E2900B81FD8 /* PopupViewController.swift in Sources */,
 				84777A051EFD296300F13CA4 /* Configuration.swift in Sources */,
+				84795BBB1F0B94E8008266F0 /* ImageUtilities.swift in Sources */,
 				841FB6971EFBD8880049475C /* BaseParser.swift in Sources */,
 				84F66BD31EF00FB800408CF0 /* AppDelegate.swift in Sources */,
 				847D2DD21EF942EF007FC21F /* LinkM+CoreDataProperties.swift in Sources */,
