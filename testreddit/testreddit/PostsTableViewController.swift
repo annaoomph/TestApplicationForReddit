@@ -12,7 +12,7 @@ import CoreData
 protocol PostSelectionDelegate: class {
     func postSelected(newPost: LinkM)
 }
-class PostsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate {
+class PostsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
     //MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
@@ -26,11 +26,46 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     /// Controller for loading data from local database.
     var fetchedResultsControllerForPosts: NSFetchedResultsController<LinkM>?
     
-    /// Delegate from detail view controller listening to selected post events.
+    /// Delegate from detail view controller listening to selected post events (when using split view, otherwise this is nil).
     weak var postSelectionDelegate: PostSelectionDelegate?
     
     /// Defines whether the tab bar controller delegate is attached.
     var tabControllerDelegateAttached = false
+    
+    /// Loaded from database posts filtered by user.
+    var filteredPosts = [LinkM]()
+    
+    /// Search controller for the table view.
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    /// Retrieves the search scope name (raw value of enum)
+    var scope: String {
+        get {
+            return searchController.searchBar.scopeButtonTitles![searchController.searchBar.selectedScopeButtonIndex]
+        }
+    }
+    
+    /// Defines whether the search is in progress.
+    var searching: Bool {
+        get {
+            //The search is active either when user types in some text or when he chooses some scope (even without typing).
+            return searchController.isActive && (searchController.searchBar.text != "" || scope != "All")
+        }
+    }
+    
+    /// Retrieves the search text.
+    var searchText: String {
+        get {
+            return searchController.searchBar.text!.lowercased()
+        }
+    }
+    
+    /// Get the post type currently shown in a tab.
+    var selectedPostType: ContentType.PostType {
+        get {
+            return ContentType.PostType.getPostType(selectedTab: (tabBarController?.selectedIndex)!)
+        }
+    }
     
     //MARK: - Lifecycle events
     override func viewDidLoad() {
@@ -47,16 +82,17 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         //Attach the tab bar delegate to listen when user switches between tabs.
         //We don't need this behaviour the first time a tab appears, so the initial setup's done here.
         if !tabControllerDelegateAttached {
-            tabBarController?.delegate = self
+            tabBarController!.delegate = self
             tabControllerDelegateAttached = true
         }
-        if tabBarController?.selectedIndex == 0 {
+        if tabBarController!.selectedIndex == 0 {
             title = ContentType.PostType.HOT.rawValue
         } else {
             title = ContentType.PostType.NEW.rawValue
         }
         tableView.dataSource = self
         tableView.delegate = self
+        initializeSearch()
         startRefreshControl()
         loadFromDatabase()
     }
@@ -83,7 +119,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
             if !refreshingInProgress {
                 refreshingInProgress = true
                 tableView.refreshControl?.beginRefreshing()
-                loader.getPosts(type: ContentType.PostType.getPostType(selectedTab: (tabBarController?.selectedIndex)!), more: true, callback: onMorePostsDelivered(posts: error:))
+                loader.getPostsOfType(selectedPostType, more: true, callback: onMorePostsDelivered(posts: error:))
             }
         }
     }
@@ -98,7 +134,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         if !refreshingInProgress {
             tableView.refreshControl?.beginRefreshing()
             refreshingInProgress = true
-            loader.getPosts(type: ContentType.PostType.getPostType(selectedTab: (tabBarController?.selectedIndex)!), callback: onPostsDelivered(posts: error:))
+            loader.getPostsOfType(selectedPostType, callback: onPostsDelivered(posts: error:))
         }
     }
     
@@ -130,7 +166,10 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     ///
     /// - Returns: amount of posts
     func getPostCount() -> Int {
-        return fetchedResultsControllerForPosts!.fetchedObjects?.count ?? 0
+        if searching {
+            return filteredPosts.count
+        }
+        return fetchedResultsControllerForPosts?.fetchedObjects?.count ?? 0
     }
     
     /// Gets post at certain index path.
@@ -138,7 +177,52 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     /// - Parameter indexPath: index of the post
     /// - Returns: post
     func getPostAt(indexPath: IndexPath) -> LinkM {
+        if searching {
+            return filteredPosts[indexPath.row]
+        }
         return fetchedResultsControllerForPosts!.object(at: indexPath)
+    }
+    
+    /// Gets an array of posts from the database.
+    ///
+    /// - Returns: array of posts (can be empty if something goes worong)
+    func getPosts() -> [LinkM] {
+        return fetchedResultsControllerForPosts?.fetchedObjects ?? [LinkM]()
+    }
+    
+    //MARK: - Filtering
+    
+    /// Initializes search components.
+    func initializeSearch() {
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchBar.scopeButtonTitles = [ScopeType.All.rawValue, ScopeType.Image.rawValue, ScopeType.Gif.rawValue, ScopeType.Other.rawValue]
+        searchController.searchBar.delegate = self
+    }
+    
+    /// Filters the array of posts by the search string and entered scope.
+    ///
+    /// - Parameters:
+    ///   - searchText: a text user typed in to search
+    ///   - scope: a scope user has chosen
+    func filterContentForSearchString(searchText: String, scope: String = "All") {
+        filteredPosts = getPosts().filter {
+            post in
+            let scopeMatches = (scope == ScopeType.All.rawValue || (post.image != nil && scope == ScopeType.Image.rawValue) || (post.additionalData != nil && scope == ScopeType.Gif.rawValue) || (post.additionalData == nil && post.image == nil && scope == ScopeType.Other.rawValue))
+            //If the search string contains something, we check if the title contains it, otherwise we skip this check.
+            return scopeMatches && (searchText.characters.count > 0 ? post.title.lowercased().contains(searchText.lowercased()) : true)
+        }
+        tableView.reloadData()
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchString(searchText: searchText, scope: scope)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchString(searchText: searchText, scope: searchBar.scopeButtonTitles![selectedScope])
     }
     
     // MARK: - Table view data source
@@ -155,8 +239,11 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
             fatalError("Not loaded cell")
         }
         let post = getPostAt(indexPath: indexPath)
-        
-        cell.constructLabels(post: post)
+        if searching {
+            cell.constructLabels(with: post, searchString: searchText)
+        } else {
+            cell.constructLabels(with: post)
+        }
         if post.thumbnailEnabled(),
             let checkedUrl = URL(string: post.thumbnail) {
             cell.downloadImage(url: checkedUrl)
@@ -173,10 +260,20 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     //MARK: - Callbacks
+    
+    /// Called when fetch controller has loaded its items.
+    ///
+    /// - Parameter controller: fetch controller
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        if getPostCount() > 0 {
+            tableView.reloadData()
+        }
+    }
+    
     func onPostsDelivered(posts: [LinkM]?, error: Error?) {
         refreshingInProgress = false
         if let caughtError = error {
-            displayError(error: caughtError)
+            displayError(caughtError)
         }
         DispatchQueue.main.sync() {
             tableView.refreshControl!.endRefreshing()
@@ -190,7 +287,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     func onMorePostsDelivered(posts: [LinkM]?, error: Error?) {
         refreshingInProgress = false
         if let caughtError = error {
-            displayError(error: caughtError)
+            displayError(caughtError)
         }
         DispatchQueue.main.sync() {
             if error == nil {
@@ -228,20 +325,11 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    /// Called when fetch controller has loaded its items.
-    ///
-    /// - Parameter controller: fetch controller
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        if getPostCount() > 0 {
-            tableView.reloadData()
-        }
-    }
-    
     /// Displays a certain error.
     ///
     /// - Parameter error: error object
-    func displayError(error: Error) {
-        let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error: error as! RedditError) : error.localizedDescription
+    func displayError(_ error: Error) {
+        let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error as! RedditError) : error.localizedDescription
         let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(OKAction)

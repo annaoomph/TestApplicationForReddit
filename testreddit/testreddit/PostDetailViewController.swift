@@ -17,24 +17,27 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// A view with the post image or gif.
     @IBOutlet weak var imgView: UIImageView!
     
-    /// An activity indicator that shows that imnage or gif is still loading.
+    /// An activity indicator that shows that image or gif is still loading.
     @IBOutlet weak var imageSpinner: UIActivityIndicatorView!
     
+    /// A toggle button for showing/hiding a list of comments.
     @IBOutlet weak var showHideComments: UIButton!
+    
     /// Table for comments.
     @IBOutlet weak var tableView: UITableView!
     
+    /// Label showing contents of the post.
     @IBOutlet weak var textLabel: UILabel!
     
+    /// View's internal scroll view (as the content can be pretty big).
     @IBOutlet weak var scrollView: UIScrollView!
-    /// Title of the post.
     
+    /// Title of the post.
     @IBOutlet weak var titleLabel: UILabel!
     
     /// Label saying that the post looks better in a browser.
     @IBOutlet weak var hintLabel: UILabel!
     
-    var commentsOpened = false
     //MARK: - Properties
     /// Loads data from server.
     let loader = Loader()
@@ -45,7 +48,10 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Shown post (link).
     var post: LinkM?
     
+    /// A popup for image.
     var popupWindow: PopupViewController?
+    
+    /// A popup for web view.
     var popupWebWindow: PopupWebViewController?
     
     /// A list of comments for the shown post.
@@ -88,10 +94,10 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else {
             fatalError("Not loaded cell")
         }
-        let (level, returnedComment) = CommentUtils().findComment(indexOfTheComment: indexPath.row, level: -1, comments: comments)
+        let (level, returnedComment) = CommentUtils().findCommentByIndex(indexPath.row, level: -1, comments: comments)
         
         if let comment = returnedComment {
-            cell.constructLabels(comment: comment, level: level)
+            cell.constructLabels(with: comment, level: level)
         }
         return cell
     }
@@ -113,13 +119,14 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     func refresh(sender:AnyObject) {
         if let realPost = post, !refreshingInProgress {
             refreshingInProgress = true
-            loader.getComments(postId: realPost.thing_id, callback: onCommentsDelivered(comments:error:))
+            loader.getCommentsForPostWithId(realPost.thing_id, callback: onCommentsDelivered(comments:error:))
         }
     }
     
     /// Loads the post information on initialization.
     func loadPost() {
         if let realPost = post {
+            //First, stop all the activity going on in a view (if split view controller is used, this is required).
             if let popup = popupWindow, popup.isShown {
                 popup.removeAnimate()
             }
@@ -133,6 +140,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             self.mainImage = nil
             self.imgView.image = #imageLiteral(resourceName: "Placeholder")
             self.imageSpinner.stopAnimating()
+            
             tableView.refreshControl!.beginRefreshing()
             let domain = realPost.is_self ? "" : "(\(realPost.domain))"
             let mutableString = NSMutableAttributedString(string: "\(realPost.score) \(realPost.title) \(domain)", attributes: nil)
@@ -141,11 +149,11 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             titleLabel.attributedText = mutableString
             
             if let data = realPost.additionalData {
-                downloadImage(url: URL(string: data)!, isGif: true)
+                downloadImage(from: URL(string: data)!, isGif: true)
             } else {
                 if let realImage = realPost.image,
                     let checkedUrl = URL(string: realImage) {
-                    downloadImage(url: checkedUrl)
+                    downloadImage(from: checkedUrl)
                 } else {
                     if !realPost.is_self {
                         hintLabel.isHidden = false
@@ -160,9 +168,10 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     ///
     /// - Parameter url: url with the image
     /// - Parameter isGif: whether it is a gif image
-    func downloadImage(url: URL, isGif: Bool = false) {
+    func downloadImage(from url: URL, isGif: Bool = false) {
+        //A requested image could be in a cache.
         if let cachedImage = ImageCache.sharedCache.imageForKey(key: url.absoluteString) {
-            self.stopLoading(image: cachedImage)
+            self.stopLoadingWith(image: cachedImage)
         } else {
             imageSpinner.startAnimating()
             hintLabel.isHidden = true
@@ -174,19 +183,19 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                         if let gifImage = gif {
                             //Check if the loaded image is for the post currently being shown.
                             if id == self.post?.thing_id {
-                                self.stopLoading(image: gifImage)
+                                self.stopLoadingWith(image: gifImage)
                                 ImageCache.sharedCache.setImage(image: gifImage, forKey: url.absoluteString)
                             }
                         }
                     }
                 }
             } else {
-                WebService().getDataFromUrl(url: url) { (data, response, error)  in
+                WebService().getDataFromUrl(url) { (data, response, error)  in
                     guard let data = data, error == nil else { return }
                     DispatchQueue.main.async() { () -> Void in
                         if let img = UIImage(data: data) {
                             if id == self.post?.thing_id {
-                                self.stopLoading(image: img)
+                                self.stopLoadingWith(image: img)
                                 ImageCache.sharedCache.setImage(image: img, forKey: url.absoluteString)
                             }
                         }
@@ -199,7 +208,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// A callback on loaded image or gif. Stops all spinners and loads the image.
     ///
     /// - Parameter image: loaded image
-    func stopLoading(image: UIImage) {
+    func stopLoadingWith(image: UIImage) {
         hintLabel.isHidden = true
         self.mainImage = image
         self.imgView.image = image
@@ -232,7 +241,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
         if let receivedComments = comments {
             self.comments = receivedComments
         } else if let caughterror = error {
-            displayError(error: caughterror)
+            displayError(caughterror)
         }
         DispatchQueue.main.sync() {
             tableView.reloadData()
@@ -241,18 +250,16 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     @IBAction func showComments(_ sender: UIButton) {
-        commentsOpened = !commentsOpened
-        showHideComments.isSelected = commentsOpened
-        tableView.isHidden = !commentsOpened
-        self.scrollView.scrollRectToVisible(commentsOpened ? tableView.frame : titleLabel.frame, animated: true)
-        
+        showHideComments.isSelected = !showHideComments.isSelected
+        tableView.isHidden = !showHideComments.isSelected
+        self.scrollView.scrollRectToVisible(showHideComments.isSelected ? tableView.frame : titleLabel.frame, animated: true)
     }
     
     /// Displays an alert with an error.
     ///
     /// - Parameter error: error object
-    func displayError(error: Error) {
-        let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error: error as! RedditError) : error.localizedDescription
+    func displayError(_ error: Error) {
+        let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error as! RedditError) : error.localizedDescription
         let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(OKAction)

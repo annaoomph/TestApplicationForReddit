@@ -47,7 +47,7 @@ class CommentUtils {
     ///   - level: current level of the comment tree
     ///   - commentsSubTree: comment sub tree we have reached
     /// - Returns: level we have reached, and the comment, if it is found (otherwise nil)
-    func findComment(indexOfTheComment lastIndex: Int, level: Int, comments commentsSubTree: [Comment]) -> (Int, Comment?) {
+    func findCommentByIndex(_ lastIndex: Int, level: Int, comments commentsSubTree: [Comment]) -> (Int, Comment?) {
         let currentLevel = level + 1
         for comment in commentsSubTree {
             currentIndex += 1
@@ -59,7 +59,7 @@ class CommentUtils {
             } else
                 if comment.opened,
                     let replies = comment.replies {
-                    let (returnedLevel, returnedComment) = findComment(indexOfTheComment: lastIndex, level: currentLevel, comments: replies)
+                    let (returnedLevel, returnedComment) = findCommentByIndex(lastIndex, level: currentLevel, comments: replies)
                     if let foundComment = returnedComment {
                         return (returnedLevel, foundComment)
                     }

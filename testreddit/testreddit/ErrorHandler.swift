@@ -24,7 +24,7 @@ public class ErrorHandler {
     ///
     /// - Parameter error: type of error
     /// - Returns: description for that error
-    static func getDescriptionForError(error: RedditError) -> String {
+    static func getDescriptionForError(_ error: RedditError) -> String {
         switch(error) {
         case .ParseError(let type):
             return "Could not parse \(type)"

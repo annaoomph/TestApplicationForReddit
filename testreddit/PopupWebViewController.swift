@@ -12,7 +12,10 @@ class PopupWebViewController: UIViewController {
 
     @IBOutlet weak var webView: UIWebView!
     
+    /// Defines whether the view is currently shown.
     var isShown = false
+    
+    /// Url to be loaded in a web view.
     var urlString: String?
    
     @IBOutlet weak var close: UIButton!
@@ -21,17 +24,9 @@ class PopupWebViewController: UIViewController {
         super.viewDidLoad()
         close.layer.cornerRadius = 10
         self.showAnimate()
-        if let url = URL(string: checkUrl(urlString!)) {
+        if let url = URL(string: urlString!) {
             webView.loadRequest(URLRequest(url: url))
         }
-    }
-    
-    func checkUrl(_ url: String) -> String {
-        var newUrl = url
-        if newUrl.contains("gifv") {
-            newUrl = newUrl.substring(to: newUrl.index(before: newUrl.endIndex))
-        }
-        return newUrl
     }
     
     override func didReceiveMemoryWarning() {

@@ -36,7 +36,7 @@ class PostTableViewCell: UITableViewCell {
             self.imgView.image = #imageLiteral(resourceName: "Placeholder")
             let thisImageView = self.imgView!
             let currentPostId = postId ?? ""
-            WebService().getDataFromUrl(url: url) { (data, response, error)  in
+            WebService().getDataFromUrl(url) { (data, response, error)  in
                 guard let data = data, error == nil else { return }
                 DispatchQueue.main.async() { () -> Void in
                     //We should not attach this image to any other post cel except the one we have been downloading it for.
@@ -56,22 +56,31 @@ class PostTableViewCell: UITableViewCell {
     /// Constructs the text on all the call labels.
     ///
     /// - Parameter post: the post itself.
-    func constructLabels(post: LinkM) {
+    /// - Parameter searchString: a filter string, if present.
+    func constructLabels(with post: LinkM, searchString: String? = nil) {
         postId = post.thing_id
-        titleLabel.text = post.title
+        var mutableTitle = NSMutableAttributedString(string: post.title, attributes: nil)
+        //If the search was performed, highlight the match of the filter text with title text.
+        if let search = searchString {
+            StringUtils.addHighlightWith(UIFont.boldSystemFont(ofSize: titleLabel.font.pointSize), in: &mutableTitle, for: search)
+        }
+        titleLabel.attributedText = mutableTitle
+        
         scoreLabel.text = "\(post.score)"
         scoreLabel.textColor = Configuration.Colors.red
         let date = DateFormatter.localizedString(from: Date(timeIntervalSince1970: TimeInterval(post.created)), dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.short)
         //Building colored info string.
         if let author = post.author {
             let domain = post.is_self ? "" : "at \(post.domain)"
-            let mutableString = NSMutableAttributedString(string: "Submitted at \(date) by \(author) to \(post.subreddit) \(domain)", attributes: nil)
-            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.green, range: NSRange(location: 13, length:String(date)!.characters.count))
-            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: 17 + String(date)!.characters.count, length: author.characters.count))
-            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.orange, range: NSRange(location: mutableString.length - post.subreddit.characters.count - domain.characters.count - 1, length: post.subreddit.characters.count))
+            var mutableString = NSMutableAttributedString(string: "Submitted at \(date) by \(author) to \(post.subreddit) \(domain)", attributes: nil)
+            StringUtils.addColorHighlightWith(Configuration.Colors.green, in: &mutableString, for: date)
+            StringUtils.addColorHighlightWith(Configuration.Colors.blue, in: &mutableString, for: author)
+            StringUtils.addColorHighlightWith(Configuration.Colors.orange, in: &mutableString, for: post.subreddit)
+            
             if domain.characters.count > 0 {
-                mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: mutableString.length - domain.characters.count + 3, length: domain.characters.count - 3))
+                StringUtils.addColorHighlightWith(Configuration.Colors.red, in: &mutableString, for: domain)
             }
+            
             infoLabel.attributedText = mutableString
         }
     }

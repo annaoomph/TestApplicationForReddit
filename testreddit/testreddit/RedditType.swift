@@ -8,10 +8,10 @@
 
 import Foundation
 
-/// Data types in reddit.
+/// Data types in json coming from reddit. Helps to parse json dictionaries.
 ///
-/// - THING: a post
-/// - COMMENT: a comment for post
+/// - THING: a post (or link)
+/// - COMMENT: a comment to a post
 /// - LISTING: a list of smth
 public enum RedditJsonType: String {
     case THING = "t3"

@@ -8,6 +8,10 @@
 
 import Foundation
 
+/// An http methods to make requests. 
+///
+/// - get: get method
+/// - post: post method
 public enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"

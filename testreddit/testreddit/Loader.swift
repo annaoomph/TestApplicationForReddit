@@ -27,7 +27,7 @@ class Loader {
             let url = URL(string: Configuration.TOKEN_URL)
             let body = ["grant_type" : Configuration.GRANT_TYPE_VALUE, "device_id" : NSUUID().uuidString]
             
-            webService.makeRequest(url: url!, authorization: WebUtils.getAuthorizationString(), httpMethod: .post, body: body) {
+            webService.makeRequestTo(url!, authorizedWith: WebUtils.getAuthorizationString(), using: .post, with: body) {
                 json, errString in
                 if let error = errString {
                     pendingRequest(nil, error)
@@ -67,11 +67,11 @@ class Loader {
     /// - Parameters:
     ///   - more: if the request for loading more posts was made
     ///   - callback: delegate
-    func getPosts(type: ContentType.PostType, more: Bool = false, callback: @escaping (_ posts: [LinkM]?, _ error: Error?) -> Void) {
-        var urlString = WebUtils.getPostUrl(for: type)
+    func getPostsOfType(_ type: ContentType.PostType, more: Bool = false, callback: @escaping (_ posts: [LinkM]?, _ error: Error?) -> Void) {
+        var urlString = WebUtils.getPostUrlFor(type)
         urlString = more ? WebUtils.constructUrl(baseUrl: urlString, parameters: ["after" : "t3_\(WebUtils.getLastPostAnchor())"]) : urlString
         let url = URL(string: urlString)
-        makeGetRequest(url: url!, type: .POSTS, additionalParameter: !more, callback: callback, parseFunction: PostsParser().parseItems(json:clearDb:))
+        makeGetRequestTo(url!, for: .POSTS, withParameter: !more, callback: callback, parseFunction: PostsParser().parseItems(json:clearDb:))
     }
     
     /// Requests a list of comments for a certain post.
@@ -79,9 +79,9 @@ class Loader {
     /// - Parameters:
     ///   - postId: id of the post (or link)
     ///   - callback: delegate
-    func getComments(postId: String,  callback: @escaping (_ comments: [Comment]? , _ error: Error?) -> Void) {
+    func getCommentsForPostWithId(_ postId: String,  callback: @escaping (_ comments: [Comment]? , _ error: Error?) -> Void) {
         let url = URL(string: "\(Configuration.COMMENTS_URL)\(postId)")
-        makeGetRequest(url: url!, type: .COMMENTS, additionalParameter: true, callback: callback, parseFunction: CommentsParser().parseItems(json:inner:))
+        makeGetRequestTo(url!, for: .COMMENTS, withParameter: true, callback: callback, parseFunction: CommentsParser().parseItems(json:inner:))
     }
     
     
@@ -93,11 +93,11 @@ class Loader {
     ///   - additionalParameter: additional parsing parameter
     ///   - callback: callback for result of the request
     ///   - parseFunction: a function for parsing data
-    func makeGetRequest<T>(url: URL, type: ContentType, additionalParameter: Bool, callback: @escaping (_ items: [T]? , _ error: Error?) -> Void, parseFunction: @escaping (_ json: JSON, _ additionalParameter: Bool) -> [T]?) {
+    func makeGetRequestTo<T>(_ url: URL, for type: ContentType, withParameter additionalParameter: Bool, callback: @escaping (_ items: [T]? , _ error: Error?) -> Void, parseFunction: @escaping (_ json: JSON, _ additionalParameter: Bool) -> [T]?) {
         getToken {
             token, error in
             if let appToken = token {
-                self.webService.makeRequest(url: url, authorization: appToken, httpMethod: .get) {
+                self.webService.makeRequestTo(url, authorizedWith: appToken, using: .get) {
                     json, errString in
                     if let errorResp = error {
                         callback(nil, errorResp)

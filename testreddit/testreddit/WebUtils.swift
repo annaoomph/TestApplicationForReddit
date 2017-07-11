@@ -19,7 +19,7 @@ class WebUtils {
     static func constructUrl(baseUrl base: String, parameters: [String: String]) -> String {
         var mainPart = base
         mainPart.append("?")
-        mainPart.append(getParameterString(parameters: parameters))
+        mainPart.append(getParameterStringFor(parameters))
         return mainPart
     }
     
@@ -27,7 +27,7 @@ class WebUtils {
     ///
     /// - Parameter parameters: parameters dictionary
     /// - Returns: built string
-    static func getParameterString(parameters: [String: String]) -> String {
+    static func getParameterStringFor(_ parameters: [String: String]) -> String {
         var parameterString = ""
         for (key, value) in parameters {
             parameterString.append("\(key)=\(value)&")
@@ -40,7 +40,7 @@ class WebUtils {
     ///
     /// - Parameter postType: type of the post (see enum)
     /// - Returns: url string
-    static func getPostUrl(for postType: ContentType.PostType) -> String {
+    static func getPostUrlFor(_ postType: ContentType.PostType) -> String {
         switch postType {
         case .NEW:
             return Configuration.NEW_POSTS_URL

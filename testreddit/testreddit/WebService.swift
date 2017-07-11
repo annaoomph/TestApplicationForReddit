@@ -12,7 +12,7 @@ import Foundation
 /// Makes requests to server.
 class WebService {
     
-    /// Performs the requeast itself (no checking, just the request).
+    /// Performs the requeast itself (no checks, just the request).
     ///
     /// - Parameters:
     ///   - url: url to api
@@ -20,7 +20,7 @@ class WebService {
     ///   - httpMethod: method for the request
     ///   - body: optional parameter body
     ///   - callback: delegate
-    func makeRequest(url: URL, authorization: String?, httpMethod: HTTPMethod, body: [String: String]? = nil, callback: @escaping (_ json: Data?, _ error: Error?) -> Void) {
+    func makeRequestTo(_ url: URL, authorizedWith authorization: String?, using httpMethod: HTTPMethod, with body: [String: String]? = nil, callback: @escaping (_ json: Data?, _ error: Error?) -> Void) {
         var request = URLRequest(url:url)
         
         request.httpMethod = httpMethod.rawValue
@@ -29,7 +29,7 @@ class WebService {
         request.addValue("User-Agent: ios:testredditapp (by /u/annaoomph", forHTTPHeaderField: "User-Agent")
         
         if httpMethod == .post, let bodyArray = body {
-            let bodyString = WebUtils.getParameterString(parameters: bodyArray)
+            let bodyString = WebUtils.getParameterStringFor(bodyArray)
             request.httpBody = bodyString.data(using: String.Encoding.utf8)
         }
         
@@ -54,7 +54,7 @@ class WebService {
     /// - Parameters:
     ///   - url: path to item
     ///   - completion: callback
-    func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
+    func getDataFromUrl(_ url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         URLSession.shared.dataTask(with: url) {
             (data, response, error) in
             completion(data, response, error)

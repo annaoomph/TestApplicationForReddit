@@ -9,7 +9,6 @@
 import UIKit
 
 class CommentTableViewCell: UITableViewCell {
-
     
     /// A label for margin defining the tree label, also displays the pointer (>/v).
     @IBOutlet weak var marginLabel: UILabel!
@@ -25,7 +24,7 @@ class CommentTableViewCell: UITableViewCell {
     /// - Parameters:
     ///   - comment: the comment itself
     ///   - level: level of the comment in a comment tree
-    func constructLabels(comment: Comment, level: Int) {
+    func constructLabels(with comment: Comment, level: Int) {
         var mark = "  "
         var repliesText = "0"
         if let replies = comment.replies,
@@ -33,9 +32,9 @@ class CommentTableViewCell: UITableViewCell {
             mark = comment.opened ? "v" : ">"
             repliesText = "\(replies.count)"
         }
-        let mutableString = NSMutableAttributedString(string: "\(comment.score) \(comment.author) replies: \(repliesText)", attributes: nil)
-        mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(comment.score)".characters.count))
-        mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: "\(comment.score)".characters.count + 1, length:comment.author.characters.count))
+        var mutableString = NSMutableAttributedString(string: "\(comment.score) \(comment.author) replies: \(repliesText)", attributes: nil)
+        StringUtils.addColorHighlightWith(Configuration.Colors.red, in: &mutableString, for: String(comment.score))
+        StringUtils.addColorHighlightWith(Configuration.Colors.blue, in: &mutableString, for: comment.author)
         infoLabel.attributedText = mutableString        
         let margin = String(repeating: "    ", count: level)
         marginLabel.text = "\(margin)\(mark)"
