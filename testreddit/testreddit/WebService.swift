@@ -2,24 +2,23 @@
 //  WebService.swift
 //  testreddit
 //
-//  Created by Alexander on 6/23/17.
+//  Created by Anna on 6/23/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import Foundation
 
-
 /// Makes requests to server.
 class WebService {
     
-    /// Performs the requeast itself (no checks, just the request).
+    /// Performs the request itself (no checks, just the request).
     ///
     /// - Parameters:
-    ///   - url: url to api
-    ///   - authorization: auth header
-    ///   - httpMethod: method for the request
-    ///   - body: optional parameter body
-    ///   - callback: delegate
+    ///   - url: url to api.
+    ///   - authorization: auth header.
+    ///   - httpMethod: method for the request.
+    ///   - body: optional parameter body.
+    ///   - callback: delegate.
     func makeRequestTo(_ url: URL, authorizedWith authorization: String?, using httpMethod: HTTPMethod, with body: [String: String]? = nil, callback: @escaping (_ json: Data?, _ error: Error?) -> Void) {
         var request = URLRequest(url:url)
         
@@ -52,12 +51,11 @@ class WebService {
     /// Gets an item (such as picture) from url.
     ///
     /// - Parameters:
-    ///   - url: path to item
-    ///   - completion: callback
+    ///   - url: path to item.
+    ///   - completion: callback.
     func getDataFromUrl(_ url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         URLSession.shared.dataTask(with: url) {
-            (data, response, error) in
-            completion(data, response, error)
+            completion($0, $1, $2)
             }.resume()
     }
 

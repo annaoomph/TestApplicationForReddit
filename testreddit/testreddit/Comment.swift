@@ -2,20 +2,20 @@
 //  Comment.swift
 //  testreddit
 //
-//  Created by Alexander on 6/17/17.
+//  Created by Anna on 6/17/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import Foundation
 import SwiftyJSON
-/// A class describing a reddit comment (can include a tree of replies).
+
+/// A class describing a reddit comment (can include a tree of replies of the same type).
 public class Comment: NSObject {
     
-    
-    /// Whether the comment is expanded in comment tree.
+    /// Whether the comment is expanded in comment tree (used for interface).
     var opened: Bool
     
-    /// Comment score (likes - dislikes)
+    /// Comment score (likes - dislikes).
     var score: Int
     
     /// The time of creation in local epoch-second format.
@@ -41,8 +41,21 @@ public class Comment: NSObject {
         self.created = created
         self.author = author
         self.body = body
+        //Parse subcomments recursively.
         self.replies = CommentsParser().parseItems(json: JSONData["replies"], inner: false)
         self.opened = false
         super.init()
+    }
+    
+    /// Tries to get a subcomment by the given index. Can fail if the index is too large, or the comment is not opened.
+    ///
+    /// - Parameter replyIndex: index of the possible subcomment.
+    subscript(_ replyIndex: Int) -> Comment? {
+        if self.opened {
+            if self.replies?.count ?? 0 > replyIndex {
+                return self.replies![replyIndex]
+            }
+        }
+        return nil
     }
 }

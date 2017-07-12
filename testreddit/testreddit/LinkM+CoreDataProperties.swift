@@ -2,7 +2,7 @@
 //  LinkM+CoreDataProperties.swift
 //  
 //
-//  Created by Alexander on 6/20/17.
+//  Created by Anna on 6/20/17.
 //
 //
 

@@ -2,13 +2,13 @@
 //  HHTPMethod.swift
 //  testreddit
 //
-//  Created by Alexander on 6/30/17.
+//  Created by Anna on 6/30/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import Foundation
 
-/// An http methods to make requests. 
+/// An http method list for making requests.
 ///
 /// - get: get method
 /// - post: post method

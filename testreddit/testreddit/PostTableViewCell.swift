@@ -2,12 +2,13 @@
 //  PostCellTableViewCell.swift
 //  testreddit
 //
-//  Created by Alexander on 6/16/17.
+//  Created by Anna on 6/16/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import UIKit
 
+/// A class for post table cell.
 class PostTableViewCell: UITableViewCell {
     
     /// A view for the preview image (thumbnail).
@@ -39,7 +40,7 @@ class PostTableViewCell: UITableViewCell {
             WebService().getDataFromUrl(url) { (data, response, error)  in
                 guard let data = data, error == nil else { return }
                 DispatchQueue.main.async() { () -> Void in
-                    //We should not attach this image to any other post cel except the one we have been downloading it for.
+                    //We should not attach this image to any other post cell except the one we have been downloading it for.
                     //That's why we need to check if id of the current cell matches with the id of the cell this image is intended for.
                     if self.postId == currentPostId {
                         let img = UIImage(data: data)
@@ -56,13 +57,13 @@ class PostTableViewCell: UITableViewCell {
     /// Constructs the text on all the call labels.
     ///
     /// - Parameter post: the post itself.
-    /// - Parameter searchString: a filter string, if present.
+    /// - Parameter searchString: a filter string, if present (to be highlighted).
     func constructLabels(with post: LinkM, searchString: String? = nil) {
         postId = post.thing_id
-        var mutableTitle = NSMutableAttributedString(string: post.title, attributes: nil)
+        let mutableTitle = NSMutableAttributedString(string: post.title, attributes: nil)
         //If the search was performed, highlight the match of the filter text with title text.
         if let search = searchString {
-            StringUtils.addHighlightWith(UIFont.boldSystemFont(ofSize: titleLabel.font.pointSize), in: &mutableTitle, for: search)
+            mutableTitle.addHighlightWith(UIFont.boldSystemFont(ofSize: titleLabel.font.pointSize), for: search)
         }
         titleLabel.attributedText = mutableTitle
         
@@ -72,13 +73,13 @@ class PostTableViewCell: UITableViewCell {
         //Building colored info string.
         if let author = post.author {
             let domain = post.is_self ? "" : "at \(post.domain)"
-            var mutableString = NSMutableAttributedString(string: "Submitted at \(date) by \(author) to \(post.subreddit) \(domain)", attributes: nil)
-            StringUtils.addColorHighlightWith(Configuration.Colors.green, in: &mutableString, for: date)
-            StringUtils.addColorHighlightWith(Configuration.Colors.blue, in: &mutableString, for: author)
-            StringUtils.addColorHighlightWith(Configuration.Colors.orange, in: &mutableString, for: post.subreddit)
+            let mutableString = NSMutableAttributedString(string: "Submitted at \(date) by \(author) to \(post.subreddit) \(domain)", attributes: nil)
+            mutableString.addColorHighlightWith(Configuration.Colors.green, for: date)
+            mutableString.addColorHighlightWith(Configuration.Colors.blue, for: author)
+            mutableString.addColorHighlightWith(Configuration.Colors.orange, for: post.subreddit)
             
             if domain.characters.count > 0 {
-                StringUtils.addColorHighlightWith(Configuration.Colors.red, in: &mutableString, for: domain)
+                mutableString.addColorHighlightWith(Configuration.Colors.red, for: domain)
             }
             
             infoLabel.attributedText = mutableString

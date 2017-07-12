@@ -2,20 +2,22 @@
 //  Configuration.swift
 //  testreddit
 //
-//  Created by Alexander on 6/23/17.
+//  Created by Anna on 6/23/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
+/// Some constants used in all application.
 class Configuration {
 
     // MARK: - Urls
     static let TOKEN_URL = "https://www.reddit.com/api/v1/access_token"
-    static let HOT_POSTS_URL = "https://oauth.reddit.com/hot"
-    static let NEW_POSTS_URL = "https://oauth.reddit.com/new"
-    static let COMMENTS_URL = "https://oauth.reddit.com/comments/"
+    static let BASE_URL = "https://oauth.reddit.com/"
+    static let HOT_POSTS_URL = BASE_URL.appending("hot")
+    static let NEW_POSTS_URL = BASE_URL.appending("new")
+    static let COMMENTS_URL = BASE_URL.appending("comments")
     
     
     // MARK: - Authorization constants

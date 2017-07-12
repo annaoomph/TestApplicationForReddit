@@ -2,15 +2,18 @@
 //  PopupViewController.swift
 //  testreddit
 //
-//  Created by Alexander on 6/26/17.
+//  Created by Anna on 6/26/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import UIKit
 
+/// A class for image popup controller.
 class PopupViewController: UIViewController {
     
+    /// Whether the popup is visible at the moment.
     var isShown = false
+    
     /// A button to close the popup.
     @IBOutlet weak var close: UIButton!
     

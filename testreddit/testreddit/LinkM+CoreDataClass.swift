@@ -2,7 +2,7 @@
 //  LinkM+CoreDataClass.swift
 //
 //
-//  Created by Alexander on 6/20/17.
+//  Created by Anna on 6/20/17.
 //
 //
 
@@ -14,11 +14,10 @@ import SwiftyJSON
 /// A class describing a link (or a post) in reddit.
 public class LinkM: NSManagedObject {
     
-    
     /// Creates an instance of the Link and writes it to the core data context.
     ///
-    /// - Parameter JSONData: json from the server
-    /// - Returns: an object of Link type
+    /// - Parameter JSONData: json from the server.
+    /// - Returns: an object of Link type.
     class func create(JSONData: JSON) -> LinkM? {
         let linkM = NSEntityDescription.insertNewObject(forEntityName: "LinkM", into: CoreDataManager.instance.managedObjectContext) as! LinkM
         
@@ -71,6 +70,9 @@ public class LinkM: NSManagedObject {
         return linkM
     }
     
+    /// Checks whether a thumbnail for this post exists and can be shown.
+    ///
+    /// - Returns: true if a thumbnail can be shown, false otherwise.
     func thumbnailEnabled() -> Bool {
         if thumbnail.contains("self") || thumbnail.contains("default") || thumbnail.contains("image") {
             return false

@@ -2,22 +2,25 @@
 //  PopupWebViewController.swift
 //  
 //
-//  Created by Alexander on 7/3/17.
+//  Created by Anna on 7/3/17.
 //
 //
 
 import UIKit
 
+/// A class for web view popup controller.
 class PopupWebViewController: UIViewController {
 
+    /// Web view displaying the contents of the post.
     @IBOutlet weak var webView: UIWebView!
     
-    /// Defines whether the view is currently shown.
+    /// Whether the popup is visible at the moment.
     var isShown = false
     
     /// Url to be loaded in a web view.
     var urlString: String?
-   
+    
+    /// A button to close the popup.
     @IBOutlet weak var close: UIButton!
     
     override func viewDidLoad() {

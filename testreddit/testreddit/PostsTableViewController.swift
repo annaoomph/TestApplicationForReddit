@@ -2,19 +2,28 @@
 //  PostsTableViewController.swift
 //  testreddit
 //
-//  Created by Alexander on 6/16/17.
+//  Created by Anna on 6/16/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
+/// This protocol must be implemented by the detail view controller, if we have split view.
 protocol PostSelectionDelegate: class {
+    
+    /// Called when the post is selected.
+    ///
+    /// - Parameter newPost: selected post.
     func postSelected(newPost: LinkM)
 }
+
+/// A controller displaying a list of posts.
 class PostsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
     //MARK: - Properties
+    
+    /// A table for the posts.
     @IBOutlet weak var tableView: UITableView!
     
     /// Loader for loading data from server.
@@ -38,7 +47,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     /// Search controller for the table view.
     let searchController = UISearchController(searchResultsController: nil)
     
-    /// Retrieves the search scope name (raw value of enum)
+    /// Retrieves the chosen search scope name (raw value of enum).
     var scope: String {
         get {
             return searchController.searchBar.scopeButtonTitles![searchController.searchBar.selectedScopeButtonIndex]
@@ -107,6 +116,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         tableView.rowHeight = UITableViewAutomaticDimension
     }
     
+    /// Event when user drags table view from the bottom to load more posts.
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offset = scrollView.contentOffset;
         let bounds = scrollView.bounds;
@@ -162,9 +172,9 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         
     }
     
-    /// Gets the number of posts in the database.
+    /// Gets the number of posts in the database (or filtered).
     ///
-    /// - Returns: amount of posts
+    /// - Returns: amount of posts.
     func getPostCount() -> Int {
         if searching {
             return filteredPosts.count
@@ -174,8 +184,8 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Gets post at certain index path.
     ///
-    /// - Parameter indexPath: index of the post
-    /// - Returns: post
+    /// - Parameter indexPath: index of the post.
+    /// - Returns: post.
     func getPostAt(indexPath: IndexPath) -> LinkM {
         if searching {
             return filteredPosts[indexPath.row]
@@ -185,7 +195,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Gets an array of posts from the database.
     ///
-    /// - Returns: array of posts (can be empty if something goes worong)
+    /// - Returns: array of posts (can be empty if something goes wrong)
     func getPosts() -> [LinkM] {
         return fetchedResultsControllerForPosts?.fetchedObjects ?? [LinkM]()
     }
@@ -209,10 +219,25 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     ///   - scope: a scope user has chosen
     func filterContentForSearchString(searchText: String, scope: String = "All") {
         filteredPosts = getPosts().filter {
-            post in
-            let scopeMatches = (scope == ScopeType.All.rawValue || (post.image != nil && scope == ScopeType.Image.rawValue) || (post.additionalData != nil && scope == ScopeType.Gif.rawValue) || (post.additionalData == nil && post.image == nil && scope == ScopeType.Other.rawValue))
+            var scopeMatches = false
+            switch (scope) {
+            case ScopeType.Image.rawValue:
+                if ($0.image != nil) {
+                    scopeMatches = true
+                }
+            case ScopeType.Gif.rawValue:
+                if ($0.additionalData != nil) {
+                    scopeMatches = true
+                }
+            case ScopeType.Other.rawValue:
+                if ($0.additionalData == nil && $0.image == nil) {
+                    scopeMatches = true
+                }
+            default:
+                scopeMatches = true
+            }
             //If the search string contains something, we check if the title contains it, otherwise we skip this check.
-            return scopeMatches && (searchText.characters.count > 0 ? post.title.lowercased().contains(searchText.lowercased()) : true)
+            return scopeMatches && (searchText.characters.count > 0 ? $0.title.lowercased().contains(searchText.lowercased()) : true)
         }
         tableView.reloadData()
     }
@@ -270,6 +295,11 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
+    /// Called when server has loaded posts.
+    ///
+    /// - Parameters:
+    ///   - posts: posts from server.
+    ///   - error: error, if it happened.
     func onPostsDelivered(posts: [LinkM]?, error: Error?) {
         refreshingInProgress = false
         if let caughtError = error {
@@ -284,6 +314,11 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
+    /// Called when server has loaded more posts.
+    ///
+    /// - Parameters:
+    ///   - posts: a list of posts to be added.
+    ///   - error: error, if it happened.
     func onMorePostsDelivered(posts: [LinkM]?, error: Error?) {
         refreshingInProgress = false
         if let caughtError = error {
@@ -329,7 +364,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     ///
     /// - Parameter error: error object
     func displayError(_ error: Error) {
-        let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error as! RedditError) : error.localizedDescription
+        let errorString = error is RedditError ? RedditError.getDescriptionForError(error as! RedditError) : error.localizedDescription
         let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(OKAction)

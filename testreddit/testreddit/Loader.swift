@@ -12,6 +12,7 @@ import SwiftyJSON
 /// Loads data from server and parses it.
 class Loader {
     
+    /// A service that makes actual requests to the server.
     let webService: WebService
     
     init() {
@@ -21,7 +22,7 @@ class Loader {
     /// Tries to update the token value if needed and returns the actual value in a callback.
     ///
     /// - Parameters:
-    ///   - pendingRequest: a request waiting to be executed, needs a valid token value to perform execution
+    ///   - pendingRequest: a request waiting to be executed, needs a valid token value to proceed with execution.
     private func getToken(pendingRequest: @escaping (_ token: String?, _ error: Error?) -> Void) {
         if WebUtils.tokenExpired() {
             let url = URL(string: Configuration.TOKEN_URL)
@@ -65,11 +66,11 @@ class Loader {
     /// Requests a list of hot posts.
     ///
     /// - Parameters:
-    ///   - more: if the request for loading more posts was made
-    ///   - callback: delegate
+    ///   - more: if the request for loading more posts was made.
+    ///   - callback: delegate.
     func getPostsOfType(_ type: ContentType.PostType, more: Bool = false, callback: @escaping (_ posts: [LinkM]?, _ error: Error?) -> Void) {
         var urlString = WebUtils.getPostUrlFor(type)
-        urlString = more ? WebUtils.constructUrl(baseUrl: urlString, parameters: ["after" : "t3_\(WebUtils.getLastPostAnchor())"]) : urlString
+        urlString = more ? WebUtils.constructUrl(baseUrl: urlString, with: ["after" : "t3_\(WebUtils.getLastPostAnchor())"]) : urlString
         let url = URL(string: urlString)
         makeGetRequestTo(url!, for: .POSTS, withParameter: !more, callback: callback, parseFunction: PostsParser().parseItems(json:clearDb:))
     }
@@ -77,8 +78,8 @@ class Loader {
     /// Requests a list of comments for a certain post.
     ///
     /// - Parameters:
-    ///   - postId: id of the post (or link)
-    ///   - callback: delegate
+    ///   - postId: id of the post (link).
+    ///   - callback: delegate.
     func getCommentsForPostWithId(_ postId: String,  callback: @escaping (_ comments: [Comment]? , _ error: Error?) -> Void) {
         let url = URL(string: "\(Configuration.COMMENTS_URL)\(postId)")
         makeGetRequestTo(url!, for: .COMMENTS, withParameter: true, callback: callback, parseFunction: CommentsParser().parseItems(json:inner:))
@@ -88,11 +89,11 @@ class Loader {
     /// Makes a get request, parses it with the given function and returns the result to the given callback.
     ///
     /// - Parameters:
-    ///   - url: url to make request to
-    ///   - type: type of the data
-    ///   - additionalParameter: additional parsing parameter
-    ///   - callback: callback for result of the request
-    ///   - parseFunction: a function for parsing data
+    ///   - url: url to make request to.
+    ///   - type: type of the data.
+    ///   - additionalParameter: additional parsing parameter.
+    ///   - callback: callback for result of the request.
+    ///   - parseFunction: a function for parsing data.
     func makeGetRequestTo<T>(_ url: URL, for type: ContentType, withParameter additionalParameter: Bool, callback: @escaping (_ items: [T]? , _ error: Error?) -> Void, parseFunction: @escaping (_ json: JSON, _ additionalParameter: Bool) -> [T]?) {
         getToken {
             token, error in

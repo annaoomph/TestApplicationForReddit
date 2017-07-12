@@ -2,21 +2,22 @@
 //  UrlUtils.swift
 //  testreddit
 //
-//  Created by Alexander on 6/29/17.
+//  Created by Anna on 6/29/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import Foundation
 
+/// Utils for networking.
 class WebUtils {
     
-    /// Constructs url from its base and parameters dictionary.
+    /// Constructs the url from its base and with parameters dictionary.
     ///
     /// - Parameters:
-    ///   - base: base Url
-    ///   - parameters: a dictionary with parameters
-    /// - Returns: url string
-    static func constructUrl(baseUrl base: String, parameters: [String: String]) -> String {
+    ///   - base: base url.
+    ///   - parameters: a dictionary with parameters.
+    /// - Returns: url string.
+    static func constructUrl(baseUrl base: String, with parameters: [String: String]) -> String {
         var mainPart = base
         mainPart.append("?")
         mainPart.append(getParameterStringFor(parameters))
@@ -25,8 +26,8 @@ class WebUtils {
     
     /// Gets a string with parameters from the given dictionary.
     ///
-    /// - Parameter parameters: parameters dictionary
-    /// - Returns: built string
+    /// - Parameter parameters: parameters dictionary.
+    /// - Returns: built string.
     static func getParameterStringFor(_ parameters: [String: String]) -> String {
         var parameterString = ""
         for (key, value) in parameters {
@@ -38,8 +39,8 @@ class WebUtils {
     
     /// Gets the url to post depending on its type.
     ///
-    /// - Parameter postType: type of the post (see enum)
-    /// - Returns: url string
+    /// - Parameter postType: type of the post (see enum).
+    /// - Returns: url string.
     static func getPostUrlFor(_ postType: ContentType.PostType) -> String {
         switch postType {
         case .NEW:
@@ -51,7 +52,7 @@ class WebUtils {
     
     /// Gets the authorization string for getting the token (app only athorization).
     ///
-    /// - Returns: header auth string
+    /// - Returns: header auth string.
     static func getAuthorizationString() -> String {
         let username = Configuration.APP_ONLY_USERNAME
         let password = ""
@@ -63,7 +64,7 @@ class WebUtils {
     
     /// Gets the token from preferences.
     ///
-    /// - Returns: header auth string with token
+    /// - Returns: header auth string with token.
     static func getToken() -> String {
         return "Bearer \(PreferenceManager().getToken())"
     }
@@ -79,7 +80,7 @@ class WebUtils {
     
     /// Gets the anchor to the last post (to load posts after it).
     ///
-    /// - Returns: post anchor <kind_id>
+    /// - Returns: post anchor <kind_id>.
     static func getLastPostAnchor() -> String {
         return CoreDataManager.instance.getLastPostId() ?? ""
     }

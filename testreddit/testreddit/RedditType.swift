@@ -2,13 +2,13 @@
 //  RedditType.swift
 //  testreddit
 //
-//  Created by Alexander on 6/30/17.
+//  Created by Anna on 6/30/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import Foundation
 
-/// Data types in json coming from reddit. Helps to parse json dictionaries.
+/// A list of json data types coming from reddit. Helps to parse json dictionaries.
 ///
 /// - THING: a post (or link)
 /// - COMMENT: a comment to a post

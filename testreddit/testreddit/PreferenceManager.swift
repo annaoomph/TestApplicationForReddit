@@ -2,12 +2,11 @@
 //  PreferenceManager.swift
 //  testreddit
 //
-//  Created by Alexander on 6/14/17.
+//  Created by Anna on 6/14/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import Foundation
-
 
 /// Manages User Defaults.
 public class PreferenceManager {
@@ -50,7 +49,7 @@ public class PreferenceManager {
     
     /// Gets last opened by user tab.
     ///
-    /// - Returns: tab index
+    /// - Returns: tab index.
     func getLastOpenedTab() -> Int {
         if let tab = preferences.object(forKey: PreferenceManager.TAB_KEY) as! Int? {
             return tab
@@ -60,7 +59,7 @@ public class PreferenceManager {
     
     /// Gets the date when the current token expires.
     ///
-    /// - Returns: time from 1970, in seconds (TimeInterval)
+    /// - Returns: time from 1970, in seconds (TimeInterval).
     func getTokenExpirationDate() -> Int {
         if let date = preferences.object(forKey: PreferenceManager.EXPIRATION_DATE_KEY) as! Int? {
             return date

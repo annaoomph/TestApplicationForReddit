@@ -2,7 +2,7 @@
 //  ImageUtilities.swift
 //  testreddit
 //
-//  Created by Alexander on 7/4/17.
+//  Created by Anna on 7/4/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
@@ -19,7 +19,13 @@ class ImageCache {
     private let maxSize = 50
     
     /// Dictionary of stored images.
-    var images = [String:UIImage]()
+    var images = [String:UIImage]() {
+        didSet {
+            if images.count > maxSize {
+                images = [String:UIImage]()
+            }
+        }
+    }
     
     class var sharedCache: ImageCache {
         return _sharedCache
@@ -30,10 +36,7 @@ class ImageCache {
     /// - Parameters:
     ///   - image: image to be stored.
     ///   - key: key for storing that image.
-    func setImage(image: UIImage, forKey key: String) {
-        if images.count > maxSize {
-            images = [String:UIImage]()
-        }
+    func setImage(image: UIImage, forKey key: String) {        
         images[key] = image
     }
     

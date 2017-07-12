@@ -2,56 +2,55 @@
 //  ViewController.swift
 //  testreddit
 //
-//  Created by Alexander on 6/13/17.
+//  Created by Anna on 6/13/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import UIKit
 import SwiftGifOrigin
 
-
-/// A controller for the post view.
+/// A controller for the post detailed view.
 class PostDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PostSelectionDelegate {
     
     //MARK: - Storyboard elements
-    /// A view with the post image or gif.
+    /// A view with the image or gif attached to the post. Can contain empty placeholder, if no image or gif is provided.
     @IBOutlet weak var imgView: UIImageView!
     
-    /// An activity indicator that shows that image or gif is still loading.
+    /// An activity indicator that isshown when an image or gif is still loading.
     @IBOutlet weak var imageSpinner: UIActivityIndicatorView!
     
     /// A toggle button for showing/hiding a list of comments.
     @IBOutlet weak var showHideComments: UIButton!
     
-    /// Table for comments.
+    /// A table for comments.
     @IBOutlet weak var tableView: UITableView!
     
-    /// Label showing contents of the post.
+    /// Label showing contents of the post (selftext).
     @IBOutlet weak var textLabel: UILabel!
     
-    /// View's internal scroll view (as the content can be pretty big).
+    /// View's internal scroll view (as the content can be pretty big because of text and images).
     @IBOutlet weak var scrollView: UIScrollView!
     
-    /// Title of the post.
+    /// Displays the title of the post.
     @IBOutlet weak var titleLabel: UILabel!
     
-    /// Label saying that the post looks better in a browser.
+    /// Label notifying that the post looks better in a browser.
     @IBOutlet weak var hintLabel: UILabel!
     
     //MARK: - Properties
     /// Loads data from server.
     let loader = Loader()
     
-    /// Image or gif connected with the post.
+    /// An image or gif connected with the post.
     var mainImage: UIImage?
     
     /// Shown post (link).
     var post: LinkM?
     
-    /// A popup for image.
+    /// A popup for displaying full-sized image.
     var popupWindow: PopupViewController?
     
-    /// A popup for web view.
+    /// A popup for displaying post in a web view.
     var popupWebWindow: PopupWebViewController?
     
     /// A list of comments for the shown post.
@@ -81,23 +80,27 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        CommentUtils().markComments(commentToMark: indexPath.row, comments: comments)
+        //When a comment row is selected, it is needed to open or close the comment, if it's possible.
+        //Basically, here we only need to modify a boolean flag on the comment, indicating its state.
+        let result = CommentUtils().findCommentByIndex(indexPath.row, level: -1, comments: comments)
+        if let comment = result.comment {
+            comment.opened  = !comment.opened
+        }
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let cellsCount = CommentUtils().countComments(initialCount: 0, comments: comments)
-        return cellsCount
+        return CommentUtils().countComments(initialCount: 0, comments: comments)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as? CommentTableViewCell else {
             fatalError("Not loaded cell")
         }
-        let (level, returnedComment) = CommentUtils().findCommentByIndex(indexPath.row, level: -1, comments: comments)
+        let result = CommentUtils().findCommentByIndex(indexPath.row, level: -1, comments: comments)
         
-        if let comment = returnedComment {
-            cell.constructLabels(with: comment, level: level)
+        if let comment = result.comment {
+            cell.constructLabels(with: comment, level: result.at)
         }
         return cell
     }
@@ -126,7 +129,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// Loads the post information on initialization.
     func loadPost() {
         if let realPost = post {
-            //First, stop all the activity going on in a view (if split view controller is used, this is required).
+            //First, stop all the activity going on in a view (if split view controller is used, this is especially required).
             if let popup = popupWindow, popup.isShown {
                 popup.removeAnimate()
             }
@@ -141,11 +144,12 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             self.imgView.image = #imageLiteral(resourceName: "Placeholder")
             self.imageSpinner.stopAnimating()
             
+            //Next, load the new post.
             tableView.refreshControl!.beginRefreshing()
             let domain = realPost.is_self ? "" : "(\(realPost.domain))"
             let mutableString = NSMutableAttributedString(string: "\(realPost.score) \(realPost.title) \(domain)", attributes: nil)
-            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.red, range: NSRange(location: 0, length:"\(realPost.score)".characters.count))
-            mutableString.addAttribute(NSForegroundColorAttributeName, value: Configuration.Colors.blue, range: NSRange(location: mutableString.length - domain.characters.count, length:domain.characters.count))
+            mutableString.addColorHighlightWith(Configuration.Colors.red, for: String(realPost.score))
+            mutableString.addColorHighlightWith(Configuration.Colors.blue, for: domain)
             titleLabel.attributedText = mutableString
             
             if let data = realPost.additionalData {
@@ -252,6 +256,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     @IBAction func showComments(_ sender: UIButton) {
         showHideComments.isSelected = !showHideComments.isSelected
         tableView.isHidden = !showHideComments.isSelected
+        //Scrolling the scrollview to show the comment list full screen.
         self.scrollView.scrollRectToVisible(showHideComments.isSelected ? tableView.frame : titleLabel.frame, animated: true)
     }
     
@@ -259,7 +264,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     ///
     /// - Parameter error: error object
     func displayError(_ error: Error) {
-        let errorString = error is RedditError ? ErrorHandler.getDescriptionForError(error as! RedditError) : error.localizedDescription
+        let errorString = error is RedditError ? RedditError.getDescriptionForError(error as! RedditError) : error.localizedDescription
         let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(OKAction)

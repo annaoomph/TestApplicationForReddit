@@ -2,12 +2,13 @@
 //  CommentTableViewCell.swift
 //  testreddit
 //
-//  Created by Alexander on 6/22/17.
+//  Created by Anna on 6/22/17.
 //  Copyright © 2017 Akvelon. All rights reserved.
 //
 
 import UIKit
 
+/// A class for comment table cell.
 class CommentTableViewCell: UITableViewCell {
     
     /// A label for margin defining the tree label, also displays the pointer (>/v).
@@ -32,9 +33,9 @@ class CommentTableViewCell: UITableViewCell {
             mark = comment.opened ? "v" : ">"
             repliesText = "\(replies.count)"
         }
-        var mutableString = NSMutableAttributedString(string: "\(comment.score) \(comment.author) replies: \(repliesText)", attributes: nil)
-        StringUtils.addColorHighlightWith(Configuration.Colors.red, in: &mutableString, for: String(comment.score))
-        StringUtils.addColorHighlightWith(Configuration.Colors.blue, in: &mutableString, for: comment.author)
+        let mutableString = NSMutableAttributedString(string: "\(comment.score) \(comment.author) replies: \(repliesText)", attributes: nil)
+        mutableString.addColorHighlightWith(Configuration.Colors.red, for: String(comment.score))
+        mutableString.addColorHighlightWith(Configuration.Colors.blue, for: comment.author)
         infoLabel.attributedText = mutableString        
         let margin = String(repeating: "    ", count: level)
         marginLabel.text = "\(margin)\(mark)"
