@@ -24,6 +24,28 @@ class WebUtils {
         return mainPart
     }
     
+    /// Gets the token value from redirected url. Parses the query parameters for the URI.
+    ///
+    /// - Parameter response: response which can possibly contain the token, if user has given all the permissions.
+    /// - Returns: token, if present, and its expiration date.
+    static func retrieveTokenFromResponse(_ response: String) -> (access_token: String, expires_in: String)? {
+        let responseArray = response.components(separatedBy: ["&", "#"])
+        var token: String?
+        var expiresIn: String?
+        for responseElement in responseArray {
+            if responseElement.hasPrefix("access_token") {
+                token = responseElement.components(separatedBy: ["="])[1]
+            }
+            if responseElement.hasPrefix("expires_in") {
+                expiresIn = responseElement.components(separatedBy: ["="])[1]
+            }
+        }
+        guard let retrievedToken = token, let retrievedExpiration = expiresIn else {
+            return nil
+        }
+        return (access_token: retrievedToken, expires_in: retrievedExpiration)
+    }
+    
     /// Gets a string with parameters from the given dictionary.
     ///
     /// - Parameter parameters: parameters dictionary.

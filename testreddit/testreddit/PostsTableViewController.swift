@@ -47,10 +47,20 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     /// Search controller for the table view.
     let searchController = UISearchController(searchResultsController: nil)
     
+    /// Whether the authorization was already asked in this session.
+    static var askedAuthorization = false
+    
     /// Retrieves the chosen search scope name (raw value of enum).
     var scope: String {
         get {
             return searchController.searchBar.scopeButtonTitles![searchController.searchBar.selectedScopeButtonIndex]
+        }
+    }
+    
+    /// Checks whether the device is ipad
+    var isIpad: Bool {
+        get{
+            return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
         }
     }
     
@@ -104,13 +114,37 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
         initializeSearch()
         startRefreshControl()
         loadFromDatabase()
+        checkForUserAuthorization()
+    }
+    
+    /// Checks whether the user is authorized and if not, tries to ask him to do so, if it's possible.
+    func checkForUserAuthorization() {
+        //If user is not authorized, allowed to be asked and the alert has not yet been shown - show alert. Otherwise do nothing.
+        if !PreferenceManager().isUserAuth() && !PreferenceManager().isUserPermittedToBeAsked() && !PostsTableViewController.askedAuthorization {
+            PostsTableViewController.askedAuthorization = true
+            
+            let alertController = UIAlertController(title: "Authorization", message: Configuration.USER_AUTH_QUESTION, preferredStyle:
+                (isIpad) ? .alert : .actionSheet)
+            let OKAction = UIAlertAction(title: Configuration.USER_AUTH_OPTIONS[0], style: .default, handler: {
+                _ in Loader.authorizeUser()
+            })
+            let DiscardAction = UIAlertAction(title: Configuration.USER_AUTH_OPTIONS[1], style: .destructive, handler: {
+                _ in PreferenceManager().userDoesntWantAuthorized()
+            })
+            let LaterAction = UIAlertAction(title: Configuration.USER_AUTH_OPTIONS[2], style: .cancel)
+            alertController.addAction(OKAction)
+            alertController.addAction(DiscardAction)
+            alertController.addAction(LaterAction)
+            
+            self.present(alertController, animated: true, completion: {})
+        }
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         PreferenceManager().saveOpenedTab(tab: tabBarController.selectedIndex)
         refresh(sender: self)
-        
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -137,7 +171,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     //MARK: - Refreshing
     func startRefreshControl() {
         tableView.refreshControl = UIRefreshControl()
-        tableView.refreshControl!.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
+        tableView.refreshControl?.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
     }
     
     func refresh(sender:AnyObject) {
@@ -306,7 +340,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
             displayError(caughtError)
         }
         DispatchQueue.main.sync() {
-            tableView.refreshControl!.endRefreshing()
+            tableView.refreshControl?.endRefreshing()
             if postSelectionDelegate != nil {
                 tableView.selectRow(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: UITableViewScrollPosition.top)
                 postSelectionDelegate?.postSelected(newPost: getPostAt(indexPath: IndexPath(item: 0, section: 0)))

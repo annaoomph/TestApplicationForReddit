@@ -207,7 +207,7 @@
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
-                                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageView:Wi5-sM-fIT:image" translatesAutoresizingMaskIntoConstraints="NO" id="Wi5-sM-fIT">
+                                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageView:Wi5-sM-fIT:image" translatesAutoresizingMaskIntoConstraints="NO" id="Wi5-sM-fIT">
                                                 <rect key="frame" x="204" y="37" width="6" height="4"/>
                                                 <gestureRecognizers/>
                                                 <connections>
@@ -250,7 +250,9 @@
                                             <constraint firstItem="yKU-M3-tVP" firstAttribute="centerX" secondItem="OjM-j3-fZD" secondAttribute="centerX" id="TgD-9f-9m6"/>
                                             <constraint firstItem="yKU-M3-tVP" firstAttribute="bottom" secondItem="Ut1-SP-5OI" secondAttribute="top" constant="-8" id="WcA-Fp-hq0"/>
                                             <constraint firstAttribute="trailing" secondItem="yKU-M3-tVP" secondAttribute="trailing" id="YaL-a8-4IO"/>
+                                            <constraint firstItem="Wi5-sM-fIT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OjM-j3-fZD" secondAttribute="leading" constant="8" id="aDF-w7-ThW"/>
                                             <constraint firstItem="rIe-DC-XSC" firstAttribute="top" secondItem="OjM-j3-fZD" secondAttribute="top" constant="8" id="b5M-sI-9aS"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Wi5-sM-fIT" secondAttribute="trailing" constant="8" id="dmz-Rt-0wC"/>
                                             <constraint firstItem="rIe-DC-XSC" firstAttribute="bottom" secondItem="Wi5-sM-fIT" secondAttribute="top" constant="-8" id="eF2-Bm-fCk"/>
                                             <constraint firstItem="Wi5-sM-fIT" firstAttribute="centerX" secondItem="Ut1-SP-5OI" secondAttribute="centerX" id="eet-61-Pbp"/>
                                             <constraint firstAttribute="bottom" secondItem="Ut1-SP-5OI" secondAttribute="bottom" constant="8" id="eyz-5L-4H3"/>
@@ -319,12 +321,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default" translatesAutoresizingMaskIntoConstraints="NO" id="RrL-3T-Hz8">
-                                <rect key="frame" x="8" y="28" width="398" height="540"/>
-                                <gestureRecognizers/>
-                            </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-AV-gXZ">
-                                <rect key="frame" x="8" y="568" width="398" height="130"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APn-rD-wQV">
+                                <rect key="frame" x="8" y="28" width="398" height="515.33333333333337"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Default" translatesAutoresizingMaskIntoConstraints="NO" id="RrL-3T-Hz8">
+                                        <rect key="frame" x="0.0" y="0.0" width="398" height="540"/>
+                                        <gestureRecognizers/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="RrL-3T-Hz8" secondAttribute="trailing" id="N6m-Lb-Vum"/>
+                                    <constraint firstItem="RrL-3T-Hz8" firstAttribute="top" secondItem="APn-rD-wQV" secondAttribute="top" id="bjX-r1-70Y"/>
+                                    <constraint firstItem="RrL-3T-Hz8" firstAttribute="leading" secondItem="APn-rD-wQV" secondAttribute="leading" id="mk0-gp-Rde"/>
+                                    <constraint firstAttribute="bottom" secondItem="RrL-3T-Hz8" secondAttribute="bottom" id="qSH-6f-daM"/>
+                                </constraints>
+                            </scrollView>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-AV-gXZ">
+                                <rect key="frame" x="8" y="543.33333333333348" width="398" height="154.66666666666663"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -349,19 +362,25 @@
                             <constraint firstItem="VkR-Oe-NGp" firstAttribute="leading" secondItem="yGS-Mr-CB6" secondAttribute="leading" constant="8" id="6hz-TA-1w5"/>
                             <constraint firstItem="wMd-AV-gXZ" firstAttribute="centerX" secondItem="yGS-Mr-CB6" secondAttribute="centerX" id="Aox-XV-nha"/>
                             <constraint firstAttribute="trailing" secondItem="wMd-AV-gXZ" secondAttribute="trailing" constant="8" id="Jox-nl-mdY"/>
-                            <constraint firstItem="RrL-3T-Hz8" firstAttribute="top" secondItem="amU-XB-EMB" secondAttribute="bottom" constant="8" id="OtE-tT-Dkm"/>
-                            <constraint firstItem="rSl-PB-La1" firstAttribute="top" secondItem="VkR-Oe-NGp" secondAttribute="bottom" constant="8" id="Q6X-Sx-xCe"/>
-                            <constraint firstItem="wMd-AV-gXZ" firstAttribute="top" secondItem="RrL-3T-Hz8" secondAttribute="bottom" id="TOv-T1-HdY"/>
-                            <constraint firstItem="RrL-3T-Hz8" firstAttribute="leading" secondItem="yGS-Mr-CB6" secondAttribute="leading" constant="8" id="cAA-J9-gD8"/>
+                            <constraint firstItem="APn-rD-wQV" firstAttribute="centerX" secondItem="yGS-Mr-CB6" secondAttribute="centerX" id="VDP-E0-4DM"/>
+                            <constraint firstItem="APn-rD-wQV" firstAttribute="leading" secondItem="yGS-Mr-CB6" secondAttribute="leading" constant="8" id="Vvp-sK-Ts3"/>
+                            <constraint firstItem="wMd-AV-gXZ" firstAttribute="width" secondItem="APn-rD-wQV" secondAttribute="width" id="ZPD-jh-zIZ"/>
                             <constraint firstItem="wMd-AV-gXZ" firstAttribute="leading" secondItem="yGS-Mr-CB6" secondAttribute="leading" constant="8" id="deW-KS-ZMg"/>
-                            <constraint firstItem="RrL-3T-Hz8" firstAttribute="centerX" secondItem="yGS-Mr-CB6" secondAttribute="centerX" id="s1d-0H-hwM"/>
-                            <constraint firstAttribute="trailing" secondItem="RrL-3T-Hz8" secondAttribute="trailing" constant="8" id="tVg-lL-dcm"/>
+                            <constraint firstItem="wMd-AV-gXZ" firstAttribute="top" secondItem="APn-rD-wQV" secondAttribute="bottom" id="eVR-dx-2XG"/>
+                            <constraint firstAttribute="trailing" secondItem="APn-rD-wQV" secondAttribute="trailing" constant="8" id="iY9-an-pIm"/>
+                            <constraint firstItem="APn-rD-wQV" firstAttribute="top" secondItem="amU-XB-EMB" secondAttribute="bottom" constant="8" id="oez-DS-5A0"/>
+                            <constraint firstItem="rSl-PB-La1" firstAttribute="top" secondItem="VkR-Oe-NGp" secondAttribute="bottom" constant="8" id="vgo-SW-hBp"/>
                             <constraint firstAttribute="trailing" secondItem="VkR-Oe-NGp" secondAttribute="trailing" constant="8" id="yf2-Ck-w0k"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="close" destination="VkR-Oe-NGp" id="3KE-F1-1Vp"/>
-                        <outlet property="imgView" destination="RrL-3T-Hz8" id="3Pk-Cs-Xo9"/>
+                        <outlet property="imageViewBottomConstraint" destination="qSH-6f-daM" id="oWU-jY-9g4"/>
+                        <outlet property="imageViewLeadingConstraint" destination="mk0-gp-Rde" id="E2Z-9t-Sgy"/>
+                        <outlet property="imageViewTopConstraint" destination="bjX-r1-70Y" id="iCt-1B-Dbb"/>
+                        <outlet property="imageViewTrailingConstraint" destination="N6m-Lb-Vum" id="9TV-9y-3Bc"/>
+                        <outlet property="imgView" destination="RrL-3T-Hz8" id="swq-ko-Yt6"/>
+                        <outlet property="scrollView" destination="APn-rD-wQV" id="ZrA-9u-h3h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGo-RU-OTU" userLabel="First Responder" sceneMemberID="firstResponder"/>

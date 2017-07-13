@@ -116,7 +116,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     //MARK: - Refreshing
     func startRefreshControl() {
         tableView.refreshControl = UIRefreshControl()
-        tableView.refreshControl!.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
+        tableView.refreshControl?.addTarget(self, action: #selector(PostsTableViewController.refresh(sender:)), for: UIControlEvents.valueChanged)
     }
     
     func refresh(sender:AnyObject) {
@@ -145,7 +145,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
             self.imageSpinner.stopAnimating()
             
             //Next, load the new post.
-            tableView.refreshControl!.beginRefreshing()
+            tableView.refreshControl?.beginRefreshing()
             let domain = realPost.is_self ? "" : "(\(realPost.domain))"
             let mutableString = NSMutableAttributedString(string: "\(realPost.score) \(realPost.title) \(domain)", attributes: nil)
             mutableString.addColorHighlightWith(Configuration.Colors.red, for: String(realPost.score))
@@ -234,9 +234,6 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                 popupWebWindow!.didMove(toParentViewController: self)
             }
         }
-        /*if let loadedPost = post, let url = URL(string: loadedPost.url) {
-         UIApplication.shared.open(url, options: [:])
-         }*/
     }
     
     //MARK: - Callbacks

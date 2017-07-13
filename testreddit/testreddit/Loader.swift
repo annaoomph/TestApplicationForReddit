@@ -19,6 +19,36 @@ class Loader {
         webService = WebService()
     }
     
+    /// Sends user to authorization screen where he can allow the needed permissions.
+    static func authorizeUser() {
+        if let url = URL(string: WebUtils.constructUrl(baseUrl: Configuration.AUTH_URL, with:
+            ["client_id" : Configuration.APP_ONLY_USERNAME,
+             "response_type" : "token",
+             "state" : "test",
+             "redirect_uri" : Configuration.REDIRECT_URI,
+             "scope" : Configuration.SCOPES])) {
+            UIApplication.shared.open(url, options: [:])
+        }
+    }
+    
+    /// If the user chooses to allow application, handle the redirected response.
+    ///
+    /// - Parameter url: redirected url.
+    /// - Returns: true if the response is successful and contains token, false otherwise.
+    static func handleAuthorizationResponseWith(_ url: URL) -> Bool {
+        if url.scheme == Configuration.APP_SCHEME {
+            if let token = WebUtils.retrieveTokenFromResponse(url.absoluteString) {
+                PreferenceManager().userAuthorized(authorized: true)
+                PreferenceManager().saveToken(token: token.access_token)
+                var expirationDate = Date()
+                expirationDate.addTimeInterval(TimeInterval(Int(token.expires_in)!))
+                PreferenceManager().saveTokenExpirationDate(date: Int(expirationDate.timeIntervalSince1970))
+                return true
+            }
+        }
+        return false
+    }
+    
     /// Tries to update the token value if needed and returns the actual value in a callback.
     ///
     /// - Parameters:
@@ -26,8 +56,9 @@ class Loader {
     private func getToken(pendingRequest: @escaping (_ token: String?, _ error: Error?) -> Void) {
         if WebUtils.tokenExpired() {
             let url = URL(string: Configuration.TOKEN_URL)
-            let body = ["grant_type" : Configuration.GRANT_TYPE_VALUE, "device_id" : NSUUID().uuidString]
-            
+            var body : [String:String]
+            body = ["grant_type" : Configuration.GRANT_TYPE_VALUE, "device_id" : NSUUID().uuidString]
+        
             webService.makeRequestTo(url!, authorizedWith: WebUtils.getAuthorizationString(), using: .post, with: body) {
                 json, errString in
                 if let error = errString {

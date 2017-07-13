@@ -10,11 +10,11 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        //If the device is iPad, the main controller would be split view controller. 
+        //If the device is iPad, the main controller would be split view controller.
         //Therefore, we need to do additional job to get to the tab view controller.
         if let splitViewController = self.window!.rootViewController as? UISplitViewController {
             splitViewController.preferredDisplayMode = .allVisible
@@ -26,16 +26,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-
+    
     func applicationWillResignActive(_ application: UIApplication) {}
-
+    
     func applicationDidEnterBackground(_ application: UIApplication) {}
-
+    
     func applicationWillEnterForeground(_ application: UIApplication) {}
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {}
-
+    
     func applicationWillTerminate(_ application: UIApplication) {}
-
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        //Called when the browser is instructed to redirect to app's registered redirect_uri.
+        return Loader.handleAuthorizationResponseWith(url)
+    }
 }
 
