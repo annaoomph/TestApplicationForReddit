@@ -75,7 +75,7 @@ class PostsTableViewController: UIViewController, UITableViewDataSource, UITable
     /// Retrieves the search text.
     var searchText: String {
         get {
-            return searchController.searchBar.text!.lowercased()
+            return searchController.searchBar.text?.lowercased() ?? ""
         }
     }
     

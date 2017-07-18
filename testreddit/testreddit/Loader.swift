@@ -83,7 +83,6 @@ class Loader {
                         } catch {
                             pendingRequest(nil, RedditError.ParseError(type: "token"))
                         }
-                        
                     }
                 }
             }

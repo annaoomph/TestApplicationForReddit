@@ -30,7 +30,7 @@ class PostTableViewCell: UITableViewCell {
     ///
     /// - Parameter url: url of the image
     func downloadImage(url: URL) {
-        if let cachedImage = ImageCache.sharedCache.imageForKey(key: url.absoluteString) {
+        if let cachedImage = ImageCache.sharedCache.imageForKey(key: url.absoluteString, isGif: false) {
             self.imgView.image = cachedImage
             self.imgView.contentMode = .scaleAspectFit
         } else {
@@ -45,7 +45,7 @@ class PostTableViewCell: UITableViewCell {
                     if self.postId == currentPostId {
                         let img = UIImage(data: data)
                         thisImageView.image = img
-                        ImageCache.sharedCache.setImage(image: img!, forKey: url.absoluteString)
+                        ImageCache.sharedCache.setImage(image: img!, forKey: url.absoluteString, isGif: false)
                         thisImageView.contentMode = .scaleAspectFit
                     }
                 }

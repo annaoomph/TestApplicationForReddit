@@ -174,7 +174,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
     /// - Parameter isGif: whether it is a gif image
     func downloadImage(from url: URL, isGif: Bool = false) {
         //A requested image could be in a cache.
-        if let cachedImage = ImageCache.sharedCache.imageForKey(key: url.absoluteString) {
+        if let cachedImage = ImageCache.sharedCache.imageForKey(key: url.absoluteString, isGif: isGif) {
             self.stopLoadingWith(image: cachedImage)
         } else {
             imageSpinner.startAnimating()
@@ -188,7 +188,8 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                             //Check if the loaded image is for the post currently being shown.
                             if id == self.post?.thing_id {
                                 self.stopLoadingWith(image: gifImage)
-                                ImageCache.sharedCache.setImage(image: gifImage, forKey: url.absoluteString)
+                                
+                                ImageCache.sharedCache.setImage(image: gif!, forKey: url.absoluteString, isGif: true)
                             }
                         }
                     }
@@ -200,7 +201,7 @@ class PostDetailViewController: UIViewController, UITableViewDataSource, UITable
                         if let img = UIImage(data: data) {
                             if id == self.post?.thing_id {
                                 self.stopLoadingWith(image: img)
-                                ImageCache.sharedCache.setImage(image: img, forKey: url.absoluteString)
+                                ImageCache.sharedCache.setImage(image: img, forKey: url.absoluteString, isGif: false)
                             }
                         }
                     }
